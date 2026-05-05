@@ -722,7 +722,7 @@ html.sb-off .sidebar{width:0}
     </div>
     <div class="sb-item" onclick="nav('qcm',this,'QCM Interactif')">
       <span class="sbi">🎯</span><span class="sbl">QCM Interactif</span>
-      <span class="sbq" id="qBadge">60</span>
+      <span class="sbq" id="qBadge">90</span>
     </div>
   <div class="sb-divider"></div>
   <div class="sb-section">
@@ -849,6 +849,12 @@ html.sb-off .sidebar{width:0}
     <div class="sb-item" onclick="nav('schemas_visuels',this,'Schémas explicatifs')">
       <span class="sbi">🗺️</span><span class="sbl">Schémas explicatifs</span>
     </div>
+    <div class="sb-item" onclick="nav('domaines',this,'Domaines à maîtriser')">
+      <span class="sbi">🎯</span><span class="sbl">Domaines à maîtriser</span>
+    </div>
+    <div class="sb-item" onclick="nav('liens_utiles',this,'Liens utiles & Ressources')">
+      <span class="sbi">🔗</span><span class="sbl">Liens utiles &amp; Ressources</span>
+    </div>
     <div class="sb-item" onclick="nav('conseils_exam',this,'Conseils & Stratégie exam')">
       <span class="sbi">🎓</span><span class="sbl">Conseils & Stratégie exam</span>
     </div>
@@ -870,10 +876,10 @@ html.sb-off .sidebar{width:0}
 <div class="section active" id="accueil">
   <div class="hero">
     <h2>🪟 Microsoft Intune — Guide MD-102 Ultra Complet</h2>
-    <p>Le guide de référence pour réussir la certification MD-102 Endpoint Administrator. Cours structurés comme le portail Intune, procédures pas à pas, définitions, cas concrets et 60 questions QCM interactives.</p>
+    <p>Le guide de référence pour réussir la certification MD-102 Endpoint Administrator. Cours structurés comme le portail Intune, procédures pas à pas, définitions, cas concrets et 90 questions QCM interactives.</p>
     <div class="hero-stats">
       <div class="hstat"><div class="n">30+</div><div class="l">Sections de cours</div></div>
-      <div class="hstat"><div class="n">60</div><div class="l">Questions QCM</div></div>
+      <div class="hstat"><div class="n">90</div><div class="l">Questions QCM</div></div>
       <div class="hstat"><div class="n">50+</div><div class="l">Procédures pas à pas</div></div>
       <div class="hstat"><div class="n">700</div><div class="l">Score de passage /1000</div></div>
     </div>
@@ -936,7 +942,7 @@ html.sb-off .sidebar{width:0}
     </div>
     <div class="tile" onclick="nav('qcm',null,'QCM Interactif')">
       <div class="tile-icon">🎯</div>
-      <h3>QCM — 60 questions</h3>
+      <h3>QCM — 90 questions</h3>
       <p>Toutes les thématiques MD-102 avec corrections détaillées et explications.</p>
       <span class="tile-badge">60 Q</span>
     </div>
@@ -961,7 +967,7 @@ html.sb-off .sidebar{width:0}
   <div class="page-header"><h1>Tableau de bord — Architecture Intune</h1><p>Vue d'ensemble de l'écosystème Microsoft Endpoint Management</p></div>
   <div class="stats">
     <div class="stat"><div class="sn">30+</div><div class="sl">Sections de cours</div></div>
-    <div class="stat"><div class="sn">60</div><div class="sl">Questions QCM</div></div>
+    <div class="stat"><div class="sn">90</div><div class="sl">Questions QCM</div></div>
     <div class="stat"><div class="sn">50+</div><div class="sl">Procédures pas à pas</div></div>
     <div class="stat"><div class="sn">700</div><div class="sl">Score de passage /1000</div></div>
     <div class="stat"><div class="sn">40-45%</div><div class="sl">Poids Manage Devices</div></div>
@@ -4860,7 +4866,7 @@ Ctrl + Alt + Suppr → accès gestionnaire des tâches
 <!-- ═══════════════════════════════════════════════════════════════ -->
 <div class="section" id="qcm">
   <div class="qcm-hero">
-    <div><h2>🎯 QCM Interactif MD-102</h2><p>60 questions sur tous les thèmes de la certification — corrections détaillées</p></div>
+    <div><h2>🎯 QCM Interactif MD-102</h2><p>90 questions sur tous les thèmes de la certification — corrections détaillées</p></div>
     <div class="q-stats">
       <div class="q-stat"><div class="n" id="sC">0</div><div class="l">Correctes</div></div>
       <div class="q-stat"><div class="n" id="sT">0</div><div class="l">Répondues</div></div>
@@ -4879,6 +4885,7 @@ Ctrl + Alt + Suppr → accès gestionnaire des tâches
     <button class="qf" onclick="filterQ('updates',this)">Mises à jour</button>
     <button class="qf" onclick="filterQ('licences',this)">Licences</button>
     <button class="qf" onclick="filterQ('smartphones',this)">Smartphones</button>
+    <button class="qf" onclick="filterQ('admin',this)">Administration</button>
     <button class="qf" style="margin-left:auto;background:var(--rouge-c);border-color:var(--rouge);color:var(--rouge)" onclick="resetQ()">🔄 Recommencer</button>
   </div>
   <div id="qContainer"></div>
@@ -8058,6 +8065,336 @@ foreach ($d in $devices) {
 
 
 <!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION : DOMAINES À MAÎTRISER -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section" id="domaines">
+  <div class="page-header">
+    <h1>🎯 Domaines à maîtriser — MD-102</h1>
+    <p>Décomposition officielle du programme d'examen avec objectifs précis, compétences attendues et points de focus</p>
+  </div>
+
+  <div class="ib info"><strong>📋 Structure officielle :</strong> L'examen MD-102 est divisé en 4 domaines pondérés. Chaque domaine liste des compétences précises mesurées à l'examen. Ce guide couvre l'intégralité du programme mis à jour (janvier 2026).</div>
+
+  <!-- Barre de poids globale -->
+  <div class="panel"><div class="panel-head"><span class="ph-icon">📊</span><h2>Répartition officielle des domaines</h2></div>
+  <div class="panel-body">
+    <div class="exam-domain-bars" style="margin-bottom:0">
+      <div class="edb-row"><span class="edb-label">🔴 Manage, Maintain &amp; Protect Devices</span><div class="edb-bar-wrap"><div class="edb-bar" style="width:42%;background:#C50F1F"></div></div><span class="edb-pct" style="color:#C50F1F">40–45%</span></div>
+      <div class="edb-row"><span class="edb-label">🔵 Deploy Windows Client</span><div class="edb-bar-wrap"><div class="edb-bar" style="width:22%;background:#0078D4"></div></div><span class="edb-pct" style="color:#0078D4">20–25%</span></div>
+      <div class="edb-row"><span class="edb-label">🟣 Manage Identity &amp; Compliance</span><div class="edb-bar-wrap"><div class="edb-bar" style="width:17%;background:#5C2D91"></div></div><span class="edb-pct" style="color:#5C2D91">15–20%</span></div>
+      <div class="edb-row"><span class="edb-label">🟢 Manage Applications</span><div class="edb-bar-wrap"><div class="edb-bar" style="width:12%;background:#107C10"></div></div><span class="edb-pct" style="color:#107C10">10–15%</span></div>
+    </div>
+  </div></div>
+
+  <!-- DOMAINE 1 -->
+  <div class="panel"><div class="panel-head" style="background:linear-gradient(135deg,#C50F1F,#DC2626)"><span class="ph-icon" style="color:white">🔴</span><h2 style="color:white">Domaine 1 — Manage, Maintain &amp; Protect Devices (40–45%)</h2></div>
+  <div class="panel-body">
+    <div class="ib error"><strong>⚠️ Domaine prioritaire absolu</strong> — près de la moitié des points. Maîtriser parfaitement chaque sous-domaine.</div>
+
+    <div class="sec-strip"><h3>1.1 — Manage device configuration using Intune</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Créer et déployer des <strong>profils de configuration Windows</strong> (Settings Catalog, Templates, Custom OMA-URI)</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer des profils pour <strong>iOS/iPadOS, macOS, Android Enterprise</strong></span></li>
+      <li><span class="ci ok">✓</span><span>Déployer des paramètres via <strong>Settings Catalog</strong> (recommandé) vs Administrative Templates (ADMX)</span></li>
+      <li><span class="ci ok">✓</span><span>Importer des <strong>ADMX personnalisées</strong> pour des applications tierces (Chrome, Firefox…)</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer le <strong>Mode Kiosque</strong> (Single App / Multi-App) via AssignedAccess</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer des profils <strong>Wi-Fi, VPN, Email</strong></span></li>
+      <li><span class="ci ok">✓</span><span>Gérer les <strong>Shared Devices</strong> (appareils partagés sans compte utilisateur dédié)</span></li>
+    </ul>
+
+    <div class="sec-strip"><h3>1.2 — Manage device compliance</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Créer des <strong>Compliance Policies</strong> pour Windows, iOS, Android, macOS</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer les <strong>actions non-conformité</strong> : email, notification, grace period, retire/wipe</span></li>
+      <li><span class="ci ok">✓</span><span>Comprendre que sans policy = <strong>Non-Compliant par défaut</strong> (depuis 2022)</span></li>
+      <li><span class="ci ok">✓</span><span>Analyser les rapports de conformité dans le portail Intune</span></li>
+      <li><span class="ci ok">✓</span><span>Créer des <strong>Policy Sets</strong> regroupant compliance + config profiles + apps</span></li>
+    </ul>
+
+    <div class="sec-strip"><h3>1.3 — Manage device security using Intune</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Déployer et configurer <strong>Microsoft Defender Antivirus</strong> (temps réel, cloud protection, mises à jour signatures)</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>Windows Defender Firewall</strong> (règles entrantes/sortantes via Intune)</span></li>
+      <li><span class="ci ok">✓</span><span>Déployer des <strong>Security Baselines</strong> (Windows, Defender, Edge, M365 Apps)</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>BitLocker</strong> (Silent Encryption, algorithmes AES-128/256, recovery keys dans Entra)</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>LAPS</strong> (Windows LAPS natif, rotation, récupération depuis Intune)</span></li>
+      <li><span class="ci ok">✓</span><span>Déployer des règles <strong>ASR</strong> (Attack Surface Reduction) — modes Audit/Warn/Block</span></li>
+      <li><span class="ci ok">✓</span><span>Activer <strong>Tamper Protection</strong> et <strong>Controlled Folder Access</strong></span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>Exploit Protection</strong> (EMET successor)</span></li>
+      <li><span class="ci ok">✓</span><span>Onboarder des devices dans <strong>Microsoft Defender for Endpoint (MDE)</strong> via Intune</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>Endpoint Privilege Management (EPM)</strong> pour les élévations granulaires</span></li>
+      <li><span class="ci ok">✓</span><span>Identifier les cas d'usage de <strong>Cloud PKI</strong> (Intune Suite)</span></li>
+    </ul>
+
+    <div class="sec-strip"><h3>1.4 — Maintain devices using Intune</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Créer et déployer des <strong>Update Rings Windows</strong> (quality update, feature update, deferral, deadline)</span></li>
+      <li><span class="ci ok">✓</span><span>Gérer les <strong>Feature Update Policies</strong> (cibler une version Windows précise)</span></li>
+      <li><span class="ci ok">✓</span><span>Utiliser les <strong>Expedite Policies</strong> pour les mises à jour critiques (zero-day)</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>Delivery Optimization</strong> (DO) pour réduire la bande passante</span></li>
+      <li><span class="ci ok">✓</span><span>Gérer les mises à jour <strong>iOS/macOS</strong> (Update Policies)</span></li>
+      <li><span class="ci ok">✓</span><span>Gérer les mises à jour <strong>Android via FOTA</strong> (Firmware Over The Air)</span></li>
+      <li><span class="ci ok">✓</span><span>Déployer et gérer des <strong>scripts PowerShell</strong> via Intune (IME)</span></li>
+      <li><span class="ci ok">✓</span><span>Créer des scripts de <strong>Remediation proactive</strong> (Detect + Remediate)</span></li>
+      <li><span class="ci ok">✓</span><span>Utiliser <strong>Device Query (KQL)</strong> pour interroger les propriétés d'un device</span></li>
+    </ul>
+
+    <div class="sec-strip"><h3>1.5 — Monitor and troubleshoot devices</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Diagnostiquer avec <code>dsregcmd /status</code>, EventViewer (MDM logs), logs IME</span></li>
+      <li><span class="ci ok">✓</span><span>Utiliser <strong>Intune Diagnostic Logs</strong> et MDM Diagnostic Tool</span></li>
+      <li><span class="ci ok">✓</span><span>Analyser les rapports <strong>Endpoint Analytics</strong> (startup scores, app reliability)</span></li>
+      <li><span class="ci ok">✓</span><span>Effectuer des <strong>actions à distance en masse</strong> : sync, restart, wipe, BitLocker key rotation</span></li>
+      <li><span class="ci ok">✓</span><span>Utiliser <strong>Remote Help</strong> (Intune Suite) pour l'assistance à distance</span></li>
+      <li><span class="ci ok">✓</span><span>Consulter les <strong>Audit Logs</strong> Intune pour tracer les actions admin</span></li>
+    </ul>
+  </div></div>
+
+  <!-- DOMAINE 2 -->
+  <div class="panel"><div class="panel-head" style="background:linear-gradient(135deg,#004578,#0078D4)"><span class="ph-icon" style="color:white">🔵</span><h2 style="color:white">Domaine 2 — Deploy Windows Client (20–25%)</h2></div>
+  <div class="panel-body">
+
+    <div class="sec-strip"><h3>2.1 — Prepare for a Windows deployment</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Comprendre les <strong>méthodes de déploiement</strong> : Autopilot, PPKG, Image-based, MDT (legacy)</span></li>
+      <li><span class="ci ok">✓</span><span>Évaluer les prérequis hardware Windows 11 (TPM 2.0, Secure Boot, UEFI, RAM, CPU)</span></li>
+      <li><span class="ci ok">✓</span><span>Choisir entre <strong>AADJ, HAADJ et Workplace Join</strong> selon le scénario</span></li>
+      <li><span class="ci ok">✓</span><span>Préparer les <strong>Enrollment Restrictions</strong> (OS autorisés, versions minimales, personal/corporate)</span></li>
+    </ul>
+
+    <div class="sec-strip"><h3>2.2 — Deploy Windows using Autopilot</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Configurer <strong>Autopilot User-Driven AADJ</strong> (le mode le plus courant)</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>Autopilot Self-Deploying</strong> (kiosques, salles partagées — TPM 2.0 requis)</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>White Glove (Pre-Provisioning)</strong> — tech prépare le device avant l'user</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>Autopilot for HAADJ</strong> (joint à l'AD on-prem + Entra ID)</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>Autopilot Reset</strong> (reprovisionnement d'un device existant)</span></li>
+      <li><span class="ci ok">✓</span><span>Enregistrer les Hardware Hashes (script, OEM, CSV)</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer l'<strong>Enrollment Status Page (ESP)</strong></span></li>
+      <li><span class="ci ok">✓</span><span>Diagnostiquer les erreurs Autopilot courantes (0x800705B4, ESP timeout)</span></li>
+    </ul>
+
+    <div class="sec-strip"><h3>2.3 — Manage Windows 365 and AVD</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Identifier les cas d'usage <strong>Windows 365 Cloud PC</strong> (PC virtuel dans le cloud)</span></li>
+      <li><span class="ci ok">✓</span><span>Comprendre la gestion <strong>Windows 365 via Intune</strong> (politiques identiques aux devices physiques)</span></li>
+      <li><span class="ci ok">✓</span><span>Identifier les cas d'usage <strong>Azure Virtual Desktop (AVD)</strong></span></li>
+      <li><span class="ci ok">✓</span><span>Différences entre Windows 365 (fixe, simple) et AVD (scalable, complexe)</span></li>
+    </ul>
+
+    <div class="sec-strip"><h3>2.4 — Enroll devices (non-Windows)</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Enrollment <strong>iOS/iPadOS</strong> : ADE (Automated Device Enrollment via Apple Business Manager), User Enrollment, Device Enrollment</span></li>
+      <li><span class="ci ok">✓</span><span>Enrollment <strong>macOS</strong> : ADE, Platform SSO, Supervised Mode</span></li>
+      <li><span class="ci ok">✓</span><span>Enrollment <strong>Android Enterprise</strong> : Work Profile (BYOD), COPE, COBO/Fully Managed, COSU/Dedicated</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer les <strong>connecteurs Apple Push Notification (APNs)</strong> et Android Enterprise</span></li>
+    </ul>
+  </div></div>
+
+  <!-- DOMAINE 3 -->
+  <div class="panel"><div class="panel-head" style="background:linear-gradient(135deg,#3B0764,#5C2D91)"><span class="ph-icon" style="color:white">🟣</span><h2 style="color:white">Domaine 3 — Manage Identity &amp; Compliance (15–20%)</h2></div>
+  <div class="panel-body">
+
+    <div class="sec-strip"><h3>3.1 — Manage identity in Entra ID</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Gérer les <strong>utilisateurs, groupes</strong> (Assigned / Dynamic) dans Entra ID</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>Windows Hello for Business</strong> (Key Trust, Certificate Trust, Cloud Trust)</span></li>
+      <li><span class="ci ok">✓</span><span>Gérer <strong>SSPR</strong> (Self-Service Password Reset) et ses méthodes de vérification</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>PIM</strong> (Privileged Identity Management) — rôles éligibles JIT</span></li>
+      <li><span class="ci ok">✓</span><span>Comprendre le rôle du <strong>PRT</strong> (Primary Refresh Token) dans le SSO</span></li>
+    </ul>
+
+    <div class="sec-strip"><h3>3.2 — Manage Conditional Access policies</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Créer des <strong>CA policies</strong> basées sur : User/Group, App, Device state, Location, Sign-in risk</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer les contrôles : <strong>Block, Require MFA, Require Compliant, Require HAADJ, Require MAM</strong></span></li>
+      <li><span class="ci ok">✓</span><span>Utiliser le <strong>Report-only mode</strong> pour tester sans impact</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer des <strong>Named Locations</strong> (IPs / pays de confiance)</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>Authentication Strength</strong> (MFA, Passwordless, Phishing-resistant)</span></li>
+      <li><span class="ci ok">✓</span><span>Créer et maintenir des <strong>comptes Break-Glass</strong></span></li>
+      <li><span class="ci ok">✓</span><span>Comprendre <strong>CAE</strong> (Continuous Access Evaluation) pour la révocation temps réel</span></li>
+    </ul>
+
+    <div class="sec-strip"><h3>3.3 — Manage Intune RBAC and administration</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Créer et assigner des <strong>rôles RBAC</strong> Intune (built-in + custom)</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer les <strong>Scope Tags</strong> pour la délégation multi-site</span></li>
+      <li><span class="ci ok">✓</span><span>Utiliser les <strong>Filters</strong> pour le ciblage précis des affectations</span></li>
+      <li><span class="ci ok">✓</span><span>Consulter les <strong>Audit Logs</strong> et exporter pour conformité</span></li>
+      <li><span class="ci ok">✓</span><span>Utiliser <strong>Graph API</strong> pour l'automatisation des tâches Intune</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer les <strong>Tenant Settings</strong> (MDM Authority, connecteurs, tokens)</span></li>
+    </ul>
+  </div></div>
+
+  <!-- DOMAINE 4 -->
+  <div class="panel"><div class="panel-head" style="background:linear-gradient(135deg,#064E3B,#107C10)"><span class="ph-icon" style="color:white">🟢</span><h2 style="color:white">Domaine 4 — Manage Applications (10–15%)</h2></div>
+  <div class="panel-body">
+
+    <div class="sec-strip"><h3>4.1 — Deploy and manage apps on Intune-managed devices</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Déployer des <strong>Win32 Apps</strong> (packaging .intunewin, detection rules, requirements, dependency, supersedence)</span></li>
+      <li><span class="ci ok">✓</span><span>Déployer des <strong>LOB Apps</strong> (MSI, MSIX upload direct)</span></li>
+      <li><span class="ci ok">✓</span><span>Déployer via <strong>Microsoft Store App (new) / WinGet</strong></span></li>
+      <li><span class="ci ok">✓</span><span>Déployer <strong>M365 Apps (Office)</strong> via Intune (ODT/OCT, canaux de mise à jour)</span></li>
+      <li><span class="ci ok">✓</span><span>Gérer le <strong>M365 Apps Admin Center</strong> (cloud update channels, health dashboard)</span></li>
+      <li><span class="ci ok">✓</span><span>Créer des <strong>App Configuration Policies</strong> (Managed Devices + Managed Apps)</span></li>
+      <li><span class="ci ok">✓</span><span>Déployer des <strong>apps iOS/Android</strong> depuis l'App Store / Google Play via Intune</span></li>
+    </ul>
+
+    <div class="sec-strip"><h3>4.2 — Manage App Protection Policies (MAM)</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Créer des <strong>App Protection Policies (APP)</strong> pour iOS et Android (Data Relocation, Access Requirements)</span></li>
+      <li><span class="ci ok">✓</span><span>Comprendre <strong>MAM-WE</strong> (MAM Without Enrollment) pour BYOD</span></li>
+      <li><span class="ci ok">✓</span><span>Effectuer un <strong>Selective Wipe</strong> sur une app gérée</span></li>
+      <li><span class="ci ok">✓</span><span>Configurer <strong>Microsoft Tunnel for MAM</strong> (VPN per-app BYOD)</span></li>
+    </ul>
+
+    <div class="sec-strip"><h3>4.3 — Deploy and manage Microsoft 365 Apps</h3></div>
+    <ul class="checklist">
+      <li><span class="ci ok">✓</span><span>Utiliser <strong>ODT (Office Deployment Tool)</strong> et <strong>OCT (Office Customization Tool)</strong></span></li>
+      <li><span class="ci ok">✓</span><span>Choisir le bon canal : Current, Monthly Enterprise, Semi-Annual Enterprise</span></li>
+      <li><span class="ci ok">✓</span><span>Gérer les mises à jour M365 Apps via <strong>M365 Apps Admin Center</strong></span></li>
+    </ul>
+  </div></div>
+
+  <!-- Récap auto-évaluation -->
+  <div class="panel"><div class="panel-head"><span class="ph-icon">📝</span><h2>Auto-évaluation : êtes-vous prêt ?</h2></div>
+  <div class="panel-body">
+    <div class="ib note"><strong>📌 Test rapide :</strong> Pouvez-vous répondre à ces questions sans aide ? Si non, revenez sur la section correspondante.</div>
+    <div class="g2">
+      <div class="rules">
+        <div class="rule b"><span class="rule-if">Différence Compliance vs Config Profile ?</span><span class="rule-arrow">→</span><span class="rule-then">Section Conformité</span></div>
+        <div class="rule b"><span class="rule-if">Ordre déploiement SCEP ?</span><span class="rule-arrow">→</span><span class="rule-then">Section Certificats</span></div>
+        <div class="rule b"><span class="rule-if">TPM 2.0 requis pour quel mode Autopilot ?</span><span class="rule-arrow">→</span><span class="rule-then">Section Autopilot</span></div>
+        <div class="rule b"><span class="rule-if">IME check-in toutes les X heures ?</span><span class="rule-arrow">→</span><span class="rule-then">Annexes → Délais</span></div>
+        <div class="rule b"><span class="rule-if">Qui bloque en réalité (Compliance ou CA) ?</span><span class="rule-arrow">→</span><span class="rule-then">Section CA</span></div>
+      </div>
+      <div class="rules">
+        <div class="rule v"><span class="rule-if">BYOD : MDM ou MAM ?</span><span class="rule-arrow">→</span><span class="rule-then">Section BYOD &amp; MAM</span></div>
+        <div class="rule v"><span class="rule-if">Lateral movement : quelle solution ?</span><span class="rule-arrow">→</span><span class="rule-then">Section LAPS</span></div>
+        <div class="rule v"><span class="rule-if">ASR mode avant Block ?</span><span class="rule-arrow">→</span><span class="rule-then">Section ASR Rules</span></div>
+        <div class="rule v"><span class="rule-if">Quality Update deferral max ?</span><span class="rule-arrow">→</span><span class="rule-then">Annexes → Délais</span></div>
+        <div class="rule v"><span class="rule-if">dsregcmd /status : que vérifier ?</span><span class="rule-arrow">→</span><span class="rule-then">Annexes → Commandes</span></div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- SECTION : LIENS UTILES & RESSOURCES -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section" id="liens_utiles">
+  <div class="page-header">
+    <h1>🔗 Liens utiles &amp; Ressources officielles</h1>
+    <p>Documentation Microsoft, outils, simulateurs d'examen et communautés pour compléter votre préparation MD-102</p>
+  </div>
+
+  <div class="g2">
+    <!-- Docs officielles -->
+    <div class="panel"><div class="panel-head"><span class="ph-icon">📚</span><h2>Documentation officielle Microsoft</h2></div>
+    <div class="panel-body">
+      <div class="tw"><table>
+        <thead><tr><th>Ressource</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>learn.microsoft.com/certifications/exams/md-102</strong></td><td>Page officielle examen MD-102 — skills measured, study guide PDF, sandbox labs</td></tr>
+          <tr><td><strong>learn.microsoft.com/intune</strong></td><td>Documentation complète Microsoft Intune — référence principale</td></tr>
+          <tr><td><strong>learn.microsoft.com/entra/identity</strong></td><td>Documentation Entra ID (Conditional Access, PIM, WHfB, SSPR)</td></tr>
+          <tr><td><strong>learn.microsoft.com/windows/deployment/windows-autopilot</strong></td><td>Guide complet Windows Autopilot (tous les modes)</td></tr>
+          <tr><td><strong>learn.microsoft.com/defender-endpoint</strong></td><td>Documentation MDE (EDR, ASR, BitLocker, LAPS)</td></tr>
+          <tr><td><strong>techcommunity.microsoft.com/intune</strong></td><td>Blog communauté Microsoft Intune — nouveautés, cas pratiques</td></tr>
+          <tr><td><strong>endpoint.microsoft.com</strong></td><td>Portail Intune admin (intune.microsoft.com)</td></tr>
+          <tr><td><strong>entra.microsoft.com</strong></td><td>Portail Entra ID (Conditional Access, users, groups)</td></tr>
+        </tbody>
+      </table></div>
+    </div></div>
+
+    <!-- Outils utiles -->
+    <div class="panel"><div class="panel-head"><span class="ph-icon">🛠️</span><h2>Outils de déploiement &amp; diagnostic</h2></div>
+    <div class="panel-body">
+      <div class="tw"><table>
+        <thead><tr><th>Outil</th><th>Usage</th><th>Où trouver</th></tr></thead>
+        <tbody>
+          <tr><td><strong>IntuneWinAppUtil.exe</strong></td><td>Créer des fichiers .intunewin (packaging Win32)</td><td>GitHub microsoft/Microsoft-Win32-Content-Prep-Tool</td></tr>
+          <tr><td><strong>Get-WindowsAutoPilotInfo.ps1</strong></td><td>Extraire Hardware Hash pour Autopilot</td><td>PowerShell Gallery : Get-WindowsAutoPilotInfo</td></tr>
+          <tr><td><strong>Office Customization Tool (OCT)</strong></td><td>Créer des fichiers configuration.xml pour M365 Apps</td><td>config.office.com</td></tr>
+          <tr><td><strong>Windows Configuration Designer (WCD)</strong></td><td>Créer des Provisioning Packages (PPKG)</td><td>Microsoft Store ou ADK Windows</td></tr>
+          <tr><td><strong>MDM Diagnostic Tool</strong></td><td>Collecter logs Autopilot, TPM, MDM enrollment</td><td>mdmdiagnosticstool.exe (inclus Windows)</td></tr>
+          <tr><td><strong>Microsoft Graph Explorer</strong></td><td>Tester des requêtes Graph API Intune en live</td><td>developer.microsoft.com/graph/graph-explorer</td></tr>
+          <tr><td><strong>What If Tool (CA)</strong></td><td>Simuler l'application d'une CA policy pour un user/device</td><td>Portail Entra ID → CA → What If</td></tr>
+          <tr><td><strong>Intune Troubleshooting Portal</strong></td><td>Diagnostiquer les problèmes d'un user/device spécifique</td><td>intune.microsoft.com → Troubleshoot + Support</td></tr>
+        </tbody>
+      </table></div>
+    </div></div>
+
+    <!-- Préparation examen -->
+    <div class="panel"><div class="panel-head"><span class="ph-icon">🎯</span><h2>Préparation &amp; Practice Tests</h2></div>
+    <div class="panel-body">
+      <div class="tw"><table>
+        <thead><tr><th>Ressource</th><th>Type</th><th>Coût</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Microsoft Learn — MD-102 Learning Path</strong></td><td>Cours officiels + labs sandbox</td><td>Gratuit</td></tr>
+          <tr><td><strong>MeasureUp — MD-102 Practice Test</strong></td><td>QCM officiel (partenaire Microsoft)</td><td>Payant ~$100</td></tr>
+          <tr><td><strong>Whizlabs — MD-102</strong></td><td>Practice tests + cours</td><td>Payant ~$30</td></tr>
+          <tr><td><strong>Udemy — MD-102 courses</strong></td><td>Vidéos + labs pratiques</td><td>Payant ~$15-30</td></tr>
+          <tr><td><strong>Microsoft 365 Developer Tenant</strong></td><td>Tenant de test gratuit 90 jours (25 licences E5)</td><td>Gratuit (developer.microsoft.com/microsoft-365/dev-program)</td></tr>
+          <tr><td><strong>r/MS_100 / r/sysadmin</strong></td><td>Communauté Reddit — retours d'expérience</td><td>Gratuit</td></tr>
+          <tr><td><strong>Microsoft Q&amp;A</strong></td><td>Questions/réponses techniques officielles</td><td>Gratuit (learn.microsoft.com/answers)</td></tr>
+          <tr><td><strong>YouTube : John Savill</strong></td><td>Vidéos techniques Azure/Intune très complètes</td><td>Gratuit</td></tr>
+        </tbody>
+      </table></div>
+    </div></div>
+
+    <!-- Portails admin -->
+    <div class="panel"><div class="panel-head"><span class="ph-icon">🖥️</span><h2>Portails admin essentiels à connaître</h2></div>
+    <div class="panel-body">
+      <div class="tw"><table>
+        <thead><tr><th>URL</th><th>Portail</th><th>Usage principal</th></tr></thead>
+        <tbody>
+          <tr><td><code>intune.microsoft.com</code></td><td>Microsoft Intune admin center</td><td>Gestion devices, apps, policies, enrollment</td></tr>
+          <tr><td><code>entra.microsoft.com</code></td><td>Microsoft Entra admin center</td><td>Identités, CA, PIM, Entra ID</td></tr>
+          <tr><td><code>security.microsoft.com</code></td><td>Microsoft Defender XDR</td><td>EDR, incidents, Advanced Hunting KQL</td></tr>
+          <tr><td><code>admin.microsoft.com</code></td><td>Microsoft 365 admin center</td><td>Licences, users, support, service health</td></tr>
+          <tr><td><code>config.office.com</code></td><td>Office Customization Tool (OCT)</td><td>Générer configuration.xml pour M365 Apps</td></tr>
+          <tr><td><code>endpoint.microsoft.com</code></td><td>Alias Intune admin center</td><td>Même portail que intune.microsoft.com</td></tr>
+          <tr><td><code>businessstore.microsoft.com</code></td><td>Microsoft Store for Business (déprécié)</td><td>⚠️ Déprécié en 2023 — remplacé par WinGet/Store App (new)</td></tr>
+          <tr><td><code>portal.azure.com</code></td><td>Azure Portal</td><td>Ressources Azure (VMs, App Registrations, Logs)</td></tr>
+        </tbody>
+      </table></div>
+      <div class="ib warning"><strong>⚠️ Exam :</strong> Microsoft Store for Business est <strong>officiellement déprécié depuis mars 2023</strong>. À l'exam, si une question parle du Store, la bonne réponse moderne est <strong>"Microsoft Store App (new)"</strong> ou WinGet dans Intune.</div>
+    </div></div>
+
+    <!-- Nouveautés 2025-2026 -->
+    <div class="panel"><div class="panel-head"><span class="ph-icon">🆕</span><h2>Nouveautés du programme MD-102 (2025–2026)</h2></div>
+    <div class="panel-body">
+      <div class="timeline-v">
+        <div class="tv-item green">
+          <h5>Microsoft Copilot for Security dans Intune</h5>
+          <p>Depuis janvier 2026, le programme MD-102 mentionne explicitement Copilot for Security. L'IA générative est intégrée dans Intune (Device summary AI, Policy insights), Defender XDR et Entra ID. Cas d'usage : analyser des incidents, générer des scripts KQL, obtenir des résumés de device.</p>
+        </div>
+        <div class="tv-item">
+          <h5>Intune Suite — nouvelles fonctionnalités testées</h5>
+          <p>EPM (Endpoint Privilege Management), Remote Help, Cloud PKI, Advanced Analytics et Microsoft Tunnel for MAM font désormais partie du programme. Connaître les cas d'usage et les licences requises.</p>
+        </div>
+        <div class="tv-item">
+          <h5>Settings Catalog en remplacement des Administrative Templates</h5>
+          <p>Microsoft recommande Settings Catalog plutôt que les Administrative Templates (ADMX). Le Settings Catalog supporte plus de paramètres, est plus moderne et searchable. L'exam teste les deux.</p>
+        </div>
+        <div class="tv-item orange">
+          <h5>Windows LAPS natif (Windows 11 22H2+)</h5>
+          <p>Windows LAPS est désormais intégré nativement dans Windows (plus besoin d'installer un agent séparé). Gérable directement via Intune. Remplace l'ancien LAPS Microsoft qui nécessitait une installation manuelle.</p>
+        </div>
+        <div class="tv-item green">
+          <h5>Entra Connect v2 et Cloud Sync</h5>
+          <p>Entra Connect Cloud Sync = alternative légère à Entra Connect Sync pour synchroniser AD vers Entra ID. Plus simple à déployer, haute disponibilité native. Peut remplacer Entra Connect dans certains scénarios.</p>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <div class="ib success"><strong>💡 Conseil :</strong> Le <strong>Microsoft 365 Developer Program</strong> offre un tenant E5 gratuit pendant 90 jours (renouvelable si actif). C'est LA ressource pour pratiquer Intune, Entra ID, MDE, CA, Autopilot (avec des VMs dans Azure). Indispensable pour une préparation pratique.</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
 <!-- SECTION : LEXIQUE MD-102 -->
 <!-- ═══════════════════════════════════════════════════════════════ -->
 <div class="section" id="lexique">
@@ -9064,7 +9401,7 @@ foreach ($d in $devices) {
       </div>
       <div class="tv-item orange">
         <h5>J-3 à J-1 : Révision finale &amp; QCM</h5>
-        <p>Faire tous les QCM de ce guide (60 questions). Revoir les 15 pièges classiques. Relire les délais et limites (Annexes). Relire les schémas. Ne pas bachoter de nouveaux sujets.</p>
+        <p>Faire tous les QCM de ce guide (90 questions). Revoir les 15 pièges classiques. Relire les délais et limites (Annexes). Relire les schémas. Ne pas bachoter de nouveaux sujets.</p>
       </div>
       <div class="tv-item green">
         <h5>Jour J : Exam</h5>
@@ -9227,7 +9564,37 @@ var questions = [
   {id:57,cat:'apps',diff:'m',q:"Quel type d'app Intune faut-il utiliser pour déployer une application disponible sur le Microsoft Store (ex: VLC, 7-Zip) sans uploader de fichier ?",opts:["Win32 App (.intunewin)","LOB App (.msi)","Microsoft Store App (new) / WinGet","Web App (lien URL)"],ans:2,exp:"Microsoft Store App (new) ou App catalog / WinGet permet de déployer des apps du catalogue Microsoft sans uploader de fichier. Intune se charge du téléchargement et de l'installation depuis le WinGet/Store. 4000+ apps disponibles dont Chrome, Firefox, 7-Zip, VLC."},
   {id:58,cat:'conformite',diff:'m',q:"Un device Windows est enrollé dans Intune mais aucune policy de conformité ne lui est assignée. Quel est son statut de conformité ?",opts:["Non conforme — sans policy, le device est automatiquement non conforme","Conforme — sans policy de conformité, le device est considéré conforme par défaut","En attente — il attend une policy","Inconnu — le statut ne peut pas être déterminé"],ans:0,exp:"Comportement Intune : si aucune policy de conformité n'est assignée à un device, celui-ci est marqué 'Non conforme' par défaut (depuis 2022). C'est un changement important — toujours assigner une policy de conformité, même basique."},
   {id:59,cat:'enrollment',diff:'d',q:"Quel est le délai maximum d'attente d'un check-in IME normal (après la première heure post-enrollment) ?",opts:["1 heure","4 heures","8 heures","24 heures"],ans:2,exp:"Après la première heure d'enrollment, l'IME effectue un check-in toutes les 8 heures en fonctionnement normal. Pour forcer un check-in immédiat : Company Portal → Sync / Intune → [Device] → Sync / redémarrer le device."},
-  {id:60,cat:'securite',diff:'m',q:"Dans quel ordre exact déployer les éléments suivants pour un Wi-Fi 802.1x avec SCEP ?",opts:["SCEP → Root CA → Wi-Fi","Root CA → Wi-Fi → SCEP","Root CA → SCEP → Wi-Fi","Wi-Fi → Root CA → SCEP"],ans:2,exp:"L'ordre ABSOLU : 1. Root CA (Trusted Certificate Profile) → le device fait confiance au CA. 2. SCEP → le device reçoit son certificat client. 3. Wi-Fi → utilise le certificat SCEP pour s'authentifier. Inverser cet ordre = Wi-Fi KO garanti."}
+  {id:60,cat:'securite',diff:'m',q:"Dans quel ordre exact déployer les éléments suivants pour un Wi-Fi 802.1x avec SCEP ?",opts:["SCEP → Root CA → Wi-Fi","Root CA → Wi-Fi → SCEP","Root CA → SCEP → Wi-Fi","Wi-Fi → Root CA → SCEP"],ans:2,exp:"L'ordre ABSOLU : 1. Root CA (Trusted Certificate Profile) → le device fait confiance au CA. 2. SCEP → le device reçoit son certificat client. 3. Wi-Fi → utilise le certificat SCEP pour s'authentifier. Inverser cet ordre = Wi-Fi KO garanti."},
+  {id:61,cat:'securite',diff:'m',q:"Qu'est-ce que le 'Lateral Movement' et quelle solution Intune y répond directement ?",opts:["Le déplacement des policies entre groupes → Policy Sets","La propagation d'un attaquant de PC en PC via le même mot de passe admin local → LAPS","Le mouvement de données entre tenants → Data Loss Prevention","Le transfert d'un device d'un MDM à un autre → Re-enrollment"],ans:1,exp:"Le lateral movement = un attaquant compromet un PC, récupère le mot de passe admin local (souvent identique partout), puis rebondit sur tous les autres PC du parc. LAPS (Local Administrator Password Solution) génère un mot de passe unique par device → la propagation est impossible."},
+  {id:62,cat:'enrollment',diff:'d',q:"Quelle est la différence clé entre Autopilot Self-Deploying et User-Driven concernant TPM ?",opts:["Self-Deploying nécessite TPM 1.2. User-Driven nécessite TPM 2.0","Self-Deploying nécessite TPM 2.0 (authentification device sans user). User-Driven fonctionne sans TPM","Les deux nécessitent TPM 2.0","Ni l'un ni l'autre ne nécessite TPM"],ans:1,exp:"Self-Deploying Autopilot s'authentifie via la puce TPM 2.0 du device (pas d'utilisateur présent). Sans TPM 2.0 fonctionnel → enrollment échoue avec erreur 0x800705B4. User-Driven = l'utilisateur s'authentifie lui-même → TPM non obligatoire (mais recommandé pour WHfB)."},
+  {id:63,cat:'apps',diff:'m',q:"Qu'est-ce qu'une 'Dependency' dans une Win32 App Intune ?",opts:["Une app qui remplace une ancienne version (supersedence)","Une app qui doit être installée AVANT l'app principale pour qu'elle fonctionne","Une app déployée uniquement si l'utilisateur appartient à un groupe","Une app qui se désinstalle automatiquement quand l'utilisateur quitte le groupe"],ans:1,exp:"Dependency = l'app A nécessite que l'app B soit installée en premier. Exemple : votre app métier nécessite .NET Runtime 8 → configurer .NET Runtime comme Dependency. Intune installera automatiquement la dépendance avant l'app principale. Supersedence = remplace une ancienne version."},
+  {id:64,cat:'ca',diff:'d',q:"Un utilisateur accède à Teams depuis un pays que vous venez de bloquer dans une CA policy. Il était déjà connecté. Que se passe-t-il ?",opts:["Sa session continue normalement jusqu'à expiration du token (1h par défaut)","Avec Continuous Access Evaluation (CAE), l'accès est coupé quasi-immédiatement (< 1 min)","Il est bloqué uniquement à sa prochaine authentification MFA","La session reste active 24h avant révocation"],ans:1,exp:"Continuous Access Evaluation (CAE) = Entra ID évalue en continu les conditions CA même pendant une session active. Si la localisation change et correspond à un pays bloqué → le token est révoqué en moins d'une minute. Sans CAE, il faudrait attendre l'expiration naturelle du token."},
+  {id:65,cat:'securite',diff:'m',q:"Quel mode ASR (Attack Surface Reduction) permet de tester l'impact sans bloquer ?",opts:["Enforce","Block","Audit","Warn"],ans:2,exp:"Mode Audit = les règles ASR enregistrent les événements dans les logs (Event Viewer) mais ne bloquent rien. Permet de mesurer l'impact avant déploiement en production. Puis Warn = alerte l'utilisateur. Puis Block = bloque réellement. Ne jamais passer directement en Block sans Audit préalable."},
+  {id:66,cat:'enrollment',diff:'f',q:"Qu'est-ce que le 'Tenant ID' et où est-il nécessaire pour Autopilot ?",opts:["L'identifiant de l'abonnement Azure — nécessaire pour les Update Rings","L'identifiant unique du tenant Microsoft (GUID) — l'OEM en a besoin pour enregistrer les Hardware Hashes","Le nom de domaine du tenant — utilisé dans les profils Wi-Fi","L'identifiant de la licence Intune — requis pour l'enrollment"],ans:1,exp:"Le Tenant ID est un GUID (ex: 72f988bf-...) identifiant de manière unique votre organisation Microsoft 365. Pour l'OEM Registration Autopilot, vous communiquez ce Tenant ID au fabricant (Dell, HP, Lenovo) lors de la commande. L'OEM enregistre les Hardware Hashes directement dans votre tenant Autopilot."},
+  {id:67,cat:'securite',diff:'m',q:"Qu'est-ce que 'Tamper Protection' dans Windows Defender et pourquoi est-ce critique ?",opts:["Empêche les utilisateurs de changer leur fond d'écran","Empêche les malwares ou utilisateurs de désactiver les protections Defender — seul Intune/MDE peut modifier les paramètres","Bloque les apps non signées","Chiffre les paramètres Defender dans le registre Windows"],ans:1,exp:"Tamper Protection empêche toute modification des paramètres Defender (désactivation antivirus, temps réel, cloud protection) sauf via le portail Intune ou MDE. Sans Tamper Protection, un ransomware peut désactiver Defender avant de chiffrer les données. À activer en production systématiquement."},
+  {id:68,cat:'conformite',diff:'f',q:"Qu'est-ce que le mode 'Report-only' dans une CA policy ?",opts:["La policy s'applique uniquement aux rapports d'audit et pas aux utilisateurs réels","La policy est simulée — les décisions sont journalisées sans réellement bloquer ou accorder l'accès","La policy s'applique seulement aux admins en mode lecture","La policy envoie un rapport par email sans rien bloquer"],ans:1,exp:"Report-only mode = la CA policy tourne 'à vide'. Toutes les décisions (Block, MFA requis, etc.) sont enregistrées dans les logs d'audit Entra ID mais les utilisateurs ne sont pas affectés. Permet de tester l'impact d'une nouvelle CA policy avant de l'activer en production. Indispensable avant tout déploiement."},
+  {id:69,cat:'smartphones',diff:'m',q:"Un employé quitte l'entreprise. Son iPhone était géré en MAM (sans enrollment MDM). Quelle action effectuer dans Intune ?",opts:["Full Wipe — réinitialiser tout le device","Selective Wipe / Retire — efface uniquement les données et apps d'entreprise","Delete Device — supprime le device d'Intune uniquement","Remote Lock — verrouille le device"],ans:1,exp:"En MAM sans enrollment MDM, vous ne gérez que les apps pro (Outlook, Teams, OneDrive). Le Selective Wipe (ou Retire) efface uniquement les données d'entreprise dans ces apps (emails, fichiers OneDrive, tokens...) sans toucher aux données personnelles. Full Wipe = réinitialisation totale = impossible sur un device non enrollé en MDM."},
+  {id:70,cat:'updates',diff:'m',q:"Qu'est-ce que 'Windows Update for Business' (WUfB) et quel est son rôle avec Intune ?",opts:["Un service Microsoft de mise à jour pour les serveurs uniquement","Le service cloud Windows qui livre les mises à jour directement aux devices — Intune configure les Update Rings qui pilotent WUfB","Un outil on-premise remplaçant WSUS","Un service de mise à jour pour les apps M365 uniquement"],ans:1,exp:"Windows Update for Business (WUfB) est le service cloud Microsoft qui livre les mises à jour Windows directement aux devices sans passer par WSUS. Les Update Rings Intune configurent le comportement WUfB (deferral, deadline, maintenance window). WUfB remplace avantageusement WSUS dans un environnement cloud-first."},
+  {id:71,cat:'securite',diff:'d',q:"Quel est le rôle du 'Cloud PKI' (Intune Suite) par rapport à SCEP classique ?",opts:["Cloud PKI remplace complètement Defender","Cloud PKI = CA managée par Microsoft dans le cloud, élimine le besoin d'une PKI on-premise (NDES, connecteur) pour les certificats SCEP/PKCS","Cloud PKI est un outil de monitoring des certificats seulement","Cloud PKI gère uniquement les certificats BitLocker"],ans:1,exp:"Cloud PKI (Intune Suite) est une CA (Certificate Authority) hébergée directement dans le cloud Microsoft. Elle élimine la nécessité d'une infrastructure PKI on-premise (NDES server, Intune Certificate Connector, CA Windows Server). Pour les environnements cloud-only ou sans PKI existante, c'est la solution moderne pour les certificats SCEP/PKCS."},
+  {id:72,cat:'enrollment',diff:'m',q:"Quelle est la méthode Autopilot adaptée pour des devices partagés (ex: salle de formation) sans utilisateur assigné ?",opts:["User-Driven AADJ","Self-Deploying mode","White Glove Pre-Provisioning","Pre-provisioned with user assignment"],ans:1,exp:"Self-Deploying Autopilot = enrollment sans interaction utilisateur. Le device se configure automatiquement, rejoint Entra ID et s'enrolle dans Intune sans qu'un user saisisse ses credentials. Idéal pour kiosques, salles de formation, devices partagés, postes d'accueil. Nécessite TPM 2.0."},
+  {id:73,cat:'apps',diff:'m',q:"Quel canal de mise à jour M365 Apps (Office) est recommandé pour les entreprises voulant des mises à jour mensuelles stables ?",opts:["Current Channel (hebdomadaire)","Monthly Enterprise Channel (mensuel, stable)","Semi-Annual Enterprise Channel (tous les 6 mois)","Beta Channel (preview)"],ans:1,exp:"Monthly Enterprise Channel = mises à jour M365 Apps publiées une fois par mois (2ème mardi), avec un délai de 4 semaines par rapport au Current Channel. Stable et prévisible. Current Channel = hebdomadaire (trop fréquent pour production). Semi-Annual = tous les 6 mois (trop lent). À configurer via ODT/OCT lors du déploiement."},
+  {id:74,cat:'securite',diff:'d',q:"Dans quel scénario utilise-t-on 'Endpoint Privilege Management' (EPM) plutôt qu'un compte admin local ?",opts:["Quand on veut donner des droits admin permanents à tous les utilisateurs","Quand un utilisateur standard doit élever ses droits pour UNE application spécifique (ex: installer une imprimante) sans être admin local permanent","Quand on veut remplacer BitLocker","Quand on veut désactiver le UAC Windows"],ans:1,exp:"EPM (Endpoint Privilege Management) permet une élévation granulaire : l'utilisateur standard peut exécuter UNE app spécifique (ou une action) avec des droits élevés, sans être administrateur local permanent. Réduction de la surface d'attaque. Exemple : permettre d'installer un pilote d'imprimante spécifique. Nécessite Intune Suite."},
+  {id:75,cat:'conformite',diff:'m',q:"Qu'est-ce que 'Authentication Strength' dans une CA policy et pour quel cas d'usage ?",opts:["Un paramètre définissant la complexité du mot de passe","Un contrôle CA qui définit quelles méthodes MFA sont acceptées — ex: imposer FIDO2/WHfB uniquement pour les admins","Un paramètre de chiffrement TLS pour les connexions CA","Un mécanisme de détection de force brute"],ans:1,exp:"Authentication Strength = contrôle CA permettant de spécifier quelles méthodes d'authentification sont acceptées. Niveaux built-in : MFA (tout), Passwordless MFA (Authenticator sans mdp), Phishing-resistant MFA (FIDO2 + WHfB uniquement). Cas d'usage : exiger Phishing-resistant MFA pour les accès au portail d'administration."},
+  {id:76,cat:'enrollment',diff:'m',q:"Qu'est-ce que le 'Provisioning Package' (PPKG) et dans quel contexte est-il utilisé ?",opts:["Un package d'applications Win32 créé avec IntuneWinAppUtil","Un fichier de configuration Windows créé avec Windows Configuration Designer, utilisé pour enrôler des devices sans connexion Internet ni compte Azure","Un profil Autopilot exporté en XML","Un format de backup des paramètres Intune"],ans:1,exp:"PPKG (Provisioning Package) = fichier créé avec Windows Configuration Designer. Permet de configurer et enroller un device Windows sans connexion Internet, sans compte Azure, via USB ou réseau local. Alternative à Autopilot pour les environnements déconnectés ou sans Azure AD. Moins moderne mais parfois nécessaire dans des contextes spécifiques."},
+  {id:77,cat:'securite',diff:'m',q:"Quel outil permet de diagnostiquer les problèmes TPM sur un device Windows ?",opts:["tpm.msc — console de gestion TPM","certlm.msc — gestionnaire de certificats","gpedit.msc — éditeur de stratégie de groupe","msconfig — configuration système"],ans:0,exp:"tpm.msc (TPM Management Console) permet de vérifier la version TPM (1.2 ou 2.0), son état (prêt/non prêt), et d'effectuer des opérations de base. Depuis Windows 10/11, on peut aussi voir le TPM dans Gestionnaire de périphériques. Pour Autopilot et BitLocker, vérifier TPM 2.0 et son état 'Ready for use' est une étape de diagnostic essentielle."},
+  {id:78,cat:'admin',diff:'m',q:"Quel est le rôle Intune minimal pour un technicien helpdesk qui doit uniquement effectuer des actions à distance (sync, reboot, wipe) sans modifier des policies ?",opts:["Global Administrator","Intune Service Administrator","Help Desk Operator","Read Only Operator"],ans:2,exp:"Le rôle 'Help Desk Operator' dans Intune permet d'effectuer des actions à distance sur les devices (sync, restart, wipe, remote lock, BitLocker key rotation) sans pouvoir créer ou modifier des politiques. Respecte le principe de least privilege. Global Admin et Intune Admin donnent trop de droits pour un simple technicien helpdesk."},
+  {id:79,cat:'smartphones',diff:'d',q:"Sur Android Enterprise Work Profile, que peut faire un employeur sur la partie personnelle du device ?",opts:["Tout effacer (Full Wipe) si nécessaire","Voir les applications personnelles installées","Rien — la partie personnelle est complètement isolée et hors de portée de l'IT","Désactiver les apps personnelles si elles consomment trop de batterie"],ans:2,exp:"Android Enterprise Work Profile = isolation stricte entre le profil professionnel (géré par Intune) et le profil personnel (hors de portée IT). L'administrateur ne peut pas voir les apps perso, ne peut pas wiper le profil perso, ne peut pas surveiller les activités personnelles. Seul le profil professionnel peut être effacé (Selective Wipe/Retire). C'est ce qui rend cette solution acceptable pour le BYOD."},
+  {id:80,cat:'updates',diff:'m',q:"Quelle est la différence entre 'Deadline' et 'Deferral' dans un Update Ring Intune ?",opts:["Ce sont deux noms pour la même chose","Deferral = combien de jours après publication la mise à jour est proposée. Deadline = date limite après laquelle Windows force l'installation et le redémarrage","Deadline = combien de jours de délai. Deferral = nombre de tentatives de mise à jour","Deferral s'applique aux Security Updates, Deadline aux Feature Updates"],ans:1,exp:"Deferral = délai entre la publication de la mise à jour par Microsoft et le moment où elle est proposée au device (ex: 7 jours → le device reçoit la mise à jour 7 jours après publication). Deadline = date limite après laquelle Windows installe et redémarre obligatoirement, même si l'utilisateur reporte. Les deux sont complémentaires dans un Update Ring."},
+  {id:81,cat:'securite',diff:'d',q:"Qu'est-ce que 'Controlled Folder Access' dans Windows Defender et contre quoi protège-t-il ?",opts:["Protège les lecteurs chiffrés par BitLocker contre les accès non autorisés","Protège les dossiers système contre les ransomwares en bloquant les apps non autorisées qui tentent de modifier les fichiers","Contrôle l'accès aux dossiers partagés réseau","Chiffre automatiquement les dossiers sensibles détectés par Defender"],ans:1,exp:"Controlled Folder Access (CFA) est une fonctionnalité ASR qui protège les dossiers critiques (Documents, Images, Bureau...) contre les ransomwares. Seules les applications autorisées peuvent modifier ces dossiers. Un ransomware tentant de chiffrer des fichiers dans ces dossiers sera bloqué. Configurable via Intune dans les profils Endpoint Protection."},
+  {id:82,cat:'apps',diff:'m',q:"Qu'est-ce qu'une 'App Configuration Policy' dans Intune et pour quel type d'apps ?",opts:["Une policy qui configure les paramètres d'installation Win32","Une policy qui livre des paramètres de configuration préétablis directement à une app gérée (Managed App Config) — ex: configurer Outlook avec le serveur Exchange automatiquement","Une policy de conformité spécifique aux apps mobiles","Une policy de contrôle de version des apps"],ans:1,exp:"App Configuration Policy = délivre des paramètres de configuration (key-value pairs) directement dans une app gérée sans que l'utilisateur configure quoi que ce soit. Exemples : configurer Outlook avec le serveur Exchange, Teams avec le tenant ID, Edge avec les signets d'entreprise. Fonctionne avec les apps MDM-enrolled ou via MAM (Managed App Config)."},
+  {id:83,cat:'enrollment',diff:'d',q:"Qu'est-ce que 'Entra Connect Sync' et pourquoi est-il nécessaire pour HAADJ ?",opts:["Un service qui synchronise les politiques Intune vers l'AD on-prem","Un service qui synchronise les identités de l'AD on-prem vers Entra ID — nécessaire pour que les devices HAADJ s'enregistrent dans Entra ID","Un outil de migration de SCCM vers Intune","Un connecteur pour synchroniser les apps LOB depuis le Store"],ans:1,exp:"Entra Connect Sync (ex Azure AD Connect) synchronise les objets de l'Active Directory on-premise (utilisateurs, groupes, devices) vers Entra ID. Pour HAADJ, le device doit exister dans les deux annuaires. Entra Connect crée l'objet device dans Entra ID après le join AD on-prem. Sans Entra Connect, HAADJ est impossible."},
+  {id:84,cat:'securite',diff:'m',q:"Quelle commande PowerShell vérifie l'état BitLocker sur un device Windows ?",opts:["Get-BitLockerStatus","Get-BitLockerVolume","check-bde /status","Test-BitLockerEncryption"],ans:1,exp:"Get-BitLockerVolume est la cmdlet PowerShell moderne pour vérifier l'état BitLocker sur tous les lecteurs. Affiche : VolumeStatus (FullyEncrypted, EncryptionInProgress, FullyDecrypted), EncryptionMethod (XtsAes256...), KeyProtector (TPM, RecoveryPassword...). La commande classique est aussi 'manage-bde -status' mais Get-BitLockerVolume est préférable dans les scripts."},
+  {id:85,cat:'admin',diff:'m',q:"Qu'est-ce que 'Microsoft Intune Remote Help' et quelle licence est requise ?",opts:["Un outil de monitoring des devices à distance — inclus dans Intune Plan 1","Une solution d'assistance à distance permettant aux techniciens de prendre la main sur un device enrollé dans Intune — nécessite Intune Suite","Un service de chat entre IT et utilisateurs — inclus dans M365 Business","Un accès RDP amélioré via Azure — inclus dans E3"],ans:1,exp:"Remote Help est une solution d'assistance à distance intégrée à Intune permettant aux techniciens de se connecter aux devices enrollés (Windows, Android) pour aider les utilisateurs. Contrairement à TeamViewer, tout passe par Intune (audit, conformité, RBAC). Nécessite la licence Intune Suite (add-on ou incluse dans certains plans E5)."},
+  {id:86,cat:'conformite',diff:'d',q:"Un device est Entra Registered (Workplace Joined) mais pas enrollé MDM. Une CA policy 'Require Compliant Device' est active. Que se passe-t-il ?",opts:["Le device est considéré conforme car il est enregistré dans Entra ID","L'accès est bloqué — un device WPJ sans enrollment Intune ne peut pas avoir de statut de conformité Intune","L'accès est accordé avec MFA seulement","Le device reçoit automatiquement une compliance policy basique"],ans:1,exp:"Un device Workplace Joined (Entra Registered) sans enrollment MDM Intune n'a pas de Compliance Policy Intune assignée. Il est donc considéré Non-Compliant. La CA policy 'Require Compliant Device' bloque l'accès. Solution : enroller le device en MDM OU utiliser une CA policy avec condition 'Require approved app' (MAM) pour les devices BYOD."},
+  {id:87,cat:'smartphones',diff:'m',q:"Qu'est-ce que Microsoft Tunnel et pour quel cas d'usage ?",opts:["Un VPN site-à-site entre Azure et on-prem","Une gateway VPN permettant aux devices mobiles (iOS/Android) d'accéder aux ressources internes via un conteneur Intune — sans VPN client natif sur le device perso","Un tunnel chiffré pour les déploiements Autopilot","Un proxy pour les mises à jour Windows via Delivery Optimization"],ans:1,exp:"Microsoft Tunnel = gateway VPN hébergée sur un serveur Linux (on-prem ou Azure VM) permettant aux apps gérées sur devices iOS/Android d'accéder aux ressources internes (intranet, apps métier) sans nécessiter un VPN natif sur le device entier. Idéal pour BYOD : seul le trafic des apps gérées passe par le tunnel (Per-App VPN)."},
+  {id:88,cat:'admin',diff:'f',q:"Qu'est-ce qu'un 'Enrollment Status Page (ESP) block' et comment le résoudre ?",opts:["Le device est bloqué au BIOS — remplacer la RAM","L'ESP bloque le bureau car une app critique n'a pas pu s'installer — vérifier les logs IME, corriger l'app, puis retenter l'enrollment","Windows Update est bloqué pendant l'ESP — désactiver WU","L'ESP a expiré — réinstaller Windows"],ans:1,exp:"Un ESP block se produit quand une application marquée 'blocking' (critique) dans l'ESP échoue à s'installer dans le délai configuré. Le bureau reste bloqué. Diagnostic : logs IME (C:\\ProgramData\\Microsoft\\IntuneManagementExtension\\Logs\\), EventViewer DeviceManagement, portail Intune → Device → App install status. Correction : fixer l'app ou la sortir du groupe blocking."},
+  {id:89,cat:'securite',diff:'d',q:"Quelle est la différence entre MDE Plan 1 et MDE Plan 2 concernant les capacités de hunting ?",opts:["Plan 1 = Advanced Hunting KQL 30 jours. Plan 2 = Advanced Hunting KQL 6 mois","Plan 1 = pas d'Advanced Hunting KQL. Plan 2 = Advanced Hunting KQL avec 6 mois de rétention et Custom Detection Rules","Plan 1 et Plan 2 ont les mêmes capacités de hunting","Plan 1 = hunting limité à 100 requêtes/jour. Plan 2 = illimité"],ans:1,exp:"MDE Plan 1 n'inclut pas Advanced Hunting (pas de KQL, pas de custom detections). C'est une solution de prévention basique. MDE Plan 2 (E5/E5 Security) inclut : Advanced Hunting (requêtes KQL sur 6 mois de données), Custom Detection Rules, Threat Analytics, Automated Investigation & Response (AIR). Différence majeure pour les équipes SOC."},
+  {id:90,cat:'enrollment',diff:'m',q:"Quel est le rôle de 'Delivery Optimization' lors d'un déploiement Autopilot en masse (ex: 500 devices) ?",opts:["Delivery Optimization n'est pas utilisé pendant Autopilot","Delivery Optimization permet aux devices de télécharger Windows Update et apps depuis d'autres devices du réseau local (P2P), réduisant la charge sur la connexion Internet pendant le déploiement massif","Delivery Optimization accélère uniquement les scripts PowerShell","Delivery Optimization gère la file d'attente des enrollments Autopilot"],ans:1,exp:"Lors d'un déploiement massif (ex: 500 nouveaux PCs Autopilot simultanés), chaque device télécharge Windows Updates et les apps depuis Internet, ce qui peut saturer la bande passante. Avec Delivery Optimization en mode HTTP+LAN, les devices se partagent les téléchargements entre eux sur le réseau local → charge Internet divisée par le nombre de devices qui ont déjà téléchargé."}
 ];
 
 // ── QCM ENGINE ──
@@ -9245,7 +9612,7 @@ function buildQCM(filter) {
     div.id = 'qc-' + q.id;
     var diffs = {f:'Facile',m:'Moyen',d:'Difficile'};
     var diffClass = {f:'f',m:'m',d:'d'};
-    var catLabels = {enrollment:'Enrollment',autopilot:'Autopilot',conformite:'Conformité',securite:'Sécurité',apps:'Applications',ca:'Conditional Access',updates:'MàJ',licences:'Licences',smartphones:'Smartphones'};
+    var catLabels = {enrollment:'Enrollment',autopilot:'Autopilot',conformite:'Conformité',securite:'Sécurité',apps:'Applications',ca:'Conditional Access',updates:'MàJ',licences:'Licences',smartphones:'Smartphones',admin:'Administration'};
     var optsHtml = q.opts.map(function(opt,i){
       var cls = 'opt';
       if(answered[q.id] !== undefined) {
