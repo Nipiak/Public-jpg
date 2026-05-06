@@ -1,0 +1,2693 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MD-102 — Parcours d'entraînement complet</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root{
+  --sb-bg:#1B1A19;--sb-hover:#323130;--sb-active-bg:rgba(0,120,212,.15);
+  --sb-active-border:#0078D4;--sb-text:#C8C6C4;--sb-text-h:#FFFFFF;
+  --sb-w:255px;--top-h:48px;
+  --bleu:#0078D4;--bleu-f:#004578;--bleu-c:#EFF6FF;--bleu-mid:#C5DEEF;
+  --orange:#D83B01;--orange-c:#FFF3EE;--vert:#107C10;--vert-c:#EFF8EE;
+  --rouge:#C50F1F;--rouge-c:#FDF3F4;--violet:#5C2D91;--violet-c:#F0E6FF;
+  --gris:#F3F2F1;--gris-f:#201F1E;--gris-m:#605E5C;--gris-b:#EDEBE9;
+  --blanc:#FFFFFF;--jaune:#FFF4CE;--jaune-b:#F0AD00;
+  --deb:#107C10;--deb-c:#EFF8EE;
+  --int:#D83B01;--int-c:#FFF3EE;
+  --exp:#C50F1F;--exp-c:#FDF3F4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;background:#FAF9F8;color:var(--gris-f);overflow-x:hidden}
+
+/* TOP BAR */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:300;height:var(--top-h);
+background:var(--bleu);display:flex;align-items:center;padding:0 12px;gap:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.tb-toggle{background:none;border:none;cursor:pointer;color:white;font-size:20px;
+width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+border-radius:4px;transition:background .15s;flex-shrink:0}
+.tb-toggle:hover{background:rgba(255,255,255,.18)}
+.tb-logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.tb-logo-icon{width:32px;height:32px;background:white;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.tb-brand{color:white;font-size:14px;font-weight:600;white-space:nowrap}
+.tb-pipe{width:1px;height:20px;background:rgba(255,255,255,.35);flex-shrink:0}
+.tb-subtitle{color:rgba(255,255,255,.85);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.tb-score{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;white-space:nowrap}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:var(--top-h);left:0;bottom:0;width:var(--sb-w);
+background:var(--sb-bg);overflow-y:auto;overflow-x:hidden;z-index:200;
+transition:width .22s cubic-bezier(.4,0,.2,1)}
+html.sb-off .sidebar{width:0}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:#444;border-radius:2px}
+.sb-section{padding:4px 0}
+.sb-section-title{font-size:10px;font-weight:600;text-transform:uppercase;
+letter-spacing:.7px;color:#6E6E6E;padding:12px 12px 4px;white-space:nowrap}
+.sb-section-title.deb{color:#4ade80}
+.sb-section-title.int{color:#fb923c}
+.sb-section-title.exp{color:#f87171}
+.sb-item{display:flex;align-items:center;gap:8px;padding:8px 10px;cursor:pointer;
+color:var(--sb-text);font-size:12.5px;transition:all .1s;border-left:3px solid transparent;
+user-select:none;white-space:nowrap}
+.sb-item:hover{background:var(--sb-hover);color:var(--sb-text-h)}
+.sb-item.active{background:var(--sb-active-bg);color:var(--sb-text-h);border-left-color:var(--sb-active-border);font-weight:600}
+.sb-item .sbi{font-size:15px;width:18px;text-align:center;flex-shrink:0;opacity:.75}
+.sb-item.active .sbi{opacity:1}
+.sb-item .sbl{flex:1;overflow:hidden;text-overflow:ellipsis}
+.sb-item .sbb{font-size:10px;font-weight:700;padding:1px 6px;border-radius:8px;flex-shrink:0}
+.sbb.deb{background:#166534;color:#86efac}
+.sbb.int{background:#9a3412;color:#fed7aa}
+.sbb.exp{background:#7f1d1d;color:#fca5a5}
+.sb-divider{height:1px;background:#333;margin:2px 8px}
+.sb-level-sep{padding:8px 12px 4px;display:flex;align-items:center;gap:8px}
+.sb-level-sep span{font-size:11px;font-weight:800;letter-spacing:.8px}
+.sb-level-sep::after{content:'';flex:1;height:1px}
+.sb-level-sep.deb span{color:#4ade80}.sb-level-sep.deb::after{background:#166534}
+.sb-level-sep.int span{color:#fb923c}.sb-level-sep.int::after{background:#9a3412}
+.sb-level-sep.exp span{color:#f87171}.sb-level-sep.exp::after{background:#7f1d1d}
+
+/* MAIN AREA */
+.main-area{margin-left:var(--sb-w);margin-top:var(--top-h);
+min-height:calc(100vh - var(--top-h));transition:margin-left .22s cubic-bezier(.4,0,.2,1)}
+html.sb-off .main-area{margin-left:0}
+.breadcrumb{background:white;border-bottom:1px solid var(--gris-b);
+padding:0 24px;height:40px;display:flex;align-items:center;gap:6px;
+font-size:13px;color:var(--gris-m);position:sticky;top:0;z-index:100}
+.bc-item{color:var(--bleu);cursor:pointer}.bc-item:hover{text-decoration:underline}
+.bc-sep{color:#C8C6C4;font-size:11px}.bc-curr{color:var(--gris-f);font-weight:600}
+.page-content{padding:20px 24px 60px}
+.section{display:none;animation:sIn .25s ease}
+.section.active{display:block}
+@keyframes sIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* PAGE HEADER */
+.page-header{margin-bottom:24px}
+.page-header h1{font-size:22px;font-weight:700;color:var(--gris-f);margin-bottom:4px}
+.page-header p{font-size:13px;color:var(--gris-m)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--bleu-f) 0%,var(--bleu) 55%,#00B4D8);
+border-radius:6px;padding:36px 40px;margin-bottom:24px;position:relative;overflow:hidden;color:white}
+.hero::after{content:'';position:absolute;top:-30%;right:-5%;width:300px;height:300px;background:rgba(255,255,255,.05);border-radius:50%}
+.hero h2{font-size:26px;font-weight:800;margin-bottom:10px}
+.hero p{font-size:14px;opacity:.87;line-height:1.7;max-width:660px}
+.hero-stats{display:flex;gap:16px;margin-top:24px;flex-wrap:wrap}
+.hstat{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:12px 20px;text-align:center}
+.hstat .n{font-size:24px;font-weight:800;color:white}
+.hstat .l{font-size:11px;opacity:.75;margin-top:2px}
+
+/* PANEL */
+.panel{background:white;border:1px solid var(--gris-b);border-radius:6px;margin-bottom:16px}
+.panel-head{padding:14px 20px;border-bottom:1px solid var(--gris-b);display:flex;align-items:center;gap:10px}
+.panel-head h2{font-size:15px;font-weight:700;flex:1}
+.panel-head .ph-icon{font-size:18px}
+.panel-body{padding:20px}
+.panel-body p{font-size:13px;line-height:1.8;margin-bottom:8px}
+
+/* INFO BOXES */
+.ib{border-left:4px solid;border-radius:2px;padding:12px 16px;margin:10px 0;font-size:13px;line-height:1.7}
+.ib.info{background:var(--bleu-c);border-color:var(--bleu)}
+.ib.success{background:var(--vert-c);border-color:var(--vert)}
+.ib.warning{background:var(--orange-c);border-color:var(--orange)}
+.ib.error{background:var(--rouge-c);border-color:var(--rouge)}
+.ib.tip{background:var(--violet-c);border-color:var(--violet)}
+.ib.note{background:var(--jaune);border-color:var(--jaune-b)}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+/* STEPS */
+.steps{margin:16px 0}
+.step{display:flex;gap:16px;margin-bottom:20px;position:relative}
+.step::before{content:'';position:absolute;left:17px;top:36px;bottom:-20px;width:2px;background:var(--gris-b)}
+.step:last-child::before{display:none}
+.step-n{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;z-index:1;background:var(--bleu);color:white}
+.step-n.g{background:var(--vert)}.step-n.o{background:var(--orange)}.step-n.r{background:var(--rouge)}.step-n.p{background:var(--violet)}
+.step-body{flex:1;padding-top:6px}
+.step-body h4{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--gris-f)}
+.step-body p{font-size:13px;color:var(--gris-m);line-height:1.7}
+.step-body code{background:#F3F2F1;padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--bleu-f)}
+
+/* CODE */
+.code{background:#1E1E1E;border-radius:4px;padding:16px 20px;margin:10px 0;
+font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;
+color:#D4D4D4;overflow-x:auto;position:relative;white-space:pre}
+.code .cm{color:#6A9955}.code .kw{color:#569CD6}.code .vl{color:#4EC9B0}
+.code .str{color:#CE9178}.code .op{color:#DCDCAA}.code .num{color:#B5CEA8}
+.code-label{display:inline-block;background:#444;color:#ccc;font-size:10px;font-weight:600;padding:2px 8px;margin-bottom:0;border-radius:2px 2px 0 0;font-family:'JetBrains Mono',monospace}
+
+/* TABLES */
+.tw{overflow-x:auto;margin:10px 0;border:1px solid var(--gris-b);border-radius:4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{background:#F3F2F1;color:var(--gris-f);padding:10px 14px;text-align:left;font-weight:600;font-size:12px;border-bottom:1px solid var(--gris-b)}
+tbody td{padding:9px 14px;border-bottom:1px solid var(--gris-b);vertical-align:top;line-height:1.6}
+tbody tr:hover{background:#FAF9F8}
+tbody tr:last-child td{border-bottom:none}
+
+/* TAGS */
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:2px;font-size:11px;font-weight:600;white-space:nowrap}
+.tag.v{background:var(--vert-c);color:var(--vert)}
+.tag.r{background:var(--rouge-c);color:var(--rouge)}
+.tag.o{background:var(--orange-c);color:var(--orange)}
+.tag.b{background:var(--bleu-c);color:var(--bleu-f)}
+.tag.p{background:var(--violet-c);color:var(--violet)}
+.tag.g{background:var(--gris);color:var(--gris-m)}
+
+/* CHECKLIST */
+.checklist{list-style:none;margin:10px 0}
+.checklist li{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--gris-b);font-size:13px;line-height:1.6}
+.checklist li:last-child{border:none}
+.ci{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px;font-weight:700}
+.ci.ok{background:var(--vert-c);color:var(--vert)}
+.ci.warn{background:var(--orange-c);color:var(--orange)}
+.ci.info{background:var(--bleu-c);color:var(--bleu)}
+
+/* TIMELINE */
+.timeline-v{position:relative;padding-left:28px;margin:14px 0}
+.timeline-v::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:var(--gris-b)}
+.tv-item{position:relative;margin-bottom:20px}
+.tv-item::before{content:'';position:absolute;left:-23px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--bleu);border:2px solid white;box-shadow:0 0 0 2px var(--bleu)}
+.tv-item.green::before{background:var(--vert);box-shadow:0 0 0 2px var(--vert)}
+.tv-item.orange::before{background:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+.tv-item.red::before{background:var(--rouge);box-shadow:0 0 0 2px var(--rouge)}
+.tv-item h5{font-size:13px;font-weight:700;margin-bottom:3px}
+.tv-item p{font-size:12.5px;color:var(--gris-m);line-height:1.6}
+
+/* SEC STRIP */
+.sec-strip{background:var(--bleu-c);border:1px solid var(--bleu-mid);border-radius:4px;padding:10px 16px;margin:16px 0 10px;display:flex;align-items:center;gap:10px}
+.sec-strip h3{font-size:14px;font-weight:700;color:var(--bleu-f);flex:1}
+.sec-strip.vert{background:var(--vert-c);border-color:#86EFAC}
+.sec-strip.vert h3{color:var(--vert)}
+.sec-strip.orange{background:var(--orange-c);border-color:#FED7AA}
+.sec-strip.orange h3{color:var(--orange)}
+.sec-strip.rouge{background:var(--rouge-c);border-color:#FCA5A5}
+.sec-strip.rouge h3{color:var(--rouge)}
+.sec-strip.violet{background:var(--violet-c);border-color:#C4B5FD}
+.sec-strip.violet h3{color:var(--violet)}
+
+/* STAT TILES */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin:16px 0}
+.stat{background:white;border:1px solid var(--gris-b);border-radius:6px;padding:16px;text-align:center}
+.stat .sn{font-size:28px;font-weight:800;color:var(--bleu);margin-bottom:4px}
+.stat .sl{font-size:12px;color:var(--gris-m);font-weight:500}
+
+/* ══════════════════════════════════════════
+   EXERCISE CARDS — styles spécifiques parcours
+   ══════════════════════════════════════════ */
+
+/* Palier header */
+.palier-banner{border-radius:8px;padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden}
+.palier-banner.deb{background:linear-gradient(135deg,#064E3B,#107C10)}
+.palier-banner.int{background:linear-gradient(135deg,#7c2d12,#D83B01)}
+.palier-banner.exp{background:linear-gradient(135deg,#7f1d1d,#C50F1F)}
+.palier-banner h2{color:white;font-size:20px;font-weight:800;margin-bottom:6px}
+.palier-banner p{color:rgba(255,255,255,.85);font-size:13px;line-height:1.7;max-width:600px}
+.palier-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);
+border:1px solid rgba(255,255,255,.3);color:white;font-size:11px;font-weight:700;
+padding:4px 12px;border-radius:20px;margin-bottom:12px}
+
+/* Exercise card */
+.exercise-card{background:white;border:1px solid var(--gris-b);border-radius:8px;
+margin-bottom:20px;overflow:hidden;transition:box-shadow .15s}
+.exercise-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.ex-header{padding:16px 20px;border-bottom:2px solid var(--gris-b);display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.ex-header-left{flex:1;min-width:200px}
+.ex-num{font-size:11px;font-weight:800;color:var(--gris-m);letter-spacing:.5px;margin-bottom:4px}
+.ex-title{font-size:16px;font-weight:800;color:var(--gris-f);margin-bottom:4px;line-height:1.4}
+.ex-subtitle{font-size:12px;color:var(--gris-m);line-height:1.5}
+.ex-meta{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.level-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px}
+.level-badge.deb{background:var(--vert-c);color:var(--vert)}
+.level-badge.int{background:var(--orange-c);color:var(--orange)}
+.level-badge.exp{background:var(--rouge-c);color:var(--rouge)}
+.ex-time{font-size:11px;color:var(--gris-m);font-weight:600}
+.ex-cat-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:var(--bleu-c);color:var(--bleu-f)}
+
+/* Exercise body sections */
+.ex-body{padding:20px}
+.ex-objective{background:var(--vert-c);border:1px solid #86EFAC;border-radius:6px;padding:12px 16px;margin-bottom:14px;font-size:13px;line-height:1.7}
+.ex-objective strong{color:var(--vert)}
+.ex-prereqs{background:var(--jaune);border:1px solid var(--jaune-b);border-radius:6px;padding:12px 16px;margin-bottom:14px;font-size:13px;line-height:1.7}
+.ex-prereqs strong{color:#7a5a00}
+.ex-context{background:var(--bleu-c);border:1px solid var(--bleu-mid);border-radius:6px;padding:12px 16px;margin-bottom:14px;font-size:13px;line-height:1.7}
+.ex-context strong{color:var(--bleu-f)}
+.ex-result{background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:1px solid #86EFAC;border-radius:6px;padding:12px 16px;margin-top:14px;font-size:13px;line-height:1.7}
+.ex-result strong{color:var(--vert)}
+.ex-links{margin-top:14px;padding:12px 16px;background:#F8F7F6;border-radius:6px;border:1px solid var(--gris-b)}
+.ex-links strong{font-size:12px;color:var(--gris-m);display:block;margin-bottom:8px}
+.doc-link{display:inline-flex;align-items:center;gap:5px;background:white;border:1px solid var(--bleu-mid);color:var(--bleu);font-size:11px;font-weight:600;padding:4px 10px;border-radius:4px;text-decoration:none;margin:3px;transition:all .1s}
+.doc-link:hover{background:var(--bleu);color:white;border-color:var(--bleu)}
+.ex-quiz{background:var(--violet-c);border:1px solid #C4B5FD;border-radius:6px;padding:14px 16px;margin-top:14px}
+.ex-quiz h4{font-size:13px;font-weight:700;color:var(--violet);margin-bottom:10px}
+.quiz-q{font-size:13px;font-weight:600;color:var(--gris-f);margin-bottom:8px}
+.quiz-opts{display:flex;flex-direction:column;gap:6px}
+.quiz-opt{padding:8px 12px;border-radius:4px;border:1px solid #C4B5FD;background:white;cursor:pointer;font-size:12.5px;font-family:inherit;text-align:left;transition:all .1s}
+.quiz-opt:hover{border-color:var(--violet);background:var(--violet-c)}
+.quiz-opt.correct{background:#EFF8EE;border-color:var(--vert);color:var(--vert);font-weight:700}
+.quiz-opt.wrong{background:var(--rouge-c);border-color:var(--rouge);color:var(--rouge);font-weight:700}
+.quiz-expl{display:none;margin-top:8px;padding:10px 12px;background:white;border-radius:4px;border-left:3px solid var(--violet);font-size:12px;line-height:1.6;color:var(--gris-m)}
+.quiz-expl.show{display:block}
+.ex-pitfall{background:var(--rouge-c);border:1px solid #FCA5A5;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:13px;line-height:1.7}
+.ex-pitfall strong{color:var(--rouge)}
+.ex-tip{background:var(--violet-c);border:1px solid #C4B5FD;border-radius:6px;padding:12px 16px;margin-top:10px;font-size:13px;line-height:1.7}
+.ex-tip strong{color:var(--violet)}
+
+/* Progress tracker */
+.progress-track{display:flex;gap:0;margin:16px 0;overflow-x:auto;padding-bottom:4px}
+.pt-step{display:flex;flex-direction:column;align-items:center;min-width:90px;position:relative}
+.pt-step:not(:last-child)::after{content:'';position:absolute;top:14px;left:60%;width:80%;height:2px;background:var(--gris-b);z-index:0}
+.pt-step.done:not(:last-child)::after{background:var(--vert)}
+.pt-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;z-index:1;border:2px solid var(--gris-b);background:white;color:var(--gris-m)}
+.pt-step.done .pt-dot{background:var(--vert);border-color:var(--vert);color:white}
+.pt-step.active .pt-dot{background:var(--bleu);border-color:var(--bleu);color:white}
+.pt-label{font-size:10px;color:var(--gris-m);margin-top:4px;text-align:center;font-weight:600}
+.pt-step.done .pt-label{color:var(--vert)}
+.pt-step.active .pt-label{color:var(--bleu);font-weight:700}
+
+/* Level overview cards */
+.level-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0}
+.level-card{border-radius:8px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.level-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.lc-head{padding:20px;color:white}
+.lc-head.deb{background:linear-gradient(135deg,#064E3B,#107C10)}
+.lc-head.int{background:linear-gradient(135deg,#7c2d12,#D83B01)}
+.lc-head.exp{background:linear-gradient(135deg,#7f1d1d,#C50F1F)}
+.lc-head h3{font-size:18px;font-weight:800;margin-bottom:4px}
+.lc-head p{font-size:12px;opacity:.85}
+.lc-body{background:white;border:1px solid var(--gris-b);border-top:none;padding:16px;border-radius:0 0 8px 8px}
+.lc-stat{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid var(--gris-b)}
+.lc-stat:last-child{border:none}
+.lc-stat span:first-child{color:var(--gris-m)}
+.lc-stat span:last-child{font-weight:700;color:var(--gris-f)}
+
+/* Responsive */
+@media(max-width:1100px){:root{--sb-w:220px}}
+@media(max-width:768px){
+  html:not(.sb-off) .main-area{margin-left:0}
+  html.sb-off .sidebar{width:0}
+  .g2,.g3,.level-cards{grid-template-columns:1fr}
+  .ex-header{flex-direction:column}
+  .ex-meta{flex-direction:row;align-items:center}
+}
+</style>
+</head>
+<body>
+<!-- TOP BAR -->
+<div class="topbar">
+  <button class="tb-toggle" id="sbToggle" onclick="toggleSidebar()" title="Menu">☰</button>
+  <div class="tb-logo">
+    <div class="tb-logo-icon">🎯</div>
+    <span class="tb-brand">MD-102 Training Path</span>
+  </div>
+  <div class="tb-pipe"></div>
+  <span class="tb-subtitle">Parcours d'entraînement — Débutant → Expert</span>
+  <div class="tb-right">
+    <span class="tb-score" id="progressScore">Progression : 0 / 38</span>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sb-section">
+    <div class="sb-item active" onclick="nav('accueil',this,'Accueil')">
+      <span class="sbi">🏠</span><span class="sbl">Accueil — Vue d'ensemble</span>
+    </div>
+    <div class="sb-item" onclick="nav('progression',this,'Ma progression')">
+      <span class="sbi">📊</span><span class="sbl">Ma progression</span>
+    </div>
+  </div>
+  <div class="sb-divider"></div>
+
+  <!-- DÉBUTANT -->
+  <div class="sb-level-sep deb"><span>🟢 DÉBUTANT</span></div>
+  <div class="sb-section">
+    <div class="sb-item" onclick="nav('p1',this,'Palier 1 — Découverte')">
+      <span class="sbi">🌱</span><span class="sbl">Palier 1 — Découverte</span><span class="sbb deb">4 ex</span>
+    </div>
+    <div class="sb-item" onclick="nav('p2',this,'Palier 2 — Premiers enrollments')">
+      <span class="sbi">📱</span><span class="sbl">Palier 2 — Premiers enrollments</span><span class="sbb deb">4 ex</span>
+    </div>
+    <div class="sb-item" onclick="nav('p3',this,'Palier 3 — Premières configs')">
+      <span class="sbi">⚙️</span><span class="sbl">Palier 3 — Premières configs</span><span class="sbb deb">4 ex</span>
+    </div>
+  </div>
+  <div class="sb-divider"></div>
+
+  <!-- INTERMÉDIAIRE -->
+  <div class="sb-level-sep int"><span>🟠 INTERMÉDIAIRE</span></div>
+  <div class="sb-section">
+    <div class="sb-item" onclick="nav('p4',this,'Palier 4 — Sécurité endpoint')">
+      <span class="sbi">🛡️</span><span class="sbl">Palier 4 — Sécurité endpoint</span><span class="sbb int">5 ex</span>
+    </div>
+    <div class="sb-item" onclick="nav('p5',this,'Palier 5 — Autopilot avancé')">
+      <span class="sbi">🚀</span><span class="sbl">Palier 5 — Autopilot avancé</span><span class="sbb int">4 ex</span>
+    </div>
+    <div class="sb-item" onclick="nav('p6',this,'Palier 6 — Conditional Access')">
+      <span class="sbi">🚧</span><span class="sbl">Palier 6 — Conditional Access</span><span class="sbb int">5 ex</span>
+    </div>
+  </div>
+  <div class="sb-divider"></div>
+
+  <!-- EXPERT -->
+  <div class="sb-level-sep exp"><span>🔴 EXPERT</span></div>
+  <div class="sb-section">
+    <div class="sb-item" onclick="nav('p7',this,'Palier 7 — Architecture avancée')">
+      <span class="sbi">🏗️</span><span class="sbl">Palier 7 — Architecture avancée</span><span class="sbb exp">4 ex</span>
+    </div>
+    <div class="sb-item" onclick="nav('p8',this,'Palier 8 — Automatisation')">
+      <span class="sbi">⚡</span><span class="sbl">Palier 8 — Automatisation</span><span class="sbb exp">4 ex</span>
+    </div>
+    <div class="sb-item" onclick="nav('p9',this,'Palier 9 — Scénarios exam')">
+      <span class="sbi">🎓</span><span class="sbl">Palier 9 — Scénarios exam</span><span class="sbb exp">4 ex</span>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN AREA -->
+<div class="main-area">
+  <div class="breadcrumb" id="bc">
+    <span class="bc-item" onclick="nav('accueil',null,'Accueil')">MD-102 Training</span>
+    <span class="bc-sep">›</span>
+    <span class="bc-curr" id="bc-curr">Accueil</span>
+  </div>
+  <div class="page-content">
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SECTION ACCUEIL -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="section active" id="accueil">
+  <div class="hero">
+    <h2>🎯 Parcours d'entraînement MD-102</h2>
+    <p>38 exercices structurés en 9 paliers progressifs — du premier contact avec Intune jusqu'aux scénarios d'architecture expert. Chaque exercice inclut les étapes précises, les commandes, les résultats attendus et les liens vers la documentation officielle Microsoft.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="n">38</div><div class="l">Exercices pratiques</div></div>
+      <div class="hstat"><div class="n">9</div><div class="l">Paliers progressifs</div></div>
+      <div class="hstat"><div class="n">3</div><div class="l">Niveaux</div></div>
+      <div class="hstat"><div class="n">~40h</div><div class="l">De pratique</div></div>
+    </div>
+  </div>
+
+  <div class="level-cards">
+    <div class="level-card" onclick="nav('p1',null,'Palier 1')">
+      <div class="lc-head deb"><div style="font-size:36px;margin-bottom:8px">🟢</div><h3>Débutant</h3><p>Paliers 1 à 3 — 12 exercices</p></div>
+      <div class="lc-body">
+        <div class="lc-stat"><span>Palier 1</span><span>Découverte Intune</span></div>
+        <div class="lc-stat"><span>Palier 2</span><span>Premiers enrollments</span></div>
+        <div class="lc-stat"><span>Palier 3</span><span>Premières configs</span></div>
+        <div class="lc-stat"><span>Durée estimée</span><span>~8 heures</span></div>
+        <div class="lc-stat"><span>Prérequis</span><span>Aucun</span></div>
+      </div>
+    </div>
+    <div class="level-card" onclick="nav('p4',null,'Palier 4')">
+      <div class="lc-head int"><div style="font-size:36px;margin-bottom:8px">🟠</div><h3>Intermédiaire</h3><p>Paliers 4 à 6 — 14 exercices</p></div>
+      <div class="lc-body">
+        <div class="lc-stat"><span>Palier 4</span><span>Sécurité endpoint</span></div>
+        <div class="lc-stat"><span>Palier 5</span><span>Autopilot avancé</span></div>
+        <div class="lc-stat"><span>Palier 6</span><span>Conditional Access</span></div>
+        <div class="lc-stat"><span>Durée estimée</span><span>~16 heures</span></div>
+        <div class="lc-stat"><span>Prérequis</span><span>Paliers 1–3 validés</span></div>
+      </div>
+    </div>
+    <div class="level-card" onclick="nav('p7',null,'Palier 7')">
+      <div class="lc-head exp"><div style="font-size:36px;margin-bottom:8px">🔴</div><h3>Expert</h3><p>Paliers 7 à 9 — 12 exercices</p></div>
+      <div class="lc-body">
+        <div class="lc-stat"><span>Palier 7</span><span>Architecture avancée</span></div>
+        <div class="lc-stat"><span>Palier 8</span><span>Automatisation</span></div>
+        <div class="lc-stat"><span>Palier 9</span><span>Scénarios exam</span></div>
+        <div class="lc-stat"><span>Durée estimée</span><span>~16 heures</span></div>
+        <div class="lc-stat"><span>Prérequis</span><span>Paliers 1–6 validés</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel"><div class="panel-head"><span class="ph-icon">⚙️</span><h2>Environnement de lab recommandé</h2></div>
+  <div class="panel-body">
+    <div class="g2">
+      <div>
+        <div class="ib success"><strong>✅ Gratuit — Microsoft 365 Developer Program</strong><br>Tenant E5 gratuit 90 jours (renouvelable si actif). 25 licences, tous les services activés. Idéal pour tous les exercices.<br><a href="https://developer.microsoft.com/microsoft-365/dev-program" target="_blank" class="doc-link" style="margin-top:8px;display:inline-flex">📋 S'inscrire au Developer Program</a></div>
+        <div class="ib info"><strong>💡 VM de test Windows 11</strong><br>Utiliser Hyper-V (inclus Windows 11 Pro) ou une VM Azure (Pay-as-you-go). Pour Autopilot, une VM Azure avec TPM virtuel est nécessaire (Gen 2 + Secure Boot + vTPM).</div>
+      </div>
+      <div>
+        <div class="ib note"><strong>📌 Outils à télécharger avant de commencer</strong></div>
+        <ul class="checklist">
+          <li><span class="ci info">↓</span><span><strong>IntuneWinAppUtil.exe</strong> — packaging Win32 apps (GitHub microsoft)</span></li>
+          <li><span class="ci info">↓</span><span><strong>Get-WindowsAutoPilotInfo.ps1</strong> — extraction Hardware Hash (PowerShell Gallery)</span></li>
+          <li><span class="ci info">↓</span><span><strong>Office Deployment Tool (ODT)</strong> — déploiement M365 Apps (Microsoft Download Center)</span></li>
+          <li><span class="ci info">↓</span><span><strong>Windows Configuration Designer</strong> — Provisioning Packages (Microsoft Store)</span></li>
+          <li><span class="ci info">↓</span><span><strong>Graph Explorer</strong> — tester API Intune (developer.microsoft.com/graph/graph-explorer)</span></li>
+        </ul>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="panel"><div class="panel-head"><span class="ph-icon">🗺️</span><h2>Parcours recommandé</h2></div>
+  <div class="panel-body">
+    <div class="timeline-v">
+      <div class="tv-item green"><h5>🟢 Semaine 1 — Paliers 1 & 2 (Débutant)</h5><p>Découverte portail, création utilisateurs, premier enrollment Windows manuel, vérification dsregcmd, groupes dynamiques. Aucun prérequis technique.</p></div>
+      <div class="tv-item green"><h5>🟢 Semaine 2 — Palier 3 (Débutant fin)</h5><p>Premières politiques de conformité, profils de configuration, déploiement d'apps simples, Update Ring. Commencer à utiliser le portail Intune quotidiennement.</p></div>
+      <div class="tv-item orange"><h5>🟠 Semaine 3 — Paliers 4 & 5 (Intermédiaire)</h5><p>BitLocker, LAPS, ASR, Security Baselines, MDE. Puis Autopilot User-Driven, Hardware Hash, ESP. La majorité des points d'examen sont ici.</p></div>
+      <div class="tv-item orange"><h5>🟠 Semaine 4 — Palier 6 (Intermédiaire fin)</h5><p>Conditional Access complet : break-glass, MFA, Named Locations, Require Compliant, App Protection Policies BYOD. Section critique pour l'exam.</p></div>
+      <div class="tv-item red"><h5>🔴 Semaine 5 — Paliers 7 & 8 (Expert)</h5><p>SCEP/Wi-Fi 802.1x, Windows Hello for Business, RBAC+Scope Tags, co-management. Scripts Remediation, Graph API, Win32 avec Dependency.</p></div>
+      <div class="tv-item red"><h5>🔴 Semaine 6 — Palier 9 + Révision (Expert)</h5><p>Scénarios d'exam complexes intégrant tous les domaines. Simulation d'examen. Révision des pièges classiques. Passage de la certification.</p></div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SECTION PROGRESSION -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="section" id="progression">
+  <div class="page-header"><h1>📊 Ma progression</h1><p>Suivez votre avancement dans le parcours d'entraînement</p></div>
+  <div class="stats">
+    <div class="stat"><div class="sn" id="prog-done">0</div><div class="sl">Exercices complétés</div></div>
+    <div class="stat"><div class="sn">38</div><div class="sl">Exercices total</div></div>
+    <div class="stat"><div class="sn" id="prog-pct">0%</div><div class="sl">Progression globale</div></div>
+    <div class="stat"><div class="sn" id="prog-level">—</div><div class="sl">Niveau actuel</div></div>
+  </div>
+  <div class="panel"><div class="panel-head"><span class="ph-icon">✅</span><h2>Suivi par palier</h2></div>
+  <div class="panel-body">
+    <div id="progressChecklist">
+      <p style="color:var(--gris-m);font-size:13px">Cochez les exercices au fur et à mesure de leur complétion :</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PALIER 1 — Découverte de l'environnement             -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="palier1" class="section">
+  <div class="palier-banner deb">
+    <div>
+      <span class="palier-num">Palier 1</span>
+      <h2 style="margin:4px 0 0">Découverte de l'environnement</h2>
+      <p style="margin:4px 0 0;opacity:.85">Prenez en main les portails Microsoft et les concepts fondamentaux</p>
+    </div>
+    <span class="level-badge deb" style="font-size:1rem;padding:6px 16px">🟢 Débutant</span>
+  </div>
+
+  <!-- EX 1 -->
+  <div class="exercise-card" id="ex-1">
+    <div class="ex-header" onclick="toggleExercise('1')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 1</span>
+        <div>
+          <div class="ex-title">Tour des portails Microsoft 365</div>
+          <div class="ex-meta"><span class="level-badge deb">Débutant</span> <span>⏱ 20 min</span> <span>🏷 Administration</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-1" onchange="updateProgress('1',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-1">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-1">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Naviguer dans les portails Intune, Entra ID et M365 Admin Center. Identifier les blades principaux et comprendre la hiérarchie tenant → groupe → appareil.</div>
+      <div class="ex-prereqs"><strong>⚠ Prérequis :</strong> Compte Microsoft 365 E5 Trial ou tenant de dev (voir section Accueil), accès Global Admin.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Connectez-vous à <strong>admin.microsoft.com</strong> → explorez le menu de gauche (Utilisateurs, Groupes, Licences, Facturation).</li>
+        <li>Ouvrez <strong>intune.microsoft.com</strong> → notez les sections : Appareils, Apps, Sécurité des terminaux, Rapports, Administration du client.</li>
+        <li>Ouvrez <strong>entra.microsoft.com</strong> → naviguez : Identités → Utilisateurs, Groupes, Appareils ; Protection → Accès conditionnel.</li>
+        <li>Dans Intune → <em>Appareils → Vue d'ensemble</em> : relevez le nombre d'appareils conformes / non conformes (0 sur tenant vide, c'est normal).</li>
+        <li>Notez sur papier : qui fait quoi entre Intune (gestion terminaux) et Entra ID (gestion identités) ?</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Vous naviguez entre les 3 portails sans vous perdre, et pouvez expliquer le rôle de chacun. Vous avez identifié au moins 5 blades Intune et 5 blades Entra ID.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/fundamentals/what-is-intune" target="_blank" class="doc-link">📘 Qu'est-ce qu'Intune ?</a>
+        <a href="https://learn.microsoft.com/fr-fr/entra/fundamentals/whatis" target="_blank" class="doc-link">📘 Qu'est-ce qu'Entra ID ?</a>
+        <a href="https://learn.microsoft.com/fr-fr/microsoft-365/admin/admin-overview/admin-center-overview" target="_blank" class="doc-link">📘 M365 Admin Center</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Quel portail utilisez-vous pour créer une politique de conformité des appareils Windows ?</div>
+        <div class="quiz-opts" id="quiz-q1">
+          <div class="quiz-opt" onclick="answerQuiz('q1',0,0)">A. intune.microsoft.com</div>
+          <div class="quiz-opt" onclick="answerQuiz('q1',1,0)">B. admin.microsoft.com</div>
+          <div class="quiz-opt" onclick="answerQuiz('q1',2,0)">C. entra.microsoft.com</div>
+          <div class="quiz-opt" onclick="answerQuiz('q1',3,0)">D. security.microsoft.com</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q1">✅ <strong>Intune (intune.microsoft.com)</strong> est le portail dédié à la gestion des appareils. Les politiques de conformité se trouvent dans Sécurité des terminaux → Conformité.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 2 -->
+  <div class="exercise-card" id="ex-2">
+    <div class="ex-header" onclick="toggleExercise('2')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 2</span>
+        <div>
+          <div class="ex-title">Créer et configurer un utilisateur Entra ID</div>
+          <div class="ex-meta"><span class="level-badge deb">Débutant</span> <span>⏱ 25 min</span> <span>🏷 Entra ID</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-2" onchange="updateProgress('2',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-2">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-2">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Créer un utilisateur cloud, lui assigner une licence M365, vérifier sa présence dans Intune, et activer la réinitialisation de mot de passe en libre-service (SSPR).</div>
+      <div class="ex-prereqs"><strong>⚠ Prérequis :</strong> Tenant M365 avec rôle Global Admin, licences E5 Trial disponibles.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Entra ID → Utilisateurs → Nouvel utilisateur → Créer un utilisateur</strong> :<br>UPN : <code>testuser01@votredomaine.onmicrosoft.com</code>, Nom d'affichage : <em>Test User 01</em>.<br>Activez "Afficher le mot de passe" et copiez-le.</li>
+        <li>Dans <strong>M365 Admin Center → Utilisateurs actifs</strong> → trouvez testuser01 → onglet Licences → assignez <em>Microsoft 365 E5</em>.</li>
+        <li>Attendez ~2 min, puis vérifiez dans <strong>Intune → Utilisateurs</strong> que testuser01 apparaît.</li>
+        <li>Dans Entra ID → <strong>Protection → Réinitialisation du mot de passe → Propriétés</strong> : activez pour "Sélectionné" → ajoutez testuser01 → Enregistrer.</li>
+        <li>Testez la SSPR en vous connectant avec testuser01 sur <strong>aka.ms/sspr</strong>.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> testuser01 visible dans Intune avec licence active, SSPR fonctionnelle. Vous comprenez la différence entre réinitialisation admin et SSPR self-service.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/entra/fundamentals/how-to-create-delete-users" target="_blank" class="doc-link">📘 Créer un utilisateur Entra ID</a>
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/authentication/tutorial-enable-sspr" target="_blank" class="doc-link">📘 Activer SSPR</a>
+        <a href="https://learn.microsoft.com/fr-fr/microsoft-365/admin/add-users/add-users" target="_blank" class="doc-link">📘 Assigner des licences</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Où configure-t-on la réinitialisation du mot de passe en libre-service (SSPR) ?</div>
+        <div class="quiz-opts" id="quiz-q2">
+          <div class="quiz-opt" onclick="answerQuiz('q2',0,2)">A. Intune → Sécurité des terminaux</div>
+          <div class="quiz-opt" onclick="answerQuiz('q2',1,2)">B. M365 Admin Center → Paramètres de sécurité</div>
+          <div class="quiz-opt" onclick="answerQuiz('q2',2,2)">C. Entra ID → Protection → Réinitialisation du mot de passe</div>
+          <div class="quiz-opt" onclick="answerQuiz('q2',3,2)">D. Entra ID → Utilisateurs → Méthodes d'authentification</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q2">✅ <strong>Entra ID → Protection → Réinitialisation du mot de passe</strong> est l'emplacement exact. L'onglet "Propriétés" permet d'activer SSPR pour Aucun / Sélectionné / Tous.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 3 -->
+  <div class="exercise-card" id="ex-3">
+    <div class="ex-header" onclick="toggleExercise('3')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 3</span>
+        <div>
+          <div class="ex-title">Quiz : Types de jonction Windows à Entra ID</div>
+          <div class="ex-meta"><span class="level-badge deb">Débutant</span> <span>⏱ 15 min</span> <span>🏷 Entra ID</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-3" onchange="updateProgress('3',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-3">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-3">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Maîtriser les 3 types de jonction Windows à Entra ID (AADJ, HAADJ, Workplace Join) et savoir dans quel contexte utiliser chacun.</div>
+      <h4>Tableau récapitulatif à mémoriser</h4>
+      <table class="ref-table">
+        <thead><tr><th>Type</th><th>Scénario</th><th>Intune MDM</th><th>GPO AD</th><th>Commande vérif.</th></tr></thead>
+        <tbody>
+          <tr><td><strong>AADJ</strong></td><td>Appareils 100% cloud, nouveaux déploiements</td><td>✅ OUI</td><td>❌ NON</td><td><code>AzureAdJoined: YES</code></td></tr>
+          <tr><td><strong>HAADJ</strong></td><td>Migration hybride, appareils AD existants</td><td>✅ OUI</td><td>✅ OUI</td><td><code>DomainJoined: YES + AzureAdJoined: YES</code></td></tr>
+          <tr><td><strong>Workplace Join</strong></td><td>BYOD, appareils personnels</td><td>MAM uniquement</td><td>❌ NON</td><td><code>WorkplaceJoined: YES</code></td></tr>
+        </tbody>
+      </table>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Vous choisissez le bon type sans hésitation pour chaque scénario et interprétez la sortie de <code>dsregcmd /status</code>.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/devices/concept-directory-extension" target="_blank" class="doc-link">📘 Types de jonction Entra ID</a>
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/devices/troubleshoot-device-dsregcmd" target="_blank" class="doc-link">📘 Référence dsregcmd</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Un employé a un PC joint au domaine AD on-prem. Vous souhaitez le gérer via Intune SANS le déjoindre. Quel type de jonction utilisez-vous ?</div>
+        <div class="quiz-opts" id="quiz-q3">
+          <div class="quiz-opt" onclick="answerQuiz('q3',0,1)">A. Azure AD Joined (AADJ)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q3',1,1)">B. Hybrid Azure AD Joined (HAADJ)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q3',2,1)">C. Workplace Join</div>
+          <div class="quiz-opt" onclick="answerQuiz('q3',3,1)">D. Entra ID B2B Guest</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q3">✅ <strong>HAADJ</strong> conserve la jonction AD on-prem tout en enregistrant l'appareil dans Entra ID pour la gestion Intune — scénario de migration hybride classique.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 4 -->
+  <div class="exercise-card" id="ex-4">
+    <div class="ex-header" onclick="toggleExercise('4')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 4</span>
+        <div>
+          <div class="ex-title">Identifier et assigner des licences via groupe</div>
+          <div class="ex-meta"><span class="level-badge deb">Débutant</span> <span>⏱ 20 min</span> <span>🏷 Licences</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-4" onchange="updateProgress('4',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-4">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-4">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Comprendre quelles licences incluent Intune, les différences E3/E5, et configurer l'assignation automatique de licences via groupe Entra ID.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>M365 Admin Center → Facturation → Licences</strong>, listez toutes les licences disponibles et identifiez lesquelles incluent <em>Intune Plan 1</em> (EMS E3, M365 E3/E5, Business Premium).</li>
+        <li>Dans <strong>Entra ID → Groupes → Nouveau groupe</strong> : Type = Sécurité, Nom = <code>GRP_Intune_Users</code>, Appartenance = Affecté.</li>
+        <li>Dans <strong>M365 Admin Center → Licences</strong> → choisissez votre licence → onglet Groupes → assignez <code>GRP_Intune_Users</code>.</li>
+        <li>Ajoutez testuser01 au groupe → vérifiez après ~5 min que la licence est bien assignée automatiquement dans son profil.</li>
+        <li>Comparez l'assignation par groupe vs individuelle : avantages de la méthode groupe à l'échelle.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> testuser01 reçoit sa licence Intune automatiquement via l'appartenance au groupe. Vous comprenez le principe de l'assignation basée sur les groupes.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/intune/fundamentals/licenses" target="_blank" class="doc-link">📘 Licences Intune</a>
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/users/licensing-groups-assign" target="_blank" class="doc-link">📘 Assignation par groupe</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Quelle licence Microsoft inclut à la fois Intune Plan 1 ET Entra ID P2 ?</div>
+        <div class="quiz-opts" id="quiz-q4">
+          <div class="quiz-opt" onclick="answerQuiz('q4',0,3)">A. Microsoft 365 Business Basic</div>
+          <div class="quiz-opt" onclick="answerQuiz('q4',1,3)">B. Microsoft 365 E3</div>
+          <div class="quiz-opt" onclick="answerQuiz('q4',2,3)">C. EMS E3</div>
+          <div class="quiz-opt" onclick="answerQuiz('q4',3,3)">D. Microsoft 365 E5</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q4">✅ <strong>Microsoft 365 E5</strong> inclut Intune Plan 1, Entra ID P2, Defender for Endpoint P2 et plus. M365 E3 inclut Entra P1 ; EMS E3 n'inclut pas Defender for Endpoint.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- end palier1 -->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PALIER 2 — Premiers Enrollments                        -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="palier2" class="section">
+  <div class="palier-banner deb">
+    <div>
+      <span class="palier-num">Palier 2</span>
+      <h2 style="margin:4px 0 0">Premiers Enrollments</h2>
+      <p style="margin:4px 0 0;opacity:.85">Enrôlez manuellement vos premiers appareils et vérifiez leur état</p>
+    </div>
+    <span class="level-badge deb" style="font-size:1rem;padding:6px 16px">🟢 Débutant</span>
+  </div>
+
+  <!-- EX 5 -->
+  <div class="exercise-card" id="ex-5">
+    <div class="ex-header" onclick="toggleExercise('5')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 5</span>
+        <div>
+          <div class="ex-title">Enrollment manuel Windows — AADJ via Paramètres</div>
+          <div class="ex-meta"><span class="level-badge deb">Débutant</span> <span>⏱ 30 min</span> <span>🏷 Enrollment</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-5" onchange="updateProgress('5',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-5">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-5">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Enrôler manuellement une VM Windows 11 dans Intune via la jonction Entra ID (AADJ), puis vérifier la présence de l'appareil dans les portails.</div>
+      <div class="ex-prereqs"><strong>⚠ Prérequis :</strong> VM Windows 11 (Hyper-V / VMware / VirtualBox), testuser01 avec licence Intune, MDM scope configuré sur "Tous".</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li><strong>Vérifier le MDM scope</strong> : Entra ID → Mobilité (MDM et MAM) → Microsoft Intune → MDM User scope : <em>Tous</em> → Enregistrer.</li>
+        <li>Sur la VM Windows 11 : <kbd>Paramètres</kbd> → <kbd>Comptes</kbd> → <kbd>Accès professionnel ou scolaire</kbd> → <kbd>Connecter</kbd>.</li>
+        <li>Entrez l'UPN de testuser01 → suivez le processus de jonction → l'appareil redémarre.</li>
+        <li>Reconnectez-vous avec testuser01 et vérifiez dans <kbd>Paramètres → Comptes → Accès pro/scolaire</kbd> que le compte est affiché comme "Joint à Azure AD".</li>
+        <li>Vérifiez dans <strong>Entra ID → Appareils → Tous les appareils</strong> : Type de jonction = <em>Azure AD Joined</em>.</li>
+        <li>Vérifiez dans <strong>Intune → Appareils → Windows</strong> : l'appareil est listé, état de gestion = MDM.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> L'appareil apparaît dans Entra ID (AzureAdJoined) et dans Intune (géré MDM). État de conformité = "Non évalué" si aucune politique n'existe encore — c'est normal.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/enrollment/windows-enrollment-methods" target="_blank" class="doc-link">📘 Méthodes d'enrollment Windows</a>
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/devices/device-join-out-of-box" target="_blank" class="doc-link">📘 Jonction Entra ID manuelle</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/enrollment/windows-mdm-scope" target="_blank" class="doc-link">📘 Configurer le MDM scope</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Dans Entra ID → Mobilité, quelle option doit être configurée pour que les appareils AADJ s'enrôlent automatiquement dans Intune ?</div>
+        <div class="quiz-opts" id="quiz-q5">
+          <div class="quiz-opt" onclick="answerQuiz('q5',0,0)">A. MDM User scope = Tous (ou groupe sélectionné)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q5',1,0)">B. MAM User scope = Tous</div>
+          <div class="quiz-opt" onclick="answerQuiz('q5',2,0)">C. Enrollment restrictions = Allow all</div>
+          <div class="quiz-opt" onclick="answerQuiz('q5',3,0)">D. Device compliance policy = Required</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q5">✅ Le <strong>MDM User scope</strong> dans Entra ID → Mobilité contrôle quels utilisateurs peuvent enrôler automatiquement leurs appareils dans Intune lors de la jonction AADJ.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 6 -->
+  <div class="exercise-card" id="ex-6">
+    <div class="ex-header" onclick="toggleExercise('6')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 6</span>
+        <div>
+          <div class="ex-title">Vérification avec dsregcmd /status</div>
+          <div class="ex-meta"><span class="level-badge deb">Débutant</span> <span>⏱ 15 min</span> <span>🏷 Enrollment</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-6" onchange="updateProgress('6',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-6">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-6">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Utiliser <code>dsregcmd /status</code> pour interpréter l'état de jonction et valider l'enrollment Intune depuis la ligne de commande.</div>
+      <div class="ex-prereqs"><strong>⚠ Prérequis :</strong> Exercice 5 complété — VM Windows 11 AADJ dans Intune.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Sur la VM, ouvrez <strong>cmd</strong> ou <strong>PowerShell</strong> (pas besoin d'être admin).</li>
+        <li>Exécutez : <code>dsregcmd /status</code></li>
+        <li>Dans la section <strong>Device State</strong>, vérifiez :<br>
+          &nbsp;&nbsp;• <code>AzureAdJoined : YES</code> ✅<br>
+          &nbsp;&nbsp;• <code>DomainJoined : NO</code> (AADJ pur, pas HAADJ)<br>
+          &nbsp;&nbsp;• <code>WorkplaceJoined : NO</code>
+        </li>
+        <li>Dans la section <strong>User State</strong>, vérifiez :<br>
+          &nbsp;&nbsp;• <code>NgcSet : YES</code> (Windows Hello configuré)<br>
+          &nbsp;&nbsp;• <code>MdmEnrolled : YES</code> → confirme l'enrollment Intune ✅
+        </li>
+        <li>Notez le <strong>DeviceId</strong> — comparez-le avec l'Object ID de l'appareil dans Entra ID.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Vous interprétez chaque ligne de <code>dsregcmd /status</code> et pouvez diagnostiquer un problème de jonction à partir de cette sortie seule.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/devices/troubleshoot-device-dsregcmd" target="_blank" class="doc-link">📘 Guide dsregcmd complet</a>
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/devices/troubleshoot-hybrid-join-windows-current" target="_blank" class="doc-link">📘 Troubleshoot jonction hybride</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Dans la sortie de <code>dsregcmd /status</code>, quelle ligne confirme spécifiquement que l'appareil est géré par Intune ?</div>
+        <div class="quiz-opts" id="quiz-q6">
+          <div class="quiz-opt" onclick="answerQuiz('q6',0,3)">A. AzureAdJoined : YES</div>
+          <div class="quiz-opt" onclick="answerQuiz('q6',1,3)">B. DomainJoined : YES</div>
+          <div class="quiz-opt" onclick="answerQuiz('q6',2,3)">C. WorkplaceJoined : YES</div>
+          <div class="quiz-opt" onclick="answerQuiz('q6',3,3)">D. MdmEnrolled : YES</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q6">✅ <strong>MdmEnrolled : YES</strong> (section User State) confirme la gestion MDM par Intune. AzureAdJoined confirme la jonction Entra ID — ce n'est pas la même chose que l'enrollment MDM.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 7 -->
+  <div class="exercise-card" id="ex-7">
+    <div class="ex-header" onclick="toggleExercise('7')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 7</span>
+        <div>
+          <div class="ex-title">Créer un groupe dynamique par OS / version</div>
+          <div class="ex-meta"><span class="level-badge deb">Débutant</span> <span>⏱ 20 min</span> <span>🏷 Entra ID</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-7" onchange="updateProgress('7',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-7">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-7">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Créer un groupe dynamique Entra ID qui se peuple automatiquement avec tous les appareils Windows 11, puis l'utiliser comme cible dans Intune.</div>
+      <div class="ex-prereqs"><strong>⚠ Prérequis :</strong> Licence Entra ID P1 minimum (incluse dans M365 E3/E5), exercice 5 complété.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Entra ID → Groupes → Nouveau groupe</strong> :<br>
+          Type : Sécurité | Nom : <code>DYN_Windows11_Devices</code> | Appartenance : <strong>Appareil dynamique</strong>
+        </li>
+        <li>Cliquez sur <strong>Ajouter une requête dynamique → Éditeur de règles avancé</strong> → collez :<br>
+          <code>(device.operatingSystem -eq "Windows") -and (device.operatingSystemVersion -startsWith "10.0.2")</code>
+        </li>
+        <li>Validez la syntaxe → Enregistrer → Créer le groupe.</li>
+        <li>Après ~5 min, vérifiez que votre VM de l'exercice 5 apparaît dans <strong>Membres</strong> du groupe.</li>
+        <li>Dans Intune, créez une politique fictive et assignez-la au groupe <code>DYN_Windows11_Devices</code> pour valider qu'il est disponible comme cible.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Le groupe se peuple automatiquement. Toute future politique Intune assignée à ce groupe s'appliquera à tous les Windows 11 sans intervention manuelle.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/users/groups-dynamic-membership" target="_blank" class="doc-link">📘 Groupes dynamiques Entra ID</a>
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/users/groups-dynamic-rule-member-of" target="_blank" class="doc-link">📘 Règles d'appartenance avancées</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Quelle licence Entra ID est nécessaire pour créer des groupes à appartenance dynamique ?</div>
+        <div class="quiz-opts" id="quiz-q7">
+          <div class="quiz-opt" onclick="answerQuiz('q7',0,1)">A. Entra ID Free</div>
+          <div class="quiz-opt" onclick="answerQuiz('q7',1,1)">B. Entra ID P1 (incluse dans M365 E3)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q7',2,1)">C. Entra ID P2 uniquement</div>
+          <div class="quiz-opt" onclick="answerQuiz('q7',3,1)">D. Intune Plan 2</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q7">✅ <strong>Entra ID P1</strong> est requis pour les groupes dynamiques. P2 ajoute PIM et Identity Protection, mais n'est pas nécessaire pour cette fonctionnalité.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 8 -->
+  <div class="exercise-card" id="ex-8">
+    <div class="ex-header" onclick="toggleExercise('8')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 8</span>
+        <div>
+          <div class="ex-title">Configurer les restrictions d'enrollment</div>
+          <div class="ex-meta"><span class="level-badge deb">Débutant</span> <span>⏱ 20 min</span> <span>🏷 Enrollment</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-8" onchange="updateProgress('8',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-8">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-8">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Configurer les restrictions d'enrollment pour autoriser uniquement Windows, bloquer les appareils personnels, et limiter à 5 appareils par utilisateur.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Appareils → Restrictions d'enrollment → Device type restrictions</strong> → Stratégie par défaut → Propriétés → Modifier :<br>
+          Windows (MDM) = Autoriser | Android / iOS / macOS = Bloquer → Enregistrer.
+        </li>
+        <li>Dans <strong>Device limit restrictions</strong> → Stratégie par défaut → modifiez la limite à <strong>5 appareils</strong> par utilisateur.</li>
+        <li>Créez une <strong>nouvelle restriction de type</strong> : Nom = <code>Block Personal Devices</code><br>
+          Windows (MDM) = Autoriser | Option <em>Personnellement possédé</em> = <strong>Bloquer</strong>.
+        </li>
+        <li>Assignez <code>Block Personal Devices</code> au groupe <code>GRP_Intune_Users</code> avec une <strong>priorité plus haute</strong> (numéro plus petit) que la stratégie par défaut.</li>
+        <li>Vérifiez l'ordre de priorité dans la liste des restrictions — la stratégie par défaut doit rester en dernière position.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Les appareils personnels Windows sont bloqués pour le groupe ciblé, les appareils corporate peuvent s'enrôler, limite = 5 appareils/utilisateur.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/enrollment/enrollment-restrictions-set" target="_blank" class="doc-link">📘 Restrictions d'enrollment</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/enrollment/device-limit-intune-azure" target="_blank" class="doc-link">📘 Limite d'appareils par utilisateur</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Une restriction d'enrollment personnalisée a priorité <strong>3</strong>, la stratégie par défaut a priorité <strong>Last</strong>. Un utilisateur tente d'enrôler un iPhone. Quelle stratégie s'applique en premier ?</div>
+        <div class="quiz-opts" id="quiz-q8">
+          <div class="quiz-opt" onclick="answerQuiz('q8',0,0)">A. La restriction personnalisée (priorité 3, évaluée en premier)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q8',1,0)">B. La stratégie par défaut (s'applique toujours)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q8',2,0)">C. Les deux s'appliquent simultanément</div>
+          <div class="quiz-opt" onclick="answerQuiz('q8',3,0)">D. Aucune restriction ne s'applique aux iPhones</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q8">✅ <strong>La restriction personnalisée (priorité 3)</strong> est évaluée en premier — une priorité numérique basse = priorité haute. La stratégie par défaut (Last) n'est appliquée que si aucune autre stratégie ne correspond à l'utilisateur.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- end palier2 -->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PALIER 3 — Conformité & Configuration Profiles        -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="palier3" class="section">
+  <div class="palier-banner int">
+    <div>
+      <span class="palier-num">Palier 3</span>
+      <h2 style="margin:4px 0 0">Conformité &amp; Configuration Profiles</h2>
+      <p style="margin:4px 0 0;opacity:.85">Appliquez vos premières politiques de gestion sur les appareils enrollés</p>
+    </div>
+    <span class="level-badge int" style="font-size:1rem;padding:6px 16px">🟠 Intermédiaire</span>
+  </div>
+
+  <!-- EX 9 -->
+  <div class="exercise-card" id="ex-9">
+    <div class="ex-header" onclick="toggleExercise('9')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 9</span>
+        <div>
+          <div class="ex-title">Créer une politique de conformité Windows</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 30 min</span> <span>🏷 Conformité</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-9" onchange="updateProgress('9',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-9">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-9">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Créer une politique de conformité Windows avec des exigences réalistes (BitLocker, antivirus, version OS minimum) et observer son application sur la VM.</div>
+      <div class="ex-prereqs"><strong>⚠ Prérequis :</strong> VM Windows 11 enrollée dans Intune (exercice 5), groupe DYN_Windows11_Devices créé (exercice 7).</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Sécurité des terminaux → Conformité</strong> → Créer une politique → Plateforme : Windows 10/11.</li>
+        <li>Configurez les paramètres suivants :<br>
+          &nbsp;&nbsp;• <strong>BitLocker</strong> : Requis<br>
+          &nbsp;&nbsp;• <strong>Antivirus</strong> : Requis<br>
+          &nbsp;&nbsp;• <strong>Version OS minimale</strong> : <code>10.0.22621</code> (Win11 22H2)<br>
+          &nbsp;&nbsp;• <strong>Délai de grâce</strong> : 1 jour
+        </li>
+        <li>Dans <strong>Actions pour non-conformité</strong> : ajoutez l'action "Marquer l'appareil non conforme" après 1 jour.</li>
+        <li>Assignez la politique au groupe <code>DYN_Windows11_Devices</code>.</li>
+        <li>Dans <strong>Intune → Appareils → Votre VM → État de conformité</strong> : vérifiez l'état après synchronisation (~15 min ou forcer via Portail d'entreprise).</li>
+        <li>Sur la VM, ouvrez l'app <strong>Portail d'entreprise</strong> → cliquez sur "Vérifier le statut" pour forcer la synchronisation.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> L'appareil affiche "Conforme" ou liste les points de non-conformité précis (ex: BitLocker non activé). Vous comprenez le cycle conformité → délai de grâce → non-conforme.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/device-compliance-get-started" target="_blank" class="doc-link">📘 Politique de conformité Intune</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/compliance-policy-create-windows" target="_blank" class="doc-link">📘 Paramètres conformité Windows</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/actions-for-noncompliance" target="_blank" class="doc-link">📘 Actions pour non-conformité</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Un appareil ne satisfait pas à une politique de conformité. Quel est l'état Intune par défaut si aucune action de non-conformité n'est configurée ?</div>
+        <div class="quiz-opts" id="quiz-q9">
+          <div class="quiz-opt" onclick="answerQuiz('q9',0,0)">A. Non conforme immédiatement</div>
+          <div class="quiz-opt" onclick="answerQuiz('q9',1,0)">B. Conforme (aucune politique = conforme par défaut)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q9',2,0)">C. Non évalué (en attente de synchronisation)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q9',3,0)">D. En période de grâce de 30 jours automatique</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q9">✅ Sans action configurée, l'appareil est marqué <strong>Non conforme immédiatement</strong> dès qu'une politique de conformité s'applique et que les exigences ne sont pas satisfaites. Le délai de grâce est optionnel et doit être configuré explicitement.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 10 -->
+  <div class="exercise-card" id="ex-10">
+    <div class="ex-header" onclick="toggleExercise('10')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 10</span>
+        <div>
+          <div class="ex-title">Profil de configuration — Restrictions d'appareil</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 25 min</span> <span>🏷 Configuration</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-10" onchange="updateProgress('10',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-10">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-10">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Créer un profil de configuration Windows qui désactive l'USB, bloque l'accès à la caméra et force l'écran de veille — puis vérifier l'application sur la VM.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Appareils → Profils de configuration → Créer → Nouveau profil</strong> :<br>
+          Plateforme : Windows 10/11 | Type : Restrictions d'appareil.
+        </li>
+        <li>Dans <strong>Général</strong> : désactivez <em>Caméra</em>.</li>
+        <li>Dans <strong>Matériel</strong> : activez <em>Bloquer les périphériques USB de stockage amovible</em>.</li>
+        <li>Dans <strong>Verrouillage de l'écran</strong> : configurez un délai de verrouillage de <strong>5 minutes</strong>.</li>
+        <li>Nommez la politique <code>WIN_Restrictions_Corporate</code> → Assignez à <code>DYN_Windows11_Devices</code>.</li>
+        <li>Sur la VM, forcez la synchronisation MDM : ouvrez <strong>Paramètres → Comptes → Accès pro/scolaire</strong> → votre compte → <em>Info</em> → <em>Synchroniser</em>.</li>
+        <li>Testez : branchez une clé USB → vérifiez qu'elle est bloquée.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> La caméra est désactivée dans le Gestionnaire de périphériques, les clés USB sont bloquées, l'écran se verrouille après 5 min. Vous observez l'application de politique MDM en temps réel.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/configuration/device-restrictions-windows-10" target="_blank" class="doc-link">📘 Restrictions d'appareil Windows</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/configuration/device-profile-create" target="_blank" class="doc-link">📘 Créer un profil de configuration</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Vous devez configurer un paramètre Windows qui n'est pas disponible dans les templates Intune standard. Quel type de profil de configuration utilisez-vous ?</div>
+        <div class="quiz-opts" id="quiz-q10">
+          <div class="quiz-opt" onclick="answerQuiz('q10',0,2)">A. Restrictions d'appareil</div>
+          <div class="quiz-opt" onclick="answerQuiz('q10',1,2)">B. Endpoint Protection</div>
+          <div class="quiz-opt" onclick="answerQuiz('q10',2,2)">C. Personnalisé (Custom OMA-URI)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q10',3,2)">D. Catalogue de paramètres (Settings Catalog)</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q10">✅ Le profil <strong>Personnalisé (Custom OMA-URI)</strong> permet de configurer n'importe quel CSP Windows non exposé dans les templates. Le Settings Catalog couvre aussi de nombreux paramètres avancés, mais Custom est la réponse attendue à l'examen pour les paramètres "non disponibles".</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 11 -->
+  <div class="exercise-card" id="ex-11">
+    <div class="ex-header" onclick="toggleExercise('11')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 11</span>
+        <div>
+          <div class="ex-title">Déployer Microsoft Edge via WinGet (Win32)</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 35 min</span> <span>🏷 Applications</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-11" onchange="updateProgress('11',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-11">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-11">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Packager et déployer une application Win32 via Intune en utilisant l'outil IntuneWinAppUtil, puis vérifier l'installation sur la VM.</div>
+      <div class="ex-prereqs"><strong>⚠ Prérequis :</strong> IntuneWinAppUtil.exe téléchargé, VM enrollée, accès admin sur votre poste de travail.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Téléchargez <strong>IntuneWinAppUtil.exe</strong> depuis GitHub (Microsoft/Microsoft-Win32-Content-Prep-Tool).</li>
+        <li>Créez le dossier <code>C:\IntuneApps\Edge\</code> et placez-y <code>MicrosoftEdgeEnterpriseX64.msi</code> (téléchargeable sur microsoft.com/edge/business).</li>
+        <li>Ouvrez cmd : <code>IntuneWinAppUtil.exe -c C:\IntuneApps\Edge -s MicrosoftEdgeEnterpriseX64.msi -o C:\IntuneApps\Output</code></li>
+        <li>Dans <strong>Intune → Apps → Windows → Ajouter → Application Windows (Win32)</strong> → chargez le fichier <code>.intunewin</code>.</li>
+        <li>Configurez :<br>
+          &nbsp;&nbsp;• Commande d'installation : <code>msiexec /i MicrosoftEdgeEnterpriseX64.msi /qn</code><br>
+          &nbsp;&nbsp;• Commande de désinstallation : <code>msiexec /x {GUID} /qn</code><br>
+          &nbsp;&nbsp;• Règle de détection : MSI — Code produit du MSI
+        </li>
+        <li>Assignez à <code>DYN_Windows11_Devices</code> en mode <strong>Requis</strong> → sur la VM, vérifiez l'installation dans le Portail d'entreprise.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Edge s'installe automatiquement sur la VM sans intervention utilisateur. Vous maîtrisez le cycle complet : packaging IntuneWin → upload → assignation → détection.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/apps/apps-win32-prepare" target="_blank" class="doc-link">📘 Préparer une app Win32</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/apps/apps-win32-add" target="_blank" class="doc-link">📘 Ajouter une app Win32</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/apps/apps-win32-troubleshoot" target="_blank" class="doc-link">📘 Troubleshoot Win32</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Quel outil est obligatoire pour packager une application Win32 avant de l'uploader dans Intune ?</div>
+        <div class="quiz-opts" id="quiz-q11">
+          <div class="quiz-opt" onclick="answerQuiz('q11',0,0)">A. IntuneWinAppUtil.exe</div>
+          <div class="quiz-opt" onclick="answerQuiz('q11',1,0)">B. MDT (Microsoft Deployment Toolkit)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q11',2,0)">C. SCCM Content Library</div>
+          <div class="quiz-opt" onclick="answerQuiz('q11',3,0)">D. WinGet CLI</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q11">✅ <strong>IntuneWinAppUtil.exe</strong> (Microsoft Win32 Content Prep Tool) est l'outil officiel pour créer les fichiers <code>.intunewin</code> requis par Intune. WinGet est utilisé pour les apps de type Microsoft Store ou WinGet, pas Win32.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 12 -->
+  <div class="exercise-card" id="ex-12">
+    <div class="ex-header" onclick="toggleExercise('12')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 12</span>
+        <div>
+          <div class="ex-title">Configurer un Windows Update Ring</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 25 min</span> <span>🏷 Mises à jour</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-12" onchange="updateProgress('12',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-12">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-12">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Créer un Update Ring Intune avec des délais de déférence réalistes pour séparer les groupes Pilote et Production dans la stratégie de mise à jour Windows.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Appareils → Windows → Anneaux de mise à jour Windows 10/11</strong> → Créer.</li>
+        <li>Nommez <code>RING_Pilote</code> et configurez :<br>
+          &nbsp;&nbsp;• Canal de maintenance : <strong>Canal général (ciblé)</strong> — reçoit les mises à jour en avance<br>
+          &nbsp;&nbsp;• Délai de qualité (sécurité) : <strong>0 jours</strong><br>
+          &nbsp;&nbsp;• Délai de fonctionnalité : <strong>0 jours</strong><br>
+          &nbsp;&nbsp;• Redémarrage automatique : activer la <em>période d'activité</em> 8h-18h
+        </li>
+        <li>Assignez <code>RING_Pilote</code> à un groupe pilote fictif.</li>
+        <li>Créez un deuxième ring <code>RING_Production</code> :<br>
+          &nbsp;&nbsp;• Canal : <strong>Canal général</strong><br>
+          &nbsp;&nbsp;• Délai qualité : <strong>7 jours</strong><br>
+          &nbsp;&nbsp;• Délai fonctionnalité : <strong>30 jours</strong>
+        </li>
+        <li>Assignez <code>RING_Production</code> à <code>DYN_Windows11_Devices</code>.</li>
+        <li>Dans Intune → Appareils → votre VM → <em>Rapport de mise à jour Windows</em> : observez l'état.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Deux rings créés avec des stratégies différentes. Vous comprenez comment stagifier les mises à jour pour réduire le risque en production.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/windows-10-update-rings" target="_blank" class="doc-link">📘 Anneaux de mise à jour Intune</a>
+        <a href="https://learn.microsoft.com/fr-fr/windows/deployment/update/waas-servicing-channels-windows-update" target="_blank" class="doc-link">📘 Canaux de maintenance Windows</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Quelle est la différence principale entre "Délai de qualité" et "Délai de fonctionnalité" dans un Update Ring ?</div>
+        <div class="quiz-opts" id="quiz-q12">
+          <div class="quiz-opt" onclick="answerQuiz('q12',0,0)">A. Qualité = correctifs sécurité mensuels (max 30j) / Fonctionnalité = nouvelles versions Windows (max 365j)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q12',1,0)">B. Qualité = mises à jour optionnelles / Fonctionnalité = mises à jour critiques</div>
+          <div class="quiz-opt" onclick="answerQuiz('q12',2,0)">C. Qualité s'applique aux drivers / Fonctionnalité s'applique aux apps Microsoft</div>
+          <div class="quiz-opt" onclick="answerQuiz('q12',3,0)">D. Il n'y a pas de différence, les deux sont identiques</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q12">✅ <strong>Délai de qualité</strong> retarde les mises à jour de sécurité mensuelles (Patch Tuesday) jusqu'à 30 jours. <strong>Délai de fonctionnalité</strong> retarde les nouvelles versions Windows (ex: 23H2 → 24H2) jusqu'à 365 jours.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- end palier3 -->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PALIER 4 — Sécurité des terminaux                      -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="palier4" class="section">
+  <div class="palier-banner int">
+    <div>
+      <span class="palier-num">Palier 4</span>
+      <h2 style="margin:4px 0 0">Sécurité des terminaux</h2>
+      <p style="margin:4px 0 0;opacity:.85">BitLocker, LAPS, ASR, Security Baseline — durcissez vos endpoints</p>
+    </div>
+    <span class="level-badge int" style="font-size:1rem;padding:6px 16px">🟠 Intermédiaire</span>
+  </div>
+
+  <!-- EX 13 -->
+  <div class="exercise-card" id="ex-13">
+    <div class="ex-header" onclick="toggleExercise('13')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 13</span>
+        <div>
+          <div class="ex-title">BitLocker Silent Encryption via Intune</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 30 min</span> <span>🏷 Sécurité</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-13" onchange="updateProgress('13',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-13">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-13">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Activer le chiffrement BitLocker silencieux via une politique Intune (Endpoint Security), vérifier la sauvegarde de la clé de récupération dans Entra ID, et confirmer avec PowerShell.</div>
+      <div class="ex-prereqs"><strong>⚠ Prérequis :</strong> VM avec puce TPM 2.0 activée (ou TPM virtuel sous Hyper-V Gen2), Windows 11 Pro/Enterprise.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Sécurité des terminaux → Chiffrement de disque</strong> → Créer une politique → Plateforme : Windows | Profil : BitLocker.</li>
+        <li>Configurez :<br>
+          &nbsp;&nbsp;• <strong>Chiffrement silencieux</strong> : Activer<br>
+          &nbsp;&nbsp;• <strong>TPM requis</strong> : Oui<br>
+          &nbsp;&nbsp;• <strong>Chiffrement de lecteur du système d'exploitation</strong> : Requis<br>
+          &nbsp;&nbsp;• <strong>Sauvegarder les informations de récupération dans Entra ID</strong> : Oui<br>
+          &nbsp;&nbsp;• <strong>Bloquer jusqu'à ce que la clé soit sauvegardée</strong> : Oui
+        </li>
+        <li>Assignez au groupe <code>DYN_Windows11_Devices</code> → synchronisation sur la VM.</li>
+        <li>Sur la VM, vérifiez dans PowerShell : <code>Get-BitLockerVolume -MountPoint "C:"</code> — regardez <em>ProtectionStatus</em> et <em>KeyProtector</em>.</li>
+        <li>Dans <strong>Entra ID → Appareils → votre VM → Clés de récupération BitLocker</strong> : vérifiez que la clé est présente.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> <code>ProtectionStatus: On</code>, clé de récupération visible dans Entra ID. L'utilisateur n'a jamais eu à interagir avec BitLocker — c'est le comportement "silencieux".</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/encrypt-devices" target="_blank" class="doc-link">📘 BitLocker via Intune</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/bitlocker-recovery-keys-and-intune" target="_blank" class="doc-link">📘 Clés de récupération BitLocker</a>
+        <a href="https://learn.microsoft.com/fr-fr/windows/security/information-protection/bitlocker/bitlocker-device-encryption-overview-windows-10" target="_blank" class="doc-link">📘 BitLocker Device Encryption</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Quel prérequis matériel est indispensable pour le chiffrement BitLocker silencieux via Intune sur Windows 11 ?</div>
+        <div class="quiz-opts" id="quiz-q13">
+          <div class="quiz-opt" onclick="answerQuiz('q13',0,2)">A. Secure Boot activé uniquement</div>
+          <div class="quiz-opt" onclick="answerQuiz('q13',1,2)">B. UEFI uniquement</div>
+          <div class="quiz-opt" onclick="answerQuiz('q13',2,2)">C. TPM 2.0 activé</div>
+          <div class="quiz-opt" onclick="answerQuiz('q13',3,2)">D. 8 Go de RAM minimum</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q13">✅ Le <strong>TPM 2.0</strong> est indispensable pour le chiffrement silencieux BitLocker. Il stocke les clés de chiffrement de manière sécurisée et évite d'avoir à saisir un PIN au démarrage.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 14 -->
+  <div class="exercise-card" id="ex-14">
+    <div class="ex-header" onclick="toggleExercise('14')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 14</span>
+        <div>
+          <div class="ex-title">Configurer LAPS (Local Admin Password Solution)</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 25 min</span> <span>🏷 Sécurité</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-14" onchange="updateProgress('14',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-14">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-14">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Activer Windows LAPS (Cloud) via Intune pour que chaque appareil ait un mot de passe admin local unique et rotatif, stocké dans Entra ID.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Entra ID → Appareils → Paramètres des appareils</strong> → activez <em>Activer Microsoft Entra LAPS</em> → Enregistrer.</li>
+        <li>Dans <strong>Intune → Sécurité des terminaux → Sécurité du compte → Créer une politique</strong> → Plateforme : Windows | Profil : LAPS.</li>
+        <li>Configurez :<br>
+          &nbsp;&nbsp;• <strong>Compte administrateur à gérer</strong> : Compte administrateur intégré<br>
+          &nbsp;&nbsp;• <strong>Complexité du mot de passe</strong> : Grande (majuscules + minuscules + chiffres + caractères spéciaux)<br>
+          &nbsp;&nbsp;• <strong>Longueur</strong> : 14<br>
+          &nbsp;&nbsp;• <strong>Rotation après authentification</strong> : Oui<br>
+          &nbsp;&nbsp;• <strong>Âge maximal du mot de passe</strong> : 7 jours
+        </li>
+        <li>Assignez à <code>DYN_Windows11_Devices</code> → synchronisation sur la VM.</li>
+        <li>Dans <strong>Entra ID → Appareils → votre VM → Mot de passe administrateur local</strong> : affichez le mot de passe LAPS actuel.</li>
+        <li>Testez la connexion locale avec ce mot de passe sur la VM.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Mot de passe admin local visible dans Entra ID, fonctionnel sur la VM, rotatif automatiquement. Vous pouvez expliquer pourquoi LAPS prévient les attaques par mouvement latéral.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/windows-server/identity/laps/laps-overview" target="_blank" class="doc-link">📘 Windows LAPS Overview</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/windows-laps-policy" target="_blank" class="doc-link">📘 LAPS via Intune</a>
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/devices/howto-manage-local-admin-passwords" target="_blank" class="doc-link">📘 LAPS dans Entra ID</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Pourquoi LAPS est-il efficace contre les attaques par mouvement latéral (Pass-the-Hash) ?</div>
+        <div class="quiz-opts" id="quiz-q14">
+          <div class="quiz-opt" onclick="answerQuiz('q14',0,1)">A. Il chiffre le trafic réseau entre les appareils</div>
+          <div class="quiz-opt" onclick="answerQuiz('q14',1,1)">B. Chaque appareil a un mot de passe admin local unique — compromettre un appareil ne permet pas d'accéder aux autres</div>
+          <div class="quiz-opt" onclick="answerQuiz('q14',2,1)">C. Il désactive le compte administrateur local sur tous les appareils</div>
+          <div class="quiz-opt" onclick="answerQuiz('q14',3,1)">D. Il force l'authentification MFA pour les connexions locales</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q14">✅ LAPS génère un <strong>mot de passe unique par appareil</strong>. Sans LAPS, si tous les appareils partagent le même mot de passe admin local, un attaquant qui le découvre peut se propager latéralement sur tout le parc.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 15 -->
+  <div class="exercise-card" id="ex-15">
+    <div class="ex-header" onclick="toggleExercise('15')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 15</span>
+        <div>
+          <div class="ex-title">Attack Surface Reduction — Mode Audit puis Blocage</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 30 min</span> <span>🏷 Sécurité</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-15" onchange="updateProgress('15',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-15">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-15">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Déployer des règles ASR (Attack Surface Reduction) d'abord en mode Audit pour évaluer l'impact, puis passer en mode Blocage sur les règles validées.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Sécurité des terminaux → Réduction de la surface d'attaque → Créer une politique</strong> → Plateforme : Windows | Profil : Règles de réduction de la surface d'attaque.</li>
+        <li>Activez en mode <strong>Mode d'audit</strong> les règles suivantes :<br>
+          &nbsp;&nbsp;• Bloquer les processus Office créant du contenu exécutable<br>
+          &nbsp;&nbsp;• Bloquer les macros Win32 dans le contenu Office<br>
+          &nbsp;&nbsp;• Bloquer les injections de processus depuis les applications Office<br>
+          &nbsp;&nbsp;• Bloquer l'exécution de scripts obfusqués
+        </li>
+        <li>Assignez au groupe <code>DYN_Windows11_Devices</code> → attendez 24h (ou simulez l'usage bureautique).</li>
+        <li>Dans <strong>Intune → Rapports → Microsoft Defender → Rapport ASR</strong> : analysez les événements d'audit — y a-t-il des faux positifs ?</li>
+        <li>Modifiez la politique : passez les règles sans faux positifs en mode <strong>Blocage</strong>, gardez les autres en Audit.</li>
+        <li>Vérifiez dans le <strong>Portail Microsoft 365 Defender (security.microsoft.com)</strong> → Rapports → ASR que les blocages remontent.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Vous maîtrisez le workflow Audit → Analyse → Blocage. Vous pouvez justifier pourquoi commencer en mode Audit évite de casser les workflows utilisateurs.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/microsoft-365/security/defender-endpoint/attack-surface-reduction-rules-reference" target="_blank" class="doc-link">📘 Référence règles ASR</a>
+        <a href="https://learn.microsoft.com/fr-fr/microsoft-365/security/defender-endpoint/evaluate-attack-surface-reduction" target="_blank" class="doc-link">📘 Évaluer ASR en mode Audit</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/endpoint-security-asr-policy" target="_blank" class="doc-link">📘 ASR via Intune</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Quelle est la différence entre le mode "Avertir" et le mode "Bloquer" pour une règle ASR ?</div>
+        <div class="quiz-opts" id="quiz-q15">
+          <div class="quiz-opt" onclick="answerQuiz('q15',0,2)">A. "Avertir" bloque l'action et génère un rapport ; "Bloquer" aussi mais sans rapport</div>
+          <div class="quiz-opt" onclick="answerQuiz('q15',1,2)">B. Ils sont identiques — "Avertir" est un alias de "Bloquer"</div>
+          <div class="quiz-opt" onclick="answerQuiz('q15',2,2)">C. "Avertir" bloque l'action mais l'utilisateur peut la contourner via une notification ; "Bloquer" ne permet aucun contournement</div>
+          <div class="quiz-opt" onclick="answerQuiz('q15',3,2)">D. "Avertir" s'applique aux admins uniquement ; "Bloquer" à tous les utilisateurs</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q15">✅ En mode <strong>Avertir</strong>, l'action est bloquée mais l'utilisateur reçoit une notification lui permettant de choisir de contourner la règle. En mode <strong>Bloquer</strong>, l'action est bloquée sans possibilité de contournement — idéal en production après validation.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 16 -->
+  <div class="exercise-card" id="ex-16">
+    <div class="ex-header" onclick="toggleExercise('16')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 16</span>
+        <div>
+          <div class="ex-title">Déployer une Security Baseline Windows</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 25 min</span> <span>🏷 Sécurité</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-16" onchange="updateProgress('16',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-16">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-16">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Déployer la Security Baseline Windows d'Intune, comprendre les paramètres qu'elle configure, et gérer les conflits potentiels avec d'autres politiques.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Sécurité des terminaux → Lignes de base de sécurité</strong> → sélectionnez <em>Security Baseline for Windows 10/11</em> → Créer un profil.</li>
+        <li>Nommez <code>BASELINE_Windows_Corporate</code> → explorez les catégories disponibles (Credential Guard, Windows Defender, Firewall, Browser, etc.).</li>
+        <li>Gardez les valeurs par défaut Microsoft (recommandées) → Assignez à <code>DYN_Windows11_Devices</code>.</li>
+        <li>Sur la VM après synchronisation, vérifiez dans <kbd>Paramètres → Confidentialité et sécurité → Sécurité Windows</kbd> que les protections supplémentaires sont actives.</li>
+        <li>Dans <strong>Intune → Appareils → Votre VM → Configuration de l'appareil</strong> : identifiez les paramètres déployés par la baseline et ceux d'autres profils — repérez d'éventuels conflits.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> La baseline est appliquée, vous comprenez qu'elle configure en un déploiement des dizaines de paramètres de sécurité alignés avec les recommandations Microsoft/CIS. Vous savez gérer les conflits via les rapports Intune.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/security-baselines" target="_blank" class="doc-link">📘 Security Baselines Intune</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/security-baseline-settings-mdm-all" target="_blank" class="doc-link">📘 Paramètres Security Baseline Windows</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Que se passe-t-il si un paramètre est configuré à la fois dans une Security Baseline et dans un profil de configuration Intune, avec des valeurs différentes ?</div>
+        <div class="quiz-opts" id="quiz-q16">
+          <div class="quiz-opt" onclick="answerQuiz('q16',0,3)">A. La Security Baseline l'emporte toujours</div>
+          <div class="quiz-opt" onclick="answerQuiz('q16',1,3)">B. Le profil de configuration l'emporte toujours</div>
+          <div class="quiz-opt" onclick="answerQuiz('q16',2,3)">C. La valeur la plus restrictive est appliquée</div>
+          <div class="quiz-opt" onclick="answerQuiz('q16',3,3)">D. Un conflit est signalé dans Intune et le paramètre est en état "Erreur" sur l'appareil</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q16">✅ Intune signale un <strong>conflit</strong> et le paramètre passe à l'état <strong>Erreur</strong> sur l'appareil — aucune valeur n'est appliquée pour ce paramètre spécifique. C'est pourquoi il faut éviter de configurer le même paramètre dans plusieurs politiques différentes.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 17 -->
+  <div class="exercise-card" id="ex-17">
+    <div class="ex-header" onclick="toggleExercise('17')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 17</span>
+        <div>
+          <div class="ex-title">Onboarder un appareil dans Microsoft Defender for Endpoint</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 30 min</span> <span>🏷 Sécurité</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-17" onchange="updateProgress('17',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-17">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-17">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Connecter Intune à Microsoft Defender for Endpoint (MDE) et onboarder la VM via une politique Intune, puis vérifier la présence de l'appareil dans le portail Defender.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Administration du client → Connecteurs et jetons → Microsoft Defender for Endpoint</strong> → cliquez sur <em>Ouvrir la console d'administration MDE</em>.</li>
+        <li>Dans <strong>security.microsoft.com → Paramètres → Endpoints → Fonctionnalités avancées</strong> → activez <em>Connexion Microsoft Intune</em> → Enregistrer.</li>
+        <li>Retournez dans Intune → connecteur MDE → activez <em>Connecter les appareils Windows à Microsoft Defender for Endpoint</em>.</li>
+        <li>Créez une politique : <strong>Intune → Sécurité des terminaux → Microsoft Defender for Endpoint → Créer une politique</strong> → Profil : Intégration MDE.</li>
+        <li>Assignez à <code>DYN_Windows11_Devices</code> → synchronisation sur la VM.</li>
+        <li>Dans <strong>security.microsoft.com → Appareils → Inventaire des appareils</strong> : vérifiez que votre VM apparaît avec l'état "Intégré".</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> La VM apparaît dans l'inventaire MDE, onboardée via Intune. Vous comprenez la différence entre MDE P1 (protection) et P2 (P1 + EDR + Threat Intelligence).</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/advanced-threat-protection-configure" target="_blank" class="doc-link">📘 Connecter Intune à MDE</a>
+        <a href="https://learn.microsoft.com/fr-fr/microsoft-365/security/defender-endpoint/onboarding-endpoint-manager" target="_blank" class="doc-link">📘 Onboarding MDE via Intune</a>
+        <a href="https://learn.microsoft.com/fr-fr/microsoft-365/security/defender-endpoint/microsoft-defender-endpoint" target="_blank" class="doc-link">📘 MDE Overview</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Quelle fonctionnalité est incluse dans MDE Plan 2 mais PAS dans MDE Plan 1 ?</div>
+        <div class="quiz-opts" id="quiz-q17">
+          <div class="quiz-opt" onclick="answerQuiz('q17',0,3)">A. Antivirus Microsoft Defender</div>
+          <div class="quiz-opt" onclick="answerQuiz('q17',1,3)">B. Réduction de la surface d'attaque (ASR)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q17',2,3)">C. Accès contrôlé aux dossiers</div>
+          <div class="quiz-opt" onclick="answerQuiz('q17',3,3)">D. Détection et réponse aux points de terminaison (EDR)</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q17">✅ <strong>EDR (Endpoint Detection and Response)</strong> est exclusif à MDE Plan 2. Il permet la chasse aux menaces, les enquêtes avancées et la réponse aux incidents. MDE P1 inclut AV, ASR, Accès contrôlé aux dossiers et la protection next-gen.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- end palier4 -->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PALIER 5 — Windows Autopilot                          -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="palier5" class="section">
+  <div class="palier-banner int">
+    <div>
+      <span class="palier-num">Palier 5</span>
+      <h2 style="margin:4px 0 0">Windows Autopilot</h2>
+      <p style="margin:4px 0 0;opacity:.85">Déployez des appareils sans image — du hardware hash à l'ESP</p>
+    </div>
+    <span class="level-badge int" style="font-size:1rem;padding:6px 16px">🟠 Intermédiaire</span>
+  </div>
+
+  <!-- EX 18 -->
+  <div class="exercise-card" id="ex-18">
+    <div class="ex-header" onclick="toggleExercise('18')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 18</span>
+        <div>
+          <div class="ex-title">Extraire et importer le Hardware Hash Autopilot</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 30 min</span> <span>🏷 Autopilot</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-18" onchange="updateProgress('18',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-18">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-18">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Extraire le hardware hash d'une VM via PowerShell, l'importer dans Intune/Autopilot, et vérifier l'enregistrement dans le portail.</div>
+      <div class="ex-prereqs"><strong>⚠ Prérequis :</strong> VM Windows 11 (exercice 5), connexion Internet, module PowerShell <em>Get-WindowsAutoPilotInfo</em>.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Sur la VM, ouvrez PowerShell en admin et installez le module :<br>
+          <code>Install-Script -Name Get-WindowsAutoPilotInfo -Force</code>
+        </li>
+        <li>Extrayez le hash vers un CSV :<br>
+          <code>Get-WindowsAutoPilotInfo -OutputFile C:\autopilot-hash.csv</code>
+        </li>
+        <li>Inspectez le fichier CSV — notez les colonnes : <em>Device Serial Number</em>, <em>Windows Product ID</em>, <em>Hardware Hash</em>.</li>
+        <li>Dans <strong>Intune → Appareils → Windows → Inscription Windows → Appareils</strong> → Importez → choisissez <code>autopilot-hash.csv</code>.</li>
+        <li>Attendez ~5-10 min → actualisez la liste → vérifiez que votre VM apparaît avec le numéro de série correspondant.</li>
+        <li>Dans <strong>Entra ID → Appareils</strong>, trouvez l'appareil Autopilot — notez qu'il est "En attente de jonction Entra ID" (profil pas encore assigné).</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Le hardware hash est importé dans Intune. Vous comprenez que l'import permet à Intune d'identifier l'appareil AVANT qu'il soit configuré — c'est le principe zero-touch.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/autopilot/add-devices" target="_blank" class="doc-link">📘 Ajouter des appareils Autopilot</a>
+        <a href="https://www.powershellgallery.com/packages/Get-WindowsAutoPilotInfo" target="_blank" class="doc-link">📘 Script Get-WindowsAutoPilotInfo</a>
+        <a href="https://learn.microsoft.com/fr-fr/autopilot/overview" target="_blank" class="doc-link">📘 Autopilot Overview</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Outre le CSV manuel, comment les OEM/revendeurs transmettent-ils en masse les hardware hashs à un tenant Intune ?</div>
+        <div class="quiz-opts" id="quiz-q18">
+          <div class="quiz-opt" onclick="answerQuiz('q18',0,2)">A. Via email chiffré à Microsoft</div>
+          <div class="quiz-opt" onclick="answerQuiz('q18',1,2)">B. Via le portail OOBE Windows 11</div>
+          <div class="quiz-opt" onclick="answerQuiz('q18',2,2)">C. Via le Microsoft Partner Center (MPC) — le revendeur associé au tenant enregistre directement</div>
+          <div class="quiz-opt" onclick="answerQuiz('q18',3,2)">D. Via l'API Graph en appelant /deviceManagement/windowsAutopilotDeviceIdentities</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q18">✅ Les OEM et revendeurs utilisent le <strong>Microsoft Partner Center</strong> pour enregistrer les appareils Autopilot directement dans le tenant du client au moment de l'achat — c'est le scénario "zero-touch" complet.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 19 -->
+  <div class="exercise-card" id="ex-19">
+    <div class="ex-header" onclick="toggleExercise('19')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 19</span>
+        <div>
+          <div class="ex-title">Créer un profil Autopilot User-Driven AADJ</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 25 min</span> <span>🏷 Autopilot</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-19" onchange="updateProgress('19',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-19">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-19">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Créer et assigner un profil Autopilot User-Driven AADJ complet avec un nom d'appareil personnalisé et les options OOBE réduites.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Appareils → Windows → Inscription Windows → Profils de déploiement</strong> → Créer un profil → Windows PC.</li>
+        <li>Configurez :<br>
+          &nbsp;&nbsp;• Mode de déploiement : <strong>Piloté par l'utilisateur</strong><br>
+          &nbsp;&nbsp;• Type de jonction : <strong>Azure AD Joined</strong><br>
+          &nbsp;&nbsp;• Contrat de licence utilisateur final : Masquer<br>
+          &nbsp;&nbsp;• Paramètres de confidentialité : Masquer<br>
+          &nbsp;&nbsp;• Options du compte : Masquer<br>
+          &nbsp;&nbsp;• Modèle de nom d'appareil : <code>WIN-%RAND:5%</code>
+        </li>
+        <li>Nommez <code>AP_UserDriven_AADJ</code> → Assignez au groupe Autopilot contenant votre VM.</li>
+        <li>Vérifiez dans <strong>Intune → Appareils → Windows → Appareils Autopilot</strong> que le profil <code>AP_UserDriven_AADJ</code> est bien associé à votre appareil (colonne "Profil de déploiement").</li>
+        <li>Notez les différences avec le mode <strong>Self-Deploying</strong> : pas d'utilisateur requis, nécessite TPM 2.0 attestation.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Profil Autopilot créé et assigné. Vous comprenez les 4 modes Autopilot (User-Driven AADJ, User-Driven HAADJ, Self-Deploying, Pre-Provisioning) et leurs cas d'usage.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/autopilot/user-driven" target="_blank" class="doc-link">📘 Autopilot User-Driven</a>
+        <a href="https://learn.microsoft.com/fr-fr/autopilot/self-deploying" target="_blank" class="doc-link">📘 Autopilot Self-Deploying</a>
+        <a href="https://learn.microsoft.com/fr-fr/autopilot/pre-provision" target="_blank" class="doc-link">📘 Autopilot Pre-Provisioning</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Le mode Autopilot Self-Deploying ne demande aucune interaction utilisateur. Quelle technologie est obligatoire pour garantir l'identité de l'appareil sans utilisateur ?</div>
+        <div class="quiz-opts" id="quiz-q19">
+          <div class="quiz-opt" onclick="answerQuiz('q19',0,2)">A. Secure Boot</div>
+          <div class="quiz-opt" onclick="answerQuiz('q19',1,2)">B. BitLocker Device Encryption</div>
+          <div class="quiz-opt" onclick="answerQuiz('q19',2,2)">C. TPM 2.0 avec attestation de dispositif</div>
+          <div class="quiz-opt" onclick="answerQuiz('q19',3,2)">D. Windows Hello for Business</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q19">✅ Le mode Self-Deploying utilise l'<strong>attestation TPM 2.0</strong> pour prouver l'identité de l'appareil auprès d'Entra ID sans qu'un utilisateur soit connecté. Sans TPM, le mode Self-Deploying échoue.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 20 -->
+  <div class="exercise-card" id="ex-20">
+    <div class="ex-header" onclick="toggleExercise('20')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 20</span>
+        <div>
+          <div class="ex-title">Configurer l'Enrollment Status Page (ESP)</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 20 min</span> <span>🏷 Autopilot</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-20" onchange="updateProgress('20',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-20">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-20">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Configurer l'ESP pour bloquer l'accès au Bureau jusqu'à ce que les applications critiques soient installées, puis analyser son comportement lors d'un déploiement Autopilot.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Appareils → Windows → Inscription Windows → Page d'état de l'inscription</strong> → Créer.</li>
+        <li>Configurez :<br>
+          &nbsp;&nbsp;• Afficher la progression de la configuration d'application et de profil : <strong>Oui</strong><br>
+          &nbsp;&nbsp;• Bloquer l'appareil jusqu'à ce que toutes les applications et profils soient installés : <strong>Oui</strong><br>
+          &nbsp;&nbsp;• Autoriser les utilisateurs à réinitialiser l'appareil en cas d'erreur d'installation : <strong>Non</strong><br>
+          &nbsp;&nbsp;• Afficher une erreur si l'installation prend plus longtemps que le nombre de minutes spécifié : <strong>60 minutes</strong>
+        </li>
+        <li>Dans <strong>Sélectionner des applications à suivre</strong> : ajoutez l'application Edge déployée à l'exercice 11.</li>
+        <li>Assignez l'ESP au groupe Autopilot avec une priorité plus haute que la stratégie par défaut.</li>
+        <li>Simulez un déploiement Autopilot sur une VM réinitialisée (Paramètres → Récupération → Réinitialiser ce PC) et observez l'ESP en action.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> L'ESP bloque le Bureau jusqu'à ce qu'Edge soit installé. Vous comprenez les 3 phases ESP : Préparation de l'appareil → Configuration de l'appareil → Configuration du compte.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/autopilot/enrollment-status" target="_blank" class="doc-link">📘 Enrollment Status Page</a>
+        <a href="https://learn.microsoft.com/fr-fr/autopilot/troubleshoot-oobe" target="_blank" class="doc-link">📘 Troubleshoot ESP/OOBE</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">L'ESP se bloque pendant la phase "Configuration du compte" en attendant qu'une app s'installe. Après 60 min, que se passe-t-il si vous avez configuré un timeout de 60 min ?</div>
+        <div class="quiz-opts" id="quiz-q20">
+          <div class="quiz-opt" onclick="answerQuiz('q20',0,3)">A. L'appareil se réinitialise automatiquement</div>
+          <div class="quiz-opt" onclick="answerQuiz('q20',1,3)">B. L'utilisateur est connecté au Bureau malgré l'installation incomplète</div>
+          <div class="quiz-opt" onclick="answerQuiz('q20',2,3)">C. L'app est ignorée et l'installation continue sans elle</div>
+          <div class="quiz-opt" onclick="answerQuiz('q20',3,3)">D. Un message d'erreur s'affiche avec les options configurées (réessayer / réinitialiser / continuer quand même)</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q20">✅ Après le timeout, l'ESP affiche un <strong>message d'erreur</strong> avec les options disponibles selon la configuration (réessayer, réinitialiser l'appareil, ou continuer malgré l'erreur). Les options disponibles dépendent de ce que vous avez configuré dans la politique ESP.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 21 -->
+  <div class="exercise-card" id="ex-21">
+    <div class="ex-header" onclick="toggleExercise('21')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 21</span>
+        <div>
+          <div class="ex-title">Autopilot Reset — reprovisioning à distance</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 20 min</span> <span>🏷 Autopilot</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-21" onchange="updateProgress('21',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-21">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-21">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Déclencher un Autopilot Reset depuis Intune pour reprovisioner un appareil existant sans le retirer physiquement, en conservant son enregistrement Autopilot.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Assurez-vous que la fonctionnalité est activée : <strong>Intune → Appareils → Windows → Inscription Windows → Réinitialisation Autopilot de Windows</strong> → Autoriser.</li>
+        <li>Dans <strong>Intune → Appareils → Windows → votre VM</strong> → menu <em>…</em> → <em>Autopilot Reset</em>.</li>
+        <li>Confirmez l'action. Sur la VM, observez le processus : l'appareil redémarre en mode provisioning, repasse par l'ESP, et rejoue l'installation des apps.</li>
+        <li>Vérifiez que la VM reste dans Entra ID avec le même Object ID — l'appareil n'a pas été désenrôlé, juste reprovisionné.</li>
+        <li>Comparez avec <strong>Wipe</strong> : quelle est la différence entre Autopilot Reset et un Wipe complet ?</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> L'appareil est reprovisionné avec les politiques Intune actuelles, le même profil Autopilot, sans avoir été physiquement transporté au service IT. L'Object ID Entra ID est conservé.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/autopilot/windows-autopilot-reset" target="_blank" class="doc-link">📘 Autopilot Reset</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/remote-actions/device-fresh-start" target="_blank" class="doc-link">📘 Fresh Start vs Reset vs Wipe</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Quelle est la différence clé entre "Autopilot Reset" et "Wipe" dans Intune ?</div>
+        <div class="quiz-opts" id="quiz-q21">
+          <div class="quiz-opt" onclick="answerQuiz('q21',0,0)">A. Autopilot Reset conserve l'enregistrement Autopilot et reprofile l'appareil ; Wipe le supprime d'Intune et d'Entra ID</div>
+          <div class="quiz-opt" onclick="answerQuiz('q21',1,0)">B. Autopilot Reset et Wipe sont identiques</div>
+          <div class="quiz-opt" onclick="answerQuiz('q21',2,0)">C. Wipe conserve les données utilisateur ; Autopilot Reset les supprime</div>
+          <div class="quiz-opt" onclick="answerQuiz('q21',3,0)">D. Autopilot Reset ne fonctionne que sur les appareils HAADJ</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q21">✅ <strong>Autopilot Reset</strong> reprofile l'appareil en conservant son enregistrement Intune/Entra ID et son profil Autopilot — idéal pour changer d'utilisateur. <strong>Wipe</strong> efface toutes les données et désenrôle l'appareil — il doit être réenrôlé depuis zéro.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- end palier5 -->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PALIER 6 — Conditional Access & MAM                    -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="palier6" class="section">
+  <div class="palier-banner int">
+    <div>
+      <span class="palier-num">Palier 6</span>
+      <h2 style="margin:4px 0 0">Conditional Access &amp; MAM</h2>
+      <p style="margin:4px 0 0;opacity:.85">MFA, Named Locations, appareils conformes et protection BYOD</p>
+    </div>
+    <span class="level-badge int" style="font-size:1rem;padding:6px 16px">🟠 Intermédiaire</span>
+  </div>
+
+  <!-- EX 22 -->
+  <div class="exercise-card" id="ex-22">
+    <div class="ex-header" onclick="toggleExercise('22')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 22</span>
+        <div>
+          <div class="ex-title">Compte break-glass et vérification MFA</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 20 min</span> <span>🏷 Conditional Access</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-22" onchange="updateProgress('22',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-22">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-22">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Créer un compte break-glass (accès d'urgence) exclu de toutes les politiques CA, et configurer une alerte de monitoring sur son utilisation.</div>
+      <div class="ex-prereqs"><strong>⚠ Prérequis :</strong> Avant de créer des politiques Conditional Access, créer ce compte en PREMIER pour éviter de se bloquer.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Entra ID → Utilisateurs → Nouvel utilisateur</strong> : créez <code>breakglass@votredomaine.onmicrosoft.com</code>.<br>
+          Mot de passe complexe de 20+ caractères, stocké hors ligne (coffre-fort physique ou gestionnaire de mots de passe séparé).
+        </li>
+        <li>Assignez le rôle <strong>Administrateur général (Global Admin)</strong> à ce compte.</li>
+        <li>Dans <strong>Entra ID → Protection → Accès conditionnel → Paramètres de sécurité par défaut</strong> : vérifiez qu'ils sont désactivés (nécessaire pour créer des politiques CA personnalisées).</li>
+        <li>Créez une politique CA de test : Tous les utilisateurs → Tous les services cloud → Accorder : Exiger MFA.</li>
+        <li>Dans <strong>Exclusions</strong> : excluez explicitement le compte <code>breakglass</code>.</li>
+        <li>Créez une alerte dans <strong>Entra ID → Monitoring → Classeur "Comptes d'accès d'urgence"</strong> pour surveiller toute connexion avec ce compte.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Le compte break-glass est configuré, documenté, et exclu de toutes les politiques CA. Une alerte se déclenchera si ce compte est utilisé.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/role-based-access-control/security-emergency-access" target="_blank" class="doc-link">📘 Comptes d'accès d'urgence</a>
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/conditional-access/plan-conditional-access" target="_blank" class="doc-link">📘 Planifier le Conditional Access</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Pourquoi est-il critique d'exclure le compte break-glass de TOUTES les politiques de Conditional Access ?</div>
+        <div class="quiz-opts" id="quiz-q22">
+          <div class="quiz-opt" onclick="answerQuiz('q22',0,0)">A. Pour conserver un accès admin même si les politiques CA bloquent tous les utilisateurs (ex: mauvaise configuration, panne MFA)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q22',1,0)">B. Pour que le compte soit invisible dans les logs Entra ID</div>
+          <div class="quiz-opt" onclick="answerQuiz('q22',2,0)">C. Pour améliorer les performances de connexion des admins</div>
+          <div class="quiz-opt" onclick="answerQuiz('q22',3,0)">D. Car les Global Admins ne peuvent pas avoir de politiques CA appliquées</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q22">✅ Le break-glass garantit un <strong>accès d'urgence</strong> si une politique CA mal configurée bloque tous les admins, si le service MFA est indisponible, ou en cas d'incident majeur. C'est une exigence de résilience opérationnelle.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 23 -->
+  <div class="exercise-card" id="ex-23">
+    <div class="ex-header" onclick="toggleExercise('23')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 23</span>
+        <div>
+          <div class="ex-title">Politique CA MFA — mode Rapport uniquement</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 25 min</span> <span>🏷 Conditional Access</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-23" onchange="updateProgress('23',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-23">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-23">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Créer une politique CA en mode "Rapport uniquement" pour évaluer l'impact d'une exigence MFA sans impacter les utilisateurs, puis analyser les résultats dans les logs de connexion.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Entra ID → Protection → Accès conditionnel → Nouvelle politique</strong> :<br>
+          Nom : <code>CA_MFA_AllApps_ReportOnly</code>
+        </li>
+        <li>Utilisateurs : <strong>Tous les utilisateurs</strong> | Exclusions : compte break-glass.</li>
+        <li>Applications cloud : <strong>Toutes les applications cloud</strong>.</li>
+        <li>Contrôles d'accès → Accorder : <strong>Exiger l'authentification multifacteur</strong>.</li>
+        <li>Activez la politique en mode <strong>Rapport uniquement</strong> (et non "Activé"). Enregistrez.</li>
+        <li>Effectuez quelques connexions avec testuser01 → dans <strong>Entra ID → Monitoring → Connexions</strong> → filtrez par cette politique → observez la colonne "Résultat de rapport uniquement" : <em>Réussite</em> ou <em>Échec</em>.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Vous voyez dans les logs quels utilisateurs auraient été bloqués ou auraient dû faire MFA. Vous pouvez valider l'impact avant activation en production.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/conditional-access/concept-conditional-access-report-only" target="_blank" class="doc-link">📘 Mode Rapport uniquement CA</a>
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/conditional-access/howto-conditional-access-policy-all-users-mfa" target="_blank" class="doc-link">📘 Politique MFA pour tous</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Une politique CA en mode "Rapport uniquement" bloque-t-elle réellement les connexions des utilisateurs ?</div>
+        <div class="quiz-opts" id="quiz-q23">
+          <div class="quiz-opt" onclick="answerQuiz('q23',0,1)">A. Oui, elle bloque comme une politique activée</div>
+          <div class="quiz-opt" onclick="answerQuiz('q23',1,1)">B. Non, elle simule l'évaluation mais laisse passer toutes les connexions</div>
+          <div class="quiz-opt" onclick="answerQuiz('q23',2,1)">C. Elle bloque uniquement les connexions risquées</div>
+          <div class="quiz-opt" onclick="answerQuiz('q23',3,1)">D. Elle s'applique uniquement aux nouveaux utilisateurs</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q23">✅ En mode <strong>Rapport uniquement</strong>, la politique est évaluée mais ses contrôles d'accès ne sont PAS appliqués — les connexions ne sont ni bloquées ni soumises à MFA. Seul le résultat hypothétique est loggué pour analyse.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 24 -->
+  <div class="exercise-card" id="ex-24">
+    <div class="ex-header" onclick="toggleExercise('24')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 24</span>
+        <div>
+          <div class="ex-title">Politique CA — Exiger un appareil conforme</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 25 min</span> <span>🏷 Conditional Access</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-24" onchange="updateProgress('24',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-24">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-24">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Créer une politique CA qui exige que l'appareil soit marqué "Conforme" dans Intune pour accéder à Microsoft 365, forçant ainsi le respect des politiques de conformité.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Entra ID → Accès conditionnel → Nouvelle politique</strong> : <code>CA_RequireCompliantDevice_M365</code>.</li>
+        <li>Utilisateurs : <strong>Tous les utilisateurs</strong> | Exclusions : break-glass.</li>
+        <li>Applications cloud : sélectionnez <strong>Office 365</strong> (inclut Exchange, Teams, SharePoint, etc.).</li>
+        <li>Contrôles d'accès → Accorder : <strong>Exiger que l'appareil soit marqué comme conforme</strong>.</li>
+        <li>Activez la politique en mode <strong>Rapport uniquement</strong> d'abord → vérifiez les logs.</li>
+        <li>Passez en mode <strong>Activé</strong> → testez une connexion depuis la VM conforme (doit réussir) et depuis un navigateur anonyme/appareil non géré (doit être bloqué ou demander MFA selon vos règles).</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> L'accès à M365 est conditionné à la conformité Intune. Vous comprenez le lien fort entre politiques de conformité Intune et politiques CA Entra ID.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/entra/identity/conditional-access/howto-conditional-access-policy-compliant-device" target="_blank" class="doc-link">📘 CA - Appareil conforme requis</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/device-compliance-get-started" target="_blank" class="doc-link">📘 Conformité Intune</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Un utilisateur tente d'accéder à Exchange Online depuis un appareil non géré. La politique CA exige "Appareil conforme OU Joint à Azure AD hybride". Que se passe-t-il ?</div>
+        <div class="quiz-opts" id="quiz-q24">
+          <div class="quiz-opt" onclick="answerQuiz('q24',0,3)">A. L'accès est accordé car la politique utilise OU</div>
+          <div class="quiz-opt" onclick="answerQuiz('q24',1,3)">B. L'accès est accordé après MFA</div>
+          <div class="quiz-opt" onclick="answerQuiz('q24',2,3)">C. L'accès est accordé si l'utilisateur est Global Admin</div>
+          <div class="quiz-opt" onclick="answerQuiz('q24',3,3)">D. L'accès est bloqué car l'appareil ne satisfait aucune des deux conditions</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q24">✅ Bien que la politique utilise OU, l'appareil non géré n'est ni conforme ni HAADJ — il ne satisfait <strong>aucune</strong> des deux conditions. L'accès est donc bloqué. Le OU signifie que l'une OU l'autre condition suffit, mais l'appareil doit en satisfaire au moins une.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 25 -->
+  <div class="exercise-card" id="ex-25">
+    <div class="ex-header" onclick="toggleExercise('25')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 25</span>
+        <div>
+          <div class="ex-title">MAM — App Protection Policy BYOD iOS</div>
+          <div class="ex-meta"><span class="level-badge int">Intermédiaire</span> <span>⏱ 30 min</span> <span>🏷 MAM / BYOD</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-25" onchange="updateProgress('25',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-25">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-25">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Créer une politique de protection des applications (MAM/APP) pour iOS qui protège les données corporate dans Outlook sans gérer l'appareil entier — scénario BYOD classique.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Apps → Stratégies de protection des applications → Créer → iOS/iPadOS</strong>.</li>
+        <li>Nommez <code>MAM_iOS_BYOD_Outlook</code> → dans Applications : sélectionnez <strong>Microsoft Outlook</strong>.</li>
+        <li>Configurez la protection des données :<br>
+          &nbsp;&nbsp;• Restreindre les couper/copier/coller avec d'autres apps : <strong>Apps gérées par une politique</strong><br>
+          &nbsp;&nbsp;• Enregistrer les copies des données org. : <strong>Bloquer</strong><br>
+          &nbsp;&nbsp;• Envoyer des données org. vers d'autres apps : <strong>Apps gérées par une politique</strong><br>
+          &nbsp;&nbsp;• Recevoir des données d'autres apps : <strong>Apps gérées par une politique</strong>
+        </li>
+        <li>Configurer les exigences d'accès :<br>
+          &nbsp;&nbsp;• PIN requis pour l'accès : <strong>Oui</strong> | Longueur minimale : <strong>6</strong><br>
+          &nbsp;&nbsp;• Informations d'identification de compte professionnel ou scolaire requises : <strong>Oui</strong>
+        </li>
+        <li>Assignez à <code>GRP_Intune_Users</code>.</li>
+        <li>Sur un iPhone, installez Outlook via l'App Store → connectez-vous avec testuser01 → testez le copier/coller vers Notes (doit être bloqué).</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Les données Outlook corporate sont protégées sur l'iPhone personnel. L'utilisateur ne peut pas copier un email dans une app non gérée. L'appareil lui-même n'est pas inscrit dans Intune — c'est le principe MAM-WE (Without Enrollment).</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/apps/app-protection-policy" target="_blank" class="doc-link">📘 App Protection Policies</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/apps/app-protection-policies-configure-windows-10" target="_blank" class="doc-link">📘 MAM sans enrollment</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/apps/app-protection-policy-settings-ios" target="_blank" class="doc-link">📘 Paramètres APP iOS</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Un utilisateur BYOD a une politique MAM sur Outlook iOS. Il tente de copier un email corporate vers WhatsApp. Que se passe-t-il ?</div>
+        <div class="quiz-opts" id="quiz-q25">
+          <div class="quiz-opt" onclick="answerQuiz('q25',0,3)">A. L'action est autorisée car WhatsApp est sur un appareil personnel</div>
+          <div class="quiz-opt" onclick="answerQuiz('q25',1,3)">B. L'action est autorisée mais un log est généré dans Intune</div>
+          <div class="quiz-opt" onclick="answerQuiz('q25',2,3)">C. L'appareil est mis en quarantaine automatiquement</div>
+          <div class="quiz-opt" onclick="answerQuiz('q25',3,3)">D. L'action est bloquée car WhatsApp n'est pas une "App gérée par une politique" Intune</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q25">✅ La politique MAM <strong>bloque</strong> le copier/coller vers des apps non gérées par une politique Intune. WhatsApp n'est pas une app protégée par MAM, donc le transfert de données est bloqué — même sur un appareil personnel non inscrit.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- end palier6 -->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PALIER 7 — Scénarios Avancés Expert                   -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="palier7" class="section">
+  <div class="palier-banner exp">
+    <div>
+      <span class="palier-num">Palier 7</span>
+      <h2 style="margin:4px 0 0">Scénarios Avancés</h2>
+      <p style="margin:4px 0 0;opacity:.85">SCEP/Wi-Fi, WHfB Cloud Trust, RBAC, Co-management — niveau architecte</p>
+    </div>
+    <span class="level-badge exp" style="font-size:1rem;padding:6px 16px">🔴 Expert</span>
+  </div>
+
+  <!-- EX 26 -->
+  <div class="exercise-card" id="ex-26">
+    <div class="ex-header" onclick="toggleExercise('26')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 26</span>
+        <div>
+          <div class="ex-title">Certificats SCEP + profil Wi-Fi 802.1x via Intune</div>
+          <div class="ex-meta"><span class="level-badge exp">Expert</span> <span>⏱ 60 min</span> <span>🏷 Sécurité / PKI</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-26" onchange="updateProgress('26',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-26">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-26">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Déployer des certificats via SCEP (Simple Certificate Enrollment Protocol) et les utiliser dans un profil Wi-Fi 802.1x pour l'authentification des appareils — sans mot de passe Wi-Fi partagé.</div>
+      <div class="ex-prereqs"><strong>⚠ Prérequis :</strong> Infrastructure PKI (CA racine + CA émettrice) ou Microsoft Cloud PKI (Intune Suite), NDES configuré, Intune Certificate Connector installé.</div>
+      <h4>Architecture du flux</h4>
+      <table class="ref-table">
+        <thead><tr><th>Étape</th><th>Composant</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Intune</td><td>Politique SCEP envoyée à l'appareil</td></tr>
+          <tr><td>2</td><td>Appareil</td><td>Génère une CSR (Certificate Signing Request)</td></tr>
+          <tr><td>3</td><td>NDES/Cloud PKI</td><td>Valide la CSR et contacte la CA</td></tr>
+          <tr><td>4</td><td>CA</td><td>Émet le certificat</td></tr>
+          <tr><td>5</td><td>Appareil</td><td>Installe le certificat dans le magasin personnel</td></tr>
+          <tr><td>6</td><td>Wi-Fi 802.1x</td><td>Utilise le certificat pour s'authentifier au switch/AP</td></tr>
+        </tbody>
+      </table>
+      <h4>Étapes Intune</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Sécurité des terminaux → Certificats SCEP</strong> → créez un profil de certificat racine approuvé avec le certificat de votre CA racine.</li>
+        <li>Créez un profil SCEP : période de validité 1 an, usage de la clé = Signature numérique + Chiffrement de clé, KSP = TPM si disponible.</li>
+        <li>Créez un profil Wi-Fi : Sécurité = WPA2-Enterprise, Méthode EAP = EAP-TLS, Certificat client = votre profil SCEP.</li>
+        <li>Déployez les 3 profils dans l'ordre : 1. Racine approuvée → 2. SCEP → 3. Wi-Fi (l'ordre d'assignation compte pour les dépendances).</li>
+        <li>Vérifiez sur la VM : <code>certlm.msc</code> → Personnel → Certificats → le certificat SCEP doit apparaître avec le nom de l'appareil.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> L'appareil s'authentifie au Wi-Fi d'entreprise avec son certificat, sans que l'utilisateur saisisse un mot de passe. Vous maîtrisez le flux SCEP complet.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/certificates-scep-configure" target="_blank" class="doc-link">📘 Configurer SCEP dans Intune</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/configuration/wi-fi-settings-windows" target="_blank" class="doc-link">📘 Profil Wi-Fi Windows</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/certificate-authority-add-scep-overview" target="_blank" class="doc-link">📘 SCEP Overview</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Dans un déploiement SCEP via Intune, quel rôle joue le connecteur Intune Certificate Connector ?</div>
+        <div class="quiz-opts" id="quiz-q26">
+          <div class="quiz-opt" onclick="answerQuiz('q26',0,1)">A. Il génère les certificats directement sans CA externe</div>
+          <div class="quiz-opt" onclick="answerQuiz('q26',1,1)">B. Il fait l'intermédiaire entre le service Intune (cloud) et votre CA on-prem/NDES (on-prem)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q26',2,1)">C. Il installe les certificats manuellement sur chaque appareil</div>
+          <div class="quiz-opt" onclick="answerQuiz('q26',3,1)">D. Il génère les profils SCEP Intune automatiquement depuis AD</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q26">✅ Le <strong>Certificate Connector</strong> est un pont entre Intune (cloud) et votre infrastructure PKI on-prem (NDES/CA). Sans lui, Intune ne peut pas soumettre les demandes de certificats à votre CA interne.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 27 -->
+  <div class="exercise-card" id="ex-27">
+    <div class="ex-header" onclick="toggleExercise('27')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 27</span>
+        <div>
+          <div class="ex-title">Windows Hello for Business — Cloud Trust</div>
+          <div class="ex-meta"><span class="level-badge exp">Expert</span> <span>⏱ 45 min</span> <span>🏷 Authentification</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-27" onchange="updateProgress('27',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-27">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-27">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Configurer Windows Hello for Business en mode Cloud Trust — le modèle le plus simple ne nécessitant pas de PKI on-prem ni d'infrastructure ADFS.</div>
+      <h4>Comparaison des modèles WHfB</h4>
+      <table class="ref-table">
+        <thead><tr><th>Modèle</th><th>PKI requise</th><th>DC on-prem requis</th><th>Complexité</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Cloud Trust</strong></td><td>❌ Non</td><td>Windows Server 2016+ (KDC)</td><td>⭐ Faible</td></tr>
+          <tr><td>Key Trust</td><td>❌ Non</td><td>Windows Server 2016+ (KDC)</td><td>⭐⭐ Moyenne</td></tr>
+          <tr><td>Certificate Trust</td><td>✅ Oui</td><td>Oui</td><td>⭐⭐⭐ Élevée</td></tr>
+        </tbody>
+      </table>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Vérifiez les prérequis : Entra ID + Entra Connect (pour HAADJ) ou tenant AADJ pur, licence Entra ID P1.</li>
+        <li>Dans <strong>Intune → Appareils → Windows → Inscription Windows → Windows Hello for Business</strong> → configurez :<br>
+          &nbsp;&nbsp;• Configurer WHfB : <strong>Activé</strong><br>
+          &nbsp;&nbsp;• Utiliser les clés de sécurité pour la connexion : <strong>Activé</strong><br>
+          &nbsp;&nbsp;• Longueur minimale du PIN : <strong>6</strong><br>
+          &nbsp;&nbsp;• Majuscules/minuscules/caractères spéciaux dans le PIN : Autorisé<br>
+          &nbsp;&nbsp;• Activer Cloud Trust : <strong>Oui</strong>
+        </li>
+        <li>Sur la VM, attendez la synchronisation → allez dans <kbd>Paramètres → Comptes → Options de connexion</kbd> → configurez un PIN Windows Hello.</li>
+        <li>Verrouillez la session → connectez-vous via PIN ou empreinte digitale → vérifiez que l'authentification réussit.</li>
+        <li>Vérifiez dans <code>dsregcmd /status</code> → section User State → <code>NgcSet : YES</code>.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> WHfB Cloud Trust opérationnel. L'utilisateur peut se connecter avec PIN/biométrie sans mot de passe. Vous comprenez pourquoi Cloud Trust ne nécessite pas de PKI (il utilise les clés Entra ID et le Kerberos Cloud).</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/windows/security/identity-protection/hello-for-business/hello-hybrid-cloud-kerberos-trust" target="_blank" class="doc-link">📘 WHfB Cloud Trust</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/protect/windows-hello" target="_blank" class="doc-link">📘 WHfB via Intune</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Quel avantage principal offre le modèle Cloud Trust de WHfB par rapport au modèle Certificate Trust ?</div>
+        <div class="quiz-opts" id="quiz-q27">
+          <div class="quiz-opt" onclick="answerQuiz('q27',0,0)">A. Il ne nécessite pas d'infrastructure PKI on-prem — plus simple à déployer</div>
+          <div class="quiz-opt" onclick="answerQuiz('q27',1,0)">B. Il fonctionne sans connexion Internet</div>
+          <div class="quiz-opt" onclick="answerQuiz('q27',2,0)">C. Il supporte les appareils sans TPM</div>
+          <div class="quiz-opt" onclick="answerQuiz('q27',3,0)">D. Il est disponible sur Windows 10 uniquement</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q27">✅ Cloud Trust utilise le <strong>Kerberos Cloud d'Entra ID</strong> pour émettre des tickets Kerberos, éliminant le besoin d'une PKI on-prem complexe. C'est le modèle recommandé pour les nouveaux déploiements hybrides.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 28 -->
+  <div class="exercise-card" id="ex-28">
+    <div class="ex-header" onclick="toggleExercise('28')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 28</span>
+        <div>
+          <div class="ex-title">RBAC Intune — Rôles personnalisés + Scope Tags</div>
+          <div class="ex-meta"><span class="level-badge exp">Expert</span> <span>⏱ 40 min</span> <span>🏷 Administration</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-28" onchange="updateProgress('28',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-28">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-28">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Créer un rôle Intune personnalisé pour les techniciens support (lecture + actions limitées), le combiner avec des Scope Tags pour limiter leur portée à une région géographique.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Administration du client → Rôles → Ajouter</strong> : créez <code>ROLE_Technicien_Support</code>.<br>
+          Autorisations : Appareils gérés → Lire, Synchroniser à distance, Redémarrer, Effacement sélectif.<br>
+          Laissez toutes les autres catégories sans autorisation.
+        </li>
+        <li>Dans <strong>Intune → Administration du client → Balises d'étendue (Scope Tags)</strong> → Créer : <code>TAG_Region_Paris</code>.</li>
+        <li>Appliquez <code>TAG_Region_Paris</code> à votre groupe de VMs (via les propriétés du groupe ou du profil).</li>
+        <li>Assignez le rôle <code>ROLE_Technicien_Support</code> à testuser01 avec :<br>
+          &nbsp;&nbsp;• Membres : groupe contenant testuser01<br>
+          &nbsp;&nbsp;• Étendue (groupes) : <code>DYN_Windows11_Devices</code><br>
+          &nbsp;&nbsp;• Balise d'étendue : <code>TAG_Region_Paris</code>
+        </li>
+        <li>Connectez-vous avec testuser01 sur Intune → vérifiez qu'il voit uniquement les appareils tagués Paris et ne peut que lire/synchroniser/redémarrer — pas créer de politiques.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> testuser01 a accès limité aux appareils de Paris uniquement, avec des actions restreintes. Vous comprenez la séparation RBAC (quoi faire) et Scope Tags (sur quoi).</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/fundamentals/role-based-access-control" target="_blank" class="doc-link">📘 RBAC Intune</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/fundamentals/scope-tags" target="_blank" class="doc-link">📘 Scope Tags Intune</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Un administrateur IT France doit gérer les appareils français mais ne doit PAS voir les appareils US. Quel mécanisme Intune permet cette séparation ?</div>
+        <div class="quiz-opts" id="quiz-q28">
+          <div class="quiz-opt" onclick="answerQuiz('q28',0,2)">A. Politiques de conformité par région</div>
+          <div class="quiz-opt" onclick="answerQuiz('q28',1,2)">B. Groupes dynamiques Entra ID</div>
+          <div class="quiz-opt" onclick="answerQuiz('q28',2,2)">C. Scope Tags + Assignation de rôle RBAC avec étendue de groupe</div>
+          <div class="quiz-opt" onclick="answerQuiz('q28',3,2)">D. Filtres de déploiement Intune</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q28">✅ Les <strong>Scope Tags</strong> combinés avec l'<strong>assignation de rôle RBAC</strong> (étendue de groupe) permettent de limiter la visibilité et les actions d'un admin à un sous-ensemble d'objets Intune — parfait pour les organisations multi-régions.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 29 -->
+  <div class="exercise-card" id="ex-29">
+    <div class="ex-header" onclick="toggleExercise('29')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 29</span>
+        <div>
+          <div class="ex-title">Co-management — Basculer des charges de travail vers Intune</div>
+          <div class="ex-meta"><span class="level-badge exp">Expert</span> <span>⏱ 50 min</span> <span>🏷 Co-management</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-29" onchange="updateProgress('29',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-29">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-29">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Configurer le co-management SCCM+Intune et basculer progressivement les charges de travail (workloads) vers Intune — la stratégie de migration recommandée par Microsoft.</div>
+      <div class="ex-prereqs"><strong>⚠ Prérequis :</strong> Configuration Manager (SCCM) installé, appareil HAADJ géré par SCCM, Tenant Attach configuré.</div>
+      <h4>Les 7 charges de travail co-gérables</h4>
+      <table class="ref-table">
+        <thead><tr><th>Charge de travail</th><th>Recommandation migration</th></tr></thead>
+        <tbody>
+          <tr><td>Politiques de conformité</td><td>Intune en premier ✅</td></tr>
+          <tr><td>Politiques d'accès aux ressources</td><td>Intune recommandé</td></tr>
+          <tr><td>Windows Update for Business</td><td>Intune recommandé</td></tr>
+          <tr><td>Endpoint Protection</td><td>Intune recommandé</td></tr>
+          <tr><td>Configuration de l'appareil</td><td>Progressif selon maturité</td></tr>
+          <tr><td>Applications clientes</td><td>Garder SCCM si parc Win32 complexe</td></tr>
+          <tr><td>Office Click-to-Run</td><td>Intune si M365 Apps</td></tr>
+        </tbody>
+      </table>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Configuration Manager → Administration → Cloud Services → Co-management</strong> → activez le co-management.</li>
+        <li>Configurez le chemin d'enrôlement automatique vers Intune pour les appareils HAADJ.</li>
+        <li>Dans l'onglet <strong>Charges de travail</strong>, basculez "Politiques de conformité" sur <strong>Intune pilote</strong> — cela l'applique uniquement à une collection pilote.</li>
+        <li>Vérifiez dans Intune que les appareils du groupe pilote remontent leur conformité.</li>
+        <li>Si validé, basculez la charge de travail sur <strong>Intune</strong> (toute la collection).</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Vous maîtrisez le co-management comme pont de migration SCCM → Intune. Vous comprenez le concept de collection pilote pour tester chaque bascule sans risque.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/configmgr/comanage/overview" target="_blank" class="doc-link">📘 Co-management Overview</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/configmgr/comanage/workloads" target="_blank" class="doc-link">📘 Charges de travail co-gérées</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/configmgr/comanage/how-to-switch-workloads" target="_blank" class="doc-link">📘 Basculer les workloads</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">En co-management, un appareil a la charge "Endpoint Protection" définie sur "Intune". Quel composant gère maintenant l'antivirus et les règles firewall de cet appareil ?</div>
+        <div class="quiz-opts" id="quiz-q29">
+          <div class="quiz-opt" onclick="answerQuiz('q29',0,2)">A. Configuration Manager (SCCM) reste responsable de l'antivirus</div>
+          <div class="quiz-opt" onclick="answerQuiz('q29',1,2)">B. Les deux gèrent simultanément — le plus restrictif l'emporte</div>
+          <div class="quiz-opt" onclick="answerQuiz('q29',2,2)">C. Intune prend entièrement en charge Endpoint Protection — les politiques SCCM ne s'appliquent plus pour cette charge</div>
+          <div class="quiz-opt" onclick="answerQuiz('q29',3,2)">D. L'utilisateur choisit quelle politique appliquer</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q29">✅ Quand une charge de travail est basculée sur <strong>Intune</strong>, Intune prend entièrement le contrôle — les politiques SCCM pour cette charge ne s'appliquent plus. C'est un basculement exclusif, pas cumulatif.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- end palier7 -->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PALIER 8 — Automatisation & PowerShell / Graph         -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="palier8" class="section">
+  <div class="palier-banner exp">
+    <div>
+      <span class="palier-num">Palier 8</span>
+      <h2 style="margin:4px 0 0">Automatisation &amp; Graph API</h2>
+      <p style="margin:4px 0 0;opacity:.85">Scripts de remédiation, Graph API PowerShell, Win32 avancé, M365 Apps</p>
+    </div>
+    <span class="level-badge exp" style="font-size:1rem;padding:6px 16px">🔴 Expert</span>
+  </div>
+
+  <!-- EX 30 -->
+  <div class="exercise-card" id="ex-30">
+    <div class="ex-header" onclick="toggleExercise('30')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 30</span>
+        <div>
+          <div class="ex-title">Script de remédiation Intune — détecter et corriger</div>
+          <div class="ex-meta"><span class="level-badge exp">Expert</span> <span>⏱ 45 min</span> <span>🏷 Automatisation</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-30" onchange="updateProgress('30',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-30">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-30">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Créer un script de remédiation Intune (detect + remediate) qui vérifie si le fuseau horaire est correct et le corrige automatiquement si ce n'est pas le cas.</div>
+      <h4>Script de détection (detect.ps1)</h4>
+      <pre style="background:#1e1e2e;color:#cdd6f4;padding:12px;border-radius:6px;font-size:.82rem;overflow-x:auto">$expectedTZ = "Romance Standard Time"
+$currentTZ = (Get-TimeZone).Id
+if ($currentTZ -eq $expectedTZ) {
+    Write-Host "Conforme : fuseau horaire correct ($currentTZ)"
+    exit 0  # 0 = conforme, pas de remédiation nécessaire
+} else {
+    Write-Host "Non conforme : fuseau = $currentTZ (attendu: $expectedTZ)"
+    exit 1  # 1 = non conforme, déclenche le script de remédiation
+}</pre>
+      <h4>Script de remédiation (remediate.ps1)</h4>
+      <pre style="background:#1e1e2e;color:#cdd6f4;padding:12px;border-radius:6px;font-size:.82rem;overflow-x:auto">try {
+    Set-TimeZone -Id "Romance Standard Time"
+    Write-Host "Fuseau horaire corrigé avec succès."
+    exit 0
+} catch {
+    Write-Error "Échec de la correction : $_"
+    exit 1
+}</pre>
+      <h4>Déploiement dans Intune</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Appareils → Scripts et remédiations → Créer</strong>.</li>
+        <li>Chargez detect.ps1 et remediate.ps1 | Exécuter en contexte 64 bits : Oui | Exécuter en tant que contexte de compte : Système.</li>
+        <li>Planifiez l'exécution : <strong>Toutes les 4 heures</strong>.</li>
+        <li>Assignez à <code>DYN_Windows11_Devices</code>.</li>
+        <li>Dans <strong>Intune → Rapports → Remédiation → votre script</strong> : observez les résultats par appareil (Avec/Sans problème détecté, Remédiation réussie/échouée).</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Le script détecte les appareils avec un mauvais fuseau et le corrige automatiquement. Vous maîtrisez le pattern detect/remediate et les codes de sortie (exit 0/1).</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/fundamentals/remediations" target="_blank" class="doc-link">📘 Scripts de remédiation Intune</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/fundamentals/remediations-script-requirements" target="_blank" class="doc-link">📘 Exigences scripts remédiation</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Dans un script de détection Intune, que signifie un code de sortie (exit code) de <strong>1</strong> ?</div>
+        <div class="quiz-opts" id="quiz-q30">
+          <div class="quiz-opt" onclick="answerQuiz('q30',0,3)">A. Le script a réussi — aucune action nécessaire</div>
+          <div class="quiz-opt" onclick="answerQuiz('q30',1,3)">B. Le script a crashé avec une erreur PowerShell</div>
+          <div class="quiz-opt" onclick="answerQuiz('q30',2,3)">C. L'appareil est exclu de la remédiation</div>
+          <div class="quiz-opt" onclick="answerQuiz('q30',3,3)">D. Un problème a été détecté — Intune déclenchera le script de remédiation</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q30">✅ Exit code <strong>0</strong> = conforme (pas de remédiation). Exit code <strong>1</strong> = non-conforme (Intune déclenche automatiquement le script de remédiation). Tout autre exit code est traité comme une erreur de script.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 31 -->
+  <div class="exercise-card" id="ex-31">
+    <div class="ex-header" onclick="toggleExercise('31')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 31</span>
+        <div>
+          <div class="ex-title">Microsoft Graph API — Requêtes PowerShell sur Intune</div>
+          <div class="ex-meta"><span class="level-badge exp">Expert</span> <span>⏱ 45 min</span> <span>🏷 Automatisation</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-31" onchange="updateProgress('31',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-31">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-31">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Utiliser le module Microsoft.Graph PowerShell pour lister les appareils non conformes et exporter un rapport CSV — la base de l'automatisation Intune.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Installez le module Graph : <code>Install-Module Microsoft.Graph -Scope CurrentUser</code></li>
+        <li>Connectez-vous : <code>Connect-MgGraph -Scopes "DeviceManagement.Read.All"</code></li>
+        <li>Listez les appareils non conformes :<br>
+<pre style="background:#1e1e2e;color:#cdd6f4;padding:10px;border-radius:6px;font-size:.82rem;overflow-x:auto">$devices = Get-MgDeviceManagementManagedDevice -Filter "complianceState eq 'noncompliant'"
+$devices | Select-Object DeviceName, UserPrincipalName, ComplianceState, LastSyncDateTime |
+  Export-Csv -Path "C:\noncompliant_devices.csv" -NoTypeInformation
+Write-Host "$($devices.Count) appareils non conformes exportés."</pre>
+        </li>
+        <li>Ouvrez le CSV → analysez les données. Combien d'appareils sont non conformes ? Depuis combien de temps ?</li>
+        <li>Bonus : déclenchez une synchronisation à distance sur chaque appareil non conforme :<br>
+          <code>$devices | ForEach-Object { Invoke-MgDeviceManagementManagedDeviceSyncDevice -ManagedDeviceId $_.Id }</code>
+        </li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Vous avez automatisé un rapport de conformité et déclenché des actions à distance via Graph. Vous comprenez la structure API Graph pour Intune : /deviceManagement/managedDevices.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/powershell/microsoftgraph/get-started" target="_blank" class="doc-link">📘 Microsoft Graph PowerShell SDK</a>
+        <a href="https://learn.microsoft.com/fr-fr/graph/api/resources/intune-devices-manageddevice" target="_blank" class="doc-link">📘 API Graph - managedDevice</a>
+        <a href="https://developer.microsoft.com/fr-fr/graph/graph-explorer" target="_blank" class="doc-link">📘 Graph Explorer</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Quelle permission Microsoft Graph minimale est requise pour lire les informations des appareils gérés par Intune sans pouvoir les modifier ?</div>
+        <div class="quiz-opts" id="quiz-q31">
+          <div class="quiz-opt" onclick="answerQuiz('q31',0,0)">A. DeviceManagement.Read.All</div>
+          <div class="quiz-opt" onclick="answerQuiz('q31',1,0)">B. DeviceManagement.ReadWrite.All</div>
+          <div class="quiz-opt" onclick="answerQuiz('q31',2,0)">C. Directory.Read.All</div>
+          <div class="quiz-opt" onclick="answerQuiz('q31',3,0)">D. Global Administrator role</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q31">✅ <strong>DeviceManagement.Read.All</strong> suffit pour lire les données appareils Intune sans les modifier — principe du moindre privilège. ReadWrite.All serait excessif pour un simple rapport.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 32 -->
+  <div class="exercise-card" id="ex-32">
+    <div class="ex-header" onclick="toggleExercise('32')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 32</span>
+        <div>
+          <div class="ex-title">App Win32 avec dépendance (Dependency)</div>
+          <div class="ex-meta"><span class="level-badge exp">Expert</span> <span>⏱ 40 min</span> <span>🏷 Applications</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-32" onchange="updateProgress('32',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-32">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-32">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Déployer une application Win32 qui dépend d'un prérequis (ex: .NET Runtime) — Intune installe automatiquement la dépendance avant l'application principale.</div>
+      <h4>Scénario</h4>
+      <p>Vous déployez une app interne <code>MonApp.exe</code> qui requiert <strong>.NET 8 Runtime</strong>. Sans dépendance configurée, l'installation échoue si .NET 8 n'est pas présent.</p>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Packagez et uploadez <strong>.NET 8 Runtime</strong> comme app Win32 dans Intune : <code>dotnet-runtime-8.0-win-x64.exe /install /quiet /norestart</code>.<br>
+          Règle de détection : registre <code>HKLM\SOFTWARE\dotnet\Setup\InstalledVersions\x64\sharedFramework\Microsoft.NETCore.App</code> → clé contenant <code>8.0</code>.
+        </li>
+        <li>Packagez et uploadez <code>MonApp.exe</code> comme app Win32 principale.</li>
+        <li>Dans les propriétés de <code>MonApp</code> → onglet <strong>Dépendances</strong> → Ajouter → sélectionnez <em>.NET 8 Runtime</em> → action : <strong>Installer automatiquement</strong>.</li>
+        <li>Assignez uniquement <code>MonApp</code> à votre groupe — Intune installera .NET 8 automatiquement si absent.</li>
+        <li>Sur un appareil sans .NET 8, vérifiez dans <strong>Intune → Apps → Moniteur → État d'installation par appareil</strong> que .NET 8 s'est installé en premier.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Intune installe .NET 8 automatiquement avant MonApp. Vous comprenez la gestion des dépendances Win32 dans Intune et pourquoi elle est critique pour les applications d'entreprise complexes.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/apps/apps-win32-add#step-6-select-scope-tags-optional" target="_blank" class="doc-link">📘 Dépendances Win32 Intune</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/apps/apps-win32-supersedence" target="_blank" class="doc-link">📘 Supersedence Win32</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Dans Intune, quelle est la différence entre une "Dépendance" et une "Supersédure" pour une app Win32 ?</div>
+        <div class="quiz-opts" id="quiz-q32">
+          <div class="quiz-opt" onclick="answerQuiz('q32',0,0)">A. Dépendance = prérequis installé avant l'app ; Supersédure = remplace une version précédente de l'app</div>
+          <div class="quiz-opt" onclick="answerQuiz('q32',1,0)">B. Ce sont deux termes identiques pour la même fonctionnalité</div>
+          <div class="quiz-opt" onclick="answerQuiz('q32',2,0)">C. Dépendance s'applique aux apps MSI ; Supersédure aux apps EXE</div>
+          <div class="quiz-opt" onclick="answerQuiz('q32',3,0)">D. Dépendance s'installe après l'app principale ; Supersédure avant</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q32">✅ <strong>Dépendance</strong> = un autre app qui doit être installé AVANT l'app principale (prérequis). <strong>Supersédure</strong> = remplace/met à jour une version antérieure de l'app sur les appareils où elle est déjà installée.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 33 -->
+  <div class="exercise-card" id="ex-33">
+    <div class="ex-header" onclick="toggleExercise('33')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 33</span>
+        <div>
+          <div class="ex-title">M365 Apps — Déploiement avec ODT et canaux</div>
+          <div class="ex-meta"><span class="level-badge exp">Expert</span> <span>⏱ 40 min</span> <span>🏷 Applications</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-33" onchange="updateProgress('33',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-33">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-33">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Déployer Microsoft 365 Apps for Enterprise via Intune avec l'ODT (Office Deployment Tool), en configurant le canal de mise à jour et les applications incluses/exclues.</div>
+      <h4>Canaux de mise à jour M365 Apps</h4>
+      <table class="ref-table">
+        <thead><tr><th>Canal</th><th>Fréquence</th><th>Usage recommandé</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Current Channel</strong></td><td>Mensuel (nouvelles fonctionnalités)</td><td>Utilisateurs qui veulent les dernières fonctionnalités</td></tr>
+          <tr><td><strong>Monthly Enterprise</strong></td><td>Mensuel (2e mardi)</td><td>Environnements stables — recommandé pour la plupart</td></tr>
+          <tr><td><strong>Semi-Annual Enterprise</strong></td><td>Semestriel (janv./juillet)</td><td>Industries très réglementées, validation longue</td></tr>
+          <tr><td><strong>Current Channel (Preview)</strong></td><td>Mensuel + preview</td><td>Pilotes IT, testeurs</td></tr>
+        </tbody>
+      </table>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Apps → Windows → Ajouter → Microsoft 365 Apps (Windows 10/11)</strong>.</li>
+        <li>Configurez la suite :<br>
+          &nbsp;&nbsp;• Applications : Word, Excel, PowerPoint, Outlook, Teams (excluez Access si non nécessaire)<br>
+          &nbsp;&nbsp;• Canal de mise à jour : <strong>Monthly Enterprise Channel</strong><br>
+          &nbsp;&nbsp;• Architecture : <strong>64 bits</strong><br>
+          &nbsp;&nbsp;• Langue : Français<br>
+          &nbsp;&nbsp;• Accepter automatiquement le CLUF : Oui
+        </li>
+        <li>Assignez en mode <strong>Requis</strong> à <code>DYN_Windows11_Devices</code>.</li>
+        <li>Sur la VM, observez l'installation via la barre de progression dans le Portail d'entreprise.</li>
+        <li>Vérifiez le canal installé : ouvrez Word → Fichier → Compte → Canal de mise à jour Office.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> M365 Apps installé sur le canal Monthly Enterprise. Vous comprenez les différences entre les canaux et pourquoi le choix du canal impacte la stabilité et la fraîcheur des fonctionnalités.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/deployoffice/overview-update-channels" target="_blank" class="doc-link">📘 Canaux de mise à jour M365 Apps</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/apps/apps-add-office365" target="_blank" class="doc-link">📘 Déployer M365 Apps via Intune</a>
+        <a href="https://config.office.com/" target="_blank" class="doc-link">📘 Office Customization Tool</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Votre entreprise est dans une industrie réglementée (banque) et doit valider chaque version Office pendant 3 mois avant déploiement. Quel canal choisissez-vous ?</div>
+        <div class="quiz-opts" id="quiz-q33">
+          <div class="quiz-opt" onclick="answerQuiz('q33',0,2)">A. Current Channel (nouvelles fonctionnalités dès que disponibles)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q33',1,2)">B. Monthly Enterprise Channel (nouveau build chaque mois)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q33',2,2)">C. Semi-Annual Enterprise Channel (6 mois entre les versions majeures)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q33',3,2)">D. Long Term Servicing Channel (LTSC)</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q33">✅ Le <strong>Semi-Annual Enterprise Channel</strong> publie de nouvelles fonctionnalités seulement en janvier et juillet — idéal pour les environnements qui ont besoin de longues périodes de validation. Note : LTSC existe mais s'applique à Windows, pas à M365 Apps.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- end palier8 -->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- PALIER 9 — Simulations d'examen                        -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="palier9" class="section">
+  <div class="palier-banner exp">
+    <div>
+      <span class="palier-num">Palier 9</span>
+      <h2 style="margin:4px 0 0">Simulations d'examen</h2>
+      <p style="margin:4px 0 0;opacity:.85">Scénarios Zero Trust, BYOD, déploiement massif et simulation complète</p>
+    </div>
+    <span class="level-badge exp" style="font-size:1rem;padding:6px 16px">🔴 Expert</span>
+  </div>
+
+  <!-- EX 34 -->
+  <div class="exercise-card" id="ex-34">
+    <div class="ex-header" onclick="toggleExercise('34')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 34</span>
+        <div>
+          <div class="ex-title">Scénario complet Zero Trust — Architecture MD-102</div>
+          <div class="ex-meta"><span class="level-badge exp">Expert</span> <span>⏱ 60 min</span> <span>🏷 Scénario</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-34" onchange="updateProgress('34',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-34">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-34">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Concevoir et documenter une architecture Zero Trust complète pour une organisation de 500 employés, en utilisant tous les piliers MD-102 : identité, appareils, applications, données.</div>
+      <h4>Contexte du scénario</h4>
+      <div class="ex-prereqs">
+        <strong>Société :</strong> Contoso Ltd — 500 employés, 3 sites (Paris, Lyon, Bordeaux), 200 appareils corporate Windows 11, 100 Mac, 200 smartphones iOS/Android BYOD. Migration en cours depuis SCCM vers Intune. Exigence : accès aux ressources M365 uniquement depuis des appareils conformes ou avec MFA.
+      </div>
+      <h4>À concevoir</h4>
+      <ol class="ex-steps">
+        <li><strong>Enrollment :</strong> Quelle méthode pour les 200 Windows 11 corporate (Autopilot vs manuel) ? Quelle jonction (AADJ vs HAADJ) compte tenu de la migration SCCM en cours ?</li>
+        <li><strong>Conformité :</strong> Listez les 5 exigences de conformité minimales pour les appareils Windows 11 corporate.</li>
+        <li><strong>Conditional Access :</strong> Combien de politiques CA sont nécessaires ? Quelles conditions et contrôles pour les 3 populations (Windows corporate, Mac, BYOD smartphones) ?</li>
+        <li><strong>Sécurité :</strong> Quelles politiques de sécurité déployez-vous ? (BitLocker, LAPS, ASR, Security Baseline, MDE)</li>
+        <li><strong>BYOD :</strong> Comment protéger les données corporate sur les 200 smartphones personnels sans gérer les appareils ?</li>
+        <li><strong>Mises à jour :</strong> Définissez la stratégie Update Ring pour les 3 sites (Pilote : 10% → Production : 90%).</li>
+        <li>Documentez votre architecture en un diagramme ou tableau récapitulatif.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Une architecture cohérente, défendable, qui couvre les 4 domaines MD-102. Vous pouvez justifier chaque choix technique par rapport aux exigences métier.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/security/zero-trust/zero-trust-overview" target="_blank" class="doc-link">📘 Zero Trust Framework Microsoft</a>
+        <a href="https://learn.microsoft.com/fr-fr/microsoft-365/solutions/zero-trust-identity-device-access-policies-overview" target="_blank" class="doc-link">📘 Politiques Zero Trust M365</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/fundamentals/deployment-guide-intune-setup" target="_blank" class="doc-link">📘 Guide de déploiement Intune</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 35 -->
+  <div class="exercise-card" id="ex-35">
+    <div class="ex-header" onclick="toggleExercise('35')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 35</span>
+        <div>
+          <div class="ex-title">Scénario BYOD complet — du onboarding à la protection</div>
+          <div class="ex-meta"><span class="level-badge exp">Expert</span> <span>⏱ 45 min</span> <span>🏷 Scénario</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-35" onchange="updateProgress('35',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-35">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-35">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Mettre en place un programme BYOD complet sur un tenant — du Android Work Profile à la Selective Wipe — en respectant la vie privée de l'utilisateur.</div>
+      <h4>Étapes</h4>
+      <ol class="ex-steps">
+        <li><strong>MAM Android</strong> : Dans Intune, créez une App Protection Policy pour Android → Outlook + Teams → Bloquer le copier/coller vers apps non gérées → Exiger PIN biométrique.</li>
+        <li><strong>Android Work Profile</strong> : Configurez l'enrollment Android for Work → type Personally Owned with Work Profile → les apps corporate sont dans un conteneur séparé du perso.</li>
+        <li><strong>Conditional Access BYOD</strong> : Créez une politique CA qui, pour les appareils non gérés, exige MFA + App Protection Policy approuvée.</li>
+        <li><strong>Selective Wipe</strong> : Simulez le départ d'un employé → dans Intune → appareil Android → Effacement sélectif → vérifiez que seul le profil Work est supprimé, pas les données personnelles.</li>
+        <li><strong>Rapport de conformité MAM</strong> : Dans <strong>Intune → Apps → Moniteur → État de protection des applications</strong> → vérifiez que les politiques s'appliquent correctement sans enrollment complet.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Vous avez implémenté une stratégie BYOD qui protège les données corporate sans violer la vie privée. Vous distinguez MAM-WE (sans enrollment), MAM+MDM, et Work Profile Android.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/enrollment/android-work-profile-enroll" target="_blank" class="doc-link">📘 Android Work Profile</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/apps/apps-selective-wipe" target="_blank" class="doc-link">📘 Selective Wipe Intune</a>
+        <a href="https://learn.microsoft.com/fr-fr/mem/intune/apps/app-protection-policy" target="_blank" class="doc-link">📘 App Protection Policy</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">Un employé BYOD avec Android Work Profile quitte l'entreprise. Que supprime un "Effacement sélectif" dans Intune ?</div>
+        <div class="quiz-opts" id="quiz-q35">
+          <div class="quiz-opt" onclick="answerQuiz('q35',0,2)">A. Toutes les données de l'appareil (photos, SMS, contacts personnels inclus)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q35',1,2)">B. Uniquement les apps installées via Intune, mais pas leurs données</div>
+          <div class="quiz-opt" onclick="answerQuiz('q35',2,2)">C. Uniquement le profil Work (apps corporate + données corporate) — les données personnelles sont intactes</div>
+          <div class="quiz-opt" onclick="answerQuiz('q35',3,2)">D. Le compte Entra ID de l'utilisateur sur tous ses appareils</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q35">✅ L'<strong>effacement sélectif</strong> sur Android Work Profile supprime uniquement le conteneur Work (apps et données corporate) sans toucher aux données personnelles — c'est l'avantage fondamental du Work Profile pour les BYOD.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 36 -->
+  <div class="exercise-card" id="ex-36">
+    <div class="ex-header" onclick="toggleExercise('36')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">Ex 36</span>
+        <div>
+          <div class="ex-title">Autopilot — Déploiement massif avec Delivery Optimization</div>
+          <div class="ex-meta"><span class="level-badge exp">Expert</span> <span>⏱ 45 min</span> <span>🏷 Autopilot / Réseau</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-36" onchange="updateProgress('36',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-36">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-36">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Préparer un déploiement Autopilot massif (200 appareils simultanés) en optimisant le trafic réseau via Delivery Optimization et en anticipant les points de défaillance.</div>
+      <h4>Checklist pré-déploiement massif</h4>
+      <table class="ref-table">
+        <thead><tr><th>Vérification</th><th>Commande / Portail</th><th>Seuil critique</th></tr></thead>
+        <tbody>
+          <tr><td>Bandwidth sortante vers Azure</td><td>Test vitesse réseau</td><td>&gt; 10 Mbps/appareil recommandé</td></tr>
+          <tr><td>DNS résolution *.manage.microsoft.com</td><td><code>nslookup manage.microsoft.com</code></td><td>Doit résoudre</td></tr>
+          <tr><td>URLs Autopilot ouvertes au pare-feu</td><td>Vérifier proxy/firewall</td><td>Voir liste complète MS Learn</td></tr>
+          <tr><td>Profil Autopilot assigné</td><td>Intune → Appareils Autopilot</td><td>100% des S/N importés</td></tr>
+          <tr><td>ESP configuré avec timeout adéquat</td><td>Intune → Page d'état inscription</td><td>≥ 60 min pour déploiement massif</td></tr>
+        </tbody>
+      </table>
+      <h4>Configurer Delivery Optimization</h4>
+      <ol class="ex-steps">
+        <li>Dans <strong>Intune → Appareils → Profils de configuration → Créer → Optimisation de la distribution</strong>.</li>
+        <li>Mode de téléchargement : <strong>HTTP mélangé avec peering derrière le même NAT (mode 2)</strong> — les appareils du même site se partagent les téléchargements.</li>
+        <li>Configurez la limitation de bande passante en heures ouvrées : max <strong>30%</strong> de la bande passante.</li>
+        <li>Activez le <strong>Cache connecté Microsoft</strong> si vous avez un cache local (HW/VM sur le réseau LAN) pour stocker les contenus Intune/Windows Update localement.</li>
+        <li>Vérifiez les logs DO sur un appareil : <code>Get-DeliveryOptimizationStatus</code> → observez <em>DownloadedFromPeers</em> vs <em>DownloadedFromHTTP</em>.</li>
+      </ol>
+      <div class="ex-result"><strong>✅ Résultat attendu :</strong> Vous avez préparé une infrastructure capable de déployer 200 appareils simultanément sans saturer la connexion Internet. Vous comprenez pourquoi Delivery Optimization est critique à grande échelle.</div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/windows/deployment/do/waas-delivery-optimization" target="_blank" class="doc-link">📘 Delivery Optimization</a>
+        <a href="https://learn.microsoft.com/fr-fr/autopilot/networking-requirements" target="_blank" class="doc-link">📘 Prérequis réseau Autopilot</a>
+        <a href="https://learn.microsoft.com/fr-fr/windows/deployment/do/mcc-enterprise" target="_blank" class="doc-link">📘 Microsoft Connected Cache</a>
+      </div>
+      <div class="quiz-block">
+        <div class="quiz-q">En déploiement Autopilot massif, quel mode Delivery Optimization permet aux appareils du même réseau local de se partager les téléchargements Windows Update ?</div>
+        <div class="quiz-opts" id="quiz-q36">
+          <div class="quiz-opt" onclick="answerQuiz('q36',0,1)">A. Mode 0 — HTTP uniquement (pas de peering)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q36',1,1)">B. Mode 2 — HTTP + peering derrière le même NAT (LAN)</div>
+          <div class="quiz-opt" onclick="answerQuiz('q36',2,1)">C. Mode 3 — HTTP + peering dans un groupe privé défini</div>
+          <div class="quiz-opt" onclick="answerQuiz('q36',3,1)">D. Mode 99 — Bypass (Delivery Optimization désactivé)</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-q36">✅ Le <strong>Mode 2</strong> (HTTP mélangé avec peering NAT) permet aux appareils derrière le même routeur/NAT (même bureau) de se partager les contenus téléchargés — réduisant jusqu'à 80% la bande passante Internet consommée lors d'un déploiement massif.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EX 37 — SIMULATION EXAM -->
+  <div class="exercise-card" id="ex-37">
+    <div class="ex-header" onclick="toggleExercise('37')">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="ex-num">🎓</span>
+        <div>
+          <div class="ex-title">Simulation d'examen MD-102 — 20 questions chronométrées</div>
+          <div class="ex-meta"><span class="level-badge exp">Expert</span> <span>⏱ 40 min</span> <span>🏷 Simulation</span></div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <label class="check-label" onclick="event.stopPropagation()">
+          <input type="checkbox" id="chk-37" onchange="updateProgress('37',this.checked)"> Terminé
+        </label>
+        <span class="ex-toggle" id="toggle-37">▼</span>
+      </div>
+    </div>
+    <div class="ex-body" id="exbody-37">
+      <div class="ex-objective"><strong>🎯 Objectif :</strong> Testez-vous sur 10 questions couvrant les 4 domaines MD-102, en conditions d'examen (sans regarder le guide). Visez 80%+ (8/10 minimum).</div>
+      <div class="ex-prereqs"><strong>📋 Règles :</strong> Répondez sans aide extérieure. Chaque question compte 1 point. Score cible : ≥ 8/10. En dessous, relisez les paliers correspondants.</div>
+
+      <div class="quiz-block" style="margin-bottom:12px">
+        <div class="quiz-q"><strong>Q1.</strong> Un appareil HAADJ est géré par SCCM. Vous basculez la charge "Politiques de conformité" sur Intune en co-management. Quel système évalue maintenant la conformité de l'appareil ?</div>
+        <div class="quiz-opts" id="quiz-sim1">
+          <div class="quiz-opt" onclick="answerQuiz('sim1',0,2)">A. SCCM continue à évaluer la conformité</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim1',1,2)">B. Les deux simultanément — la valeur la plus restrictive s'applique</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim1',2,2)">C. Intune — SCCM ne gère plus cette charge de travail</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim1',3,2)">D. Ni l'un ni l'autre pendant la période de transition</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-sim1">✅ C — Intune prend entièrement le contrôle de la charge basculée.</div>
+      </div>
+
+      <div class="quiz-block" style="margin-bottom:12px">
+        <div class="quiz-q"><strong>Q2.</strong> Quelle cmdlet PowerShell vérifiez-vous pour confirmer que BitLocker est activé sur un volume Windows ?</div>
+        <div class="quiz-opts" id="quiz-sim2">
+          <div class="quiz-opt" onclick="answerQuiz('sim2',0,1)">A. Get-BitLockerVolume -MountPoint "C:"</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim2',1,1)">B. Get-BitLockerVolume</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim2',2,1)">C. Test-BitLockerStatus</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim2',3,1)">D. Get-DiskEncryption -Drive C</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-sim2">✅ A — <code>Get-BitLockerVolume -MountPoint "C:"</code> retourne ProtectionStatus et KeyProtector pour le volume C.</div>
+      </div>
+
+      <div class="quiz-block" style="margin-bottom:12px">
+        <div class="quiz-q"><strong>Q3.</strong> Dans Intune, quel type de profil de configuration utilisez-vous pour déployer un profil Wi-Fi qui utilise des certificats pour l'authentification 802.1x ?</div>
+        <div class="quiz-opts" id="quiz-sim3">
+          <div class="quiz-opt" onclick="answerQuiz('sim3',0,1)">A. Endpoint Protection</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim3',1,1)">B. Wi-Fi (avec type d'authentification EAP)</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim3',2,1)">C. VPN</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim3',3,1)">D. Personnalisé OMA-URI</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-sim3">✅ B — Le profil Wi-Fi Intune avec EAP-TLS utilise les certificats SCEP déployés comme prérequis.</div>
+      </div>
+
+      <div class="quiz-block" style="margin-bottom:12px">
+        <div class="quiz-q"><strong>Q4.</strong> Combien de temps maximum peut-on différer une mise à jour de fonctionnalité Windows via un Update Ring Intune ?</div>
+        <div class="quiz-opts" id="quiz-sim4">
+          <div class="quiz-opt" onclick="answerQuiz('sim4',0,2)">A. 30 jours</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim4',1,2)">B. 90 jours</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim4',2,2)">C. 365 jours</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim4',3,2)">D. Illimité</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-sim4">✅ C — Le délai de fonctionnalité peut être configuré jusqu'à 365 jours dans un Update Ring Intune.</div>
+      </div>
+
+      <div class="quiz-block" style="margin-bottom:12px">
+        <div class="quiz-q"><strong>Q5.</strong> Un utilisateur a perdu son iPhone contenant des données corporate via MAM (sans enrollment MDM). Quelle action Intune supprime les données corporate sans affecter les données personnelles ?</div>
+        <div class="quiz-opts" id="quiz-sim5">
+          <div class="quiz-opt" onclick="answerQuiz('sim5',0,0)">A. Effacement sélectif (Selective Wipe)</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim5',1,0)">B. Effacement complet (Full Wipe)</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim5',2,0)">C. Retirer (Retire) l'appareil</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim5',3,0)">D. Réinitialisation Autopilot</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-sim5">✅ A — L'effacement sélectif supprime uniquement les données et tokens corporate des apps protégées par MAM, sans toucher les données personnelles.</div>
+      </div>
+
+      <div class="quiz-block" style="margin-bottom:12px">
+        <div class="quiz-q"><strong>Q6.</strong> Quel rôle Entra ID doit avoir un utilisateur pour pouvoir créer et gérer des politiques Intune, sans avoir accès à la gestion des utilisateurs Entra ID ?</div>
+        <div class="quiz-opts" id="quiz-sim6">
+          <div class="quiz-opt" onclick="answerQuiz('sim6',0,2)">A. Administrateur général (Global Admin)</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim6',1,2)">B. Administrateur de sécurité (Security Admin)</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim6',2,2)">C. Administrateur Intune (Intune Administrator)</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim6',3,2)">D. Lecteur global (Global Reader)</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-sim6">✅ C — Le rôle <strong>Administrateur Intune</strong> donne accès complet à Intune sans les droits Entra ID — principe du moindre privilège.</div>
+      </div>
+
+      <div class="quiz-block" style="margin-bottom:12px">
+        <div class="quiz-q"><strong>Q7.</strong> Dans un déploiement Autopilot, quelle est la fonction du fichier <code>*.intunewin</code> ?</div>
+        <div class="quiz-opts" id="quiz-sim7">
+          <div class="quiz-opt" onclick="answerQuiz('sim7',0,0)">A. C'est l'application Win32 packagée pour Intune, créée par IntuneWinAppUtil.exe</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim7',1,0)">B. C'est le profil de configuration Autopilot exporté depuis Intune</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim7',2,0)">C. C'est le fichier de log de l'ESP pendant l'OOBE</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim7',3,0)">D. C'est le certificat d'authentification de l'appareil</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-sim7">✅ A — <code>.intunewin</code> est le format propriétaire Intune pour les apps Win32, créé par IntuneWinAppUtil.exe depuis n'importe quel package (MSI, EXE, script).</div>
+      </div>
+
+      <div class="quiz-block" style="margin-bottom:12px">
+        <div class="quiz-q"><strong>Q8.</strong> Vous avez une politique Conditional Access avec la condition "Risque de connexion : Élevé → Bloquer". Quel service Entra ID évalue le risque de connexion ?</div>
+        <div class="quiz-opts" id="quiz-sim8">
+          <div class="quiz-opt" onclick="answerQuiz('sim8',0,3)">A. Entra ID B2C</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim8',1,3)">B. Microsoft Defender for Endpoint</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim8',2,3)">C. Entra ID Protection (anciennement Identity Protection)</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim8',3,3)">D. Microsoft Sentinel</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-sim8">✅ C — <strong>Entra ID Protection</strong> analyse les signaux de risque (IP anonyme, voyage impossible, password spray, etc.) et fournit les scores de risque utilisateur/connexion utilisés par les politiques CA. Requis : Entra ID P2.</div>
+      </div>
+
+      <div class="quiz-block" style="margin-bottom:12px">
+        <div class="quiz-q"><strong>Q9.</strong> Lors d'un déploiement Autopilot User-Driven, l'ESP bloque à la phase "Configuration du compte" sur l'installation d'une app Win32. Les logs indiquent "Error 0x87D1041C". Quelle est la cause la plus probable ?</div>
+        <div class="quiz-opts" id="quiz-sim9">
+          <div class="quiz-opt" onclick="answerQuiz('sim9',0,1)">A. Le profil Autopilot n'est pas assigné à l'appareil</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim9',1,1)">B. L'app n'est pas assignée comme "Requise" au groupe de l'appareil</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim9',2,1)">C. L'ESP a expiré son timeout</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim9',3,1)">D. Le compte break-glass est exclu de la politique</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-sim9">✅ B — L'erreur 0x87D1041C indique que l'application n'est pas disponible pour l'appareil ou l'utilisateur — souvent un problème d'assignation (assignée en Disponible au lieu de Requise, ou mauvais groupe).</div>
+      </div>
+
+      <div class="quiz-block" style="margin-bottom:12px">
+        <div class="quiz-q"><strong>Q10.</strong> Vous déployez une Security Baseline Windows via Intune. Un paramètre de la baseline entre en conflit avec un profil de configuration existant. Dans quel état Intune affiche-t-il ce paramètre sur l'appareil ?</div>
+        <div class="quiz-opts" id="quiz-sim10">
+          <div class="quiz-opt" onclick="answerQuiz('sim10',0,3)">A. Succès — la valeur la plus restrictive est appliquée</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim10',1,3)">B. Succès — la baseline a toujours priorité</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim10',2,3)">C. Ignoré — le profil existant est conservé</div>
+          <div class="quiz-opt" onclick="answerQuiz('sim10',3,3)">D. Erreur / Conflit — aucune valeur n'est appliquée pour ce paramètre</div>
+        </div>
+        <div class="quiz-expl" id="qexpl-sim10">✅ D — En cas de conflit entre deux politiques Intune sur le même paramètre, Intune signale une <strong>Erreur/Conflit</strong> et aucune valeur n'est appliquée pour ce paramètre — la résolution manuelle est nécessaire.</div>
+      </div>
+
+      <div class="ex-result">
+        <strong>✅ Score cible : 8/10 minimum (80%)</strong><br>
+        &nbsp;&nbsp;• 10/10 : Prêt pour l'examen — concentrez-vous sur les labs pratiques finaux<br>
+        &nbsp;&nbsp;• 8-9/10 : Bon niveau — relisez les explications des questions ratées<br>
+        &nbsp;&nbsp;• 6-7/10 : Retravailler les paliers 4, 5 et 6<br>
+        &nbsp;&nbsp;• &lt; 6/10 : Reprendre depuis le palier 3 avec les labs pratiques
+      </div>
+      <div class="doc-links">
+        <a href="https://learn.microsoft.com/fr-fr/certifications/exams/md-102" target="_blank" class="doc-link">🎓 Page officielle examen MD-102</a>
+        <a href="https://learn.microsoft.com/fr-fr/certifications/practice-assessments-for-microsoft-certifications" target="_blank" class="doc-link">📝 Assessment officiel Microsoft</a>
+        <a href="https://www.measureup.com/microsoft-practice-test-md-102.html" target="_blank" class="doc-link">📝 MeasureUp MD-102</a>
+      </div>
+    </div>
+  </div>
+</div><!-- end palier9 -->
+
+  </div><!-- end page-content -->
+</div><!-- end main-area -->
+
+<script>
+var currentSection = 'accueil';
+
+// ── NAVIGATION ──
+function nav(id, el, title) {
+  document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
+  var sec = document.getElementById(id);
+  if (sec) sec.classList.add('active');
+  currentSection = id;
+  document.querySelectorAll('.sb-item').forEach(function(i){ i.classList.remove('active'); });
+  if (el) el.classList.add('active');
+  else {
+    document.querySelectorAll('.sb-item').forEach(function(i){
+      if (i.getAttribute('onclick') && i.getAttribute('onclick').indexOf("'"+id+"'") !== -1) i.classList.add('active');
+    });
+  }
+  var bcCurr = document.getElementById('bc-curr');
+  if (bcCurr && title) bcCurr.textContent = title;
+}
+
+// ── SIDEBAR TOGGLE ──
+function toggleSidebar() {
+  document.documentElement.classList.toggle('sb-off');
+}
+
+// ── PROGRESS TRACKING ──
+var completedExercises = JSON.parse(localStorage.getItem('md102_progress') || '{}');
+
+function toggleExercise(id) {
+  if (completedExercises[id]) delete completedExercises[id];
+  else completedExercises[id] = true;
+  localStorage.setItem('md102_progress', JSON.stringify(completedExercises));
+  updateProgress();
+  updateExerciseUI(id);
+}
+
+function updateProgress() {
+  var done = Object.keys(completedExercises).length;
+  var total = 38;
+  var pct = Math.round(done / total * 100);
+  document.getElementById('prog-done').textContent = done;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('progressScore').textContent = 'Progression : ' + done + ' / ' + total;
+  var level = done < 12 ? '🟢 Débutant' : done < 26 ? '🟠 Intermédiaire' : '🔴 Expert';
+  document.getElementById('prog-level').textContent = level;
+}
+
+function updateExerciseUI(id) {
+  var card = document.getElementById('ex-' + id);
+  if (!card) return;
+  var btn = card.querySelector('.ex-complete-btn');
+  if (!btn) return;
+  if (completedExercises[id]) {
+    btn.textContent = '✅ Complété !';
+    btn.style.background = 'var(--vert)';
+    card.style.borderColor = '#86EFAC';
+  } else {
+    btn.textContent = '✓ Marquer comme complété';
+    btn.style.background = '';
+    card.style.borderColor = '';
+  }
+}
+
+function initProgress() {
+  updateProgress();
+  Object.keys(completedExercises).forEach(function(id){ updateExerciseUI(id); });
+}
+
+// ── QUIZ MINI ──
+function answerQuiz(qid, optIdx, correct) {
+  var container = document.getElementById('quiz-' + qid);
+  if (!container || container.getAttribute('data-answered')) return;
+  container.setAttribute('data-answered', '1');
+  var opts = container.querySelectorAll('.quiz-opt');
+  opts.forEach(function(o, i){
+    if (i === correct) o.classList.add('correct');
+    else if (i === optIdx && optIdx !== correct) o.classList.add('wrong');
+    o.onclick = null;
+  });
+  var expl = document.getElementById('qexpl-' + qid);
+  if (expl) expl.classList.add('show');
+}
+
+// ── DOM READY ──
+document.addEventListener('DOMContentLoaded', function(){
+  initProgress();
+});
+</script>
+</body>
+</html>
