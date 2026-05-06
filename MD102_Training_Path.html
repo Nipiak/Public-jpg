@@ -288,6 +288,96 @@ margin-bottom:20px;overflow:hidden;transition:box-shadow .15s}
 .lc-stat span:first-child{color:var(--gris-m)}
 .lc-stat span:last-child{font-weight:700;color:var(--gris-f)}
 
+/* ── TIPS BOX ── */
+.tips-box{background:#F5F0FF;border:1px solid #C4B5FD;border-radius:6px;padding:14px 16px;margin:14px 0}
+.tips-box-header{font-size:11px;font-weight:800;color:var(--violet);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.tip-item{display:flex;gap:10px;margin-bottom:9px;font-size:13px;line-height:1.65;align-items:flex-start}
+.tip-item:last-child{margin-bottom:0}
+.tip-bullet{min-width:22px;height:22px;border-radius:50%;background:var(--violet);color:white;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.tip-text{flex:1;color:var(--gris-f)}.tip-text strong{color:var(--violet)}
+
+/* ── EXAM FOCUS ── */
+.exam-focus{background:linear-gradient(135deg,#FFF8F0,#FFF3E0);border:1px solid #FED7AA;border-radius:6px;padding:14px 16px;margin:14px 0}
+.exam-focus-header{font-size:11px;font-weight:800;color:var(--orange);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.exam-focus ul{list-style:none;margin:0;padding:0}
+.exam-focus li{font-size:13px;line-height:1.65;padding:5px 0;border-bottom:1px solid rgba(254,215,170,.5);display:flex;gap:8px;align-items:flex-start}
+.exam-focus li:last-child{border:none;padding-bottom:0}
+.exam-focus li::before{content:'⚡';flex-shrink:0;margin-top:1px}
+
+/* ── TROUBLESHOOT COLLAPSIBLE ── */
+.troubleshoot-toggle{width:100%;background:var(--rouge-c);border:1px solid #FCA5A5;border-radius:6px;padding:11px 16px;margin:14px 0 0;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:var(--rouge);font-family:inherit;text-align:left;transition:all .15s}
+.troubleshoot-toggle:hover{background:#fde8e9;border-color:var(--rouge)}
+.troubleshoot-toggle.ts-open{border-radius:6px 6px 0 0;margin-bottom:0}
+.troubleshoot-toggle .ts-arrow{font-size:11px;transition:transform .2s;flex-shrink:0}
+.troubleshoot-toggle.ts-open .ts-arrow{transform:rotate(180deg)}
+.troubleshoot-body{display:none;padding:16px;background:white;border:1px solid #FCA5A5;border-top:none;border-radius:0 0 6px 6px;margin-bottom:14px}
+.troubleshoot-body.ts-open{display:block;animation:sIn .2s ease}
+.ts-case{margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--gris-b)}
+.ts-case:last-child{margin-bottom:0;padding-bottom:0;border:none}
+.ts-symptom{font-size:13px;font-weight:700;color:var(--rouge);margin-bottom:8px;display:flex;gap:8px;align-items:flex-start}
+.ts-symptom::before{content:'❌';flex-shrink:0;margin-top:1px}
+.ts-fix{font-size:12.5px;line-height:1.75;color:var(--gris-m);padding-left:26px}
+.ts-fix code{background:#F3F2F1;padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--bleu-f)}
+.ts-fix strong{color:var(--gris-f)}
+
+/* ── ENHANCED RESULT CHECKLIST ── */
+.ex-result-checklist{background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:1px solid #86EFAC;border-radius:6px;padding:14px 16px;margin-top:14px}
+.erc-title{font-size:11px;font-weight:800;color:var(--vert);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.erc-item{display:flex;gap:10px;font-size:13px;line-height:1.65;margin-bottom:7px;align-items:flex-start}
+.erc-item:last-child{margin-bottom:0}
+.erc-icon{min-width:20px;height:20px;border-radius:50%;background:var(--vert);color:white;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.erc-text{flex:1;color:var(--gris-f)}.erc-text code{background:#F3F2F1;padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--bleu-f)}
+.erc-cmd{display:block;background:#1E1E1E;color:#4EC9B0;font-family:'JetBrains Mono',monospace;font-size:11px;padding:6px 10px;border-radius:4px;margin-top:4px}
+
+/* ── STEPS INLINE ANNOTATIONS ── */
+.ex-steps{margin:10px 0;padding-left:20px}
+.ex-steps li{margin-bottom:14px;line-height:1.7;font-size:13px;color:var(--gris-f)}
+.ex-steps li:last-child{margin-bottom:0}
+.sub-tip{background:var(--bleu-c);border-left:3px solid var(--bleu);padding:7px 11px;margin-top:7px;border-radius:0 4px 4px 0;font-size:12px;color:var(--bleu-f);line-height:1.6}
+.sub-tip::before{content:'💡 ';font-weight:700}
+.sub-warn{background:var(--jaune);border-left:3px solid var(--jaune-b);padding:7px 11px;margin-top:7px;border-radius:0 4px 4px 0;font-size:12px;color:#7a5a00;line-height:1.6}
+.sub-warn::before{content:'⚠️ '}
+.sub-cmd{display:block;background:#1E1E1E;color:#D4D4D4;font-family:'JetBrains Mono',monospace;font-size:11px;padding:8px 12px;border-radius:4px;margin-top:7px;line-height:1.6;white-space:pre-wrap}
+.ex-steps code{background:#F3F2F1;padding:2px 6px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--bleu-f)}
+
+/* ── STEP SECTION TITLE ── */
+.step-section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--gris-m);margin:16px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--gris-b);display:flex;align-items:center;gap:8px}
+
+/* ── CHECK LABEL ── */
+.check-label{display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--gris-m);font-weight:600;padding:6px 12px;border-radius:20px;border:1px solid var(--gris-b);background:white;white-space:nowrap}
+.check-label:hover{border-color:var(--vert);color:var(--vert)}
+.check-label input{width:15px;height:15px;accent-color:var(--vert);cursor:pointer}
+.exercise-card.ex-done{border-color:#86EFAC;background:#FAFFFE}
+.exercise-card.ex-done .ex-header{background:linear-gradient(135deg,#F0FDF4,#DCFCE7)}
+
+/* ── EX TOGGLE ARROW ── */
+.ex-toggle{font-size:12px;color:var(--gris-m);transition:transform .2s;user-select:none;padding:4px;flex-shrink:0}
+.ex-toggle.open{transform:rotate(180deg)}
+
+/* ── REF TABLE ── */
+.ref-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px}
+.ref-table thead th{background:#F3F2F1;padding:9px 12px;text-align:left;font-weight:700;border-bottom:2px solid var(--gris-b);font-size:12px}
+.ref-table tbody td{padding:8px 12px;border-bottom:1px solid var(--gris-b);vertical-align:top;line-height:1.6}
+.ref-table tbody tr:hover{background:#FAF9F8}
+.ref-table tbody tr:last-child td{border-bottom:none}
+.ref-table code{background:#F3F2F1;padding:1px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--bleu-f)}
+
+/* ── DOC LINKS BOX ── */
+.doc-links{margin-top:14px;padding:12px 16px;background:#F8F7F6;border-radius:6px;border:1px solid var(--gris-b)}
+.doc-links strong{font-size:11px;color:var(--gris-m);display:block;margin-bottom:8px;text-transform:uppercase;font-weight:700;letter-spacing:.5px}
+
+/* ── QUIZ BLOCK ── */
+.quiz-block{background:var(--violet-c);border:1px solid #C4B5FD;border-radius:6px;padding:14px 16px;margin-top:14px}
+.quiz-block .quiz-q{font-size:13px;font-weight:700;color:var(--gris-f);margin-bottom:10px;line-height:1.6}
+.quiz-opts{display:flex;flex-direction:column;gap:6px}
+.quiz-opt{padding:9px 12px;border-radius:4px;border:1px solid #C4B5FD;background:white;cursor:pointer;font-size:12.5px;font-family:inherit;text-align:left;transition:all .1s;line-height:1.5}
+.quiz-opt:hover{border-color:var(--violet);background:var(--violet-c)}
+.quiz-opt.correct{background:#EFF8EE;border-color:var(--vert);color:var(--vert);font-weight:700;pointer-events:none}
+.quiz-opt.wrong{background:var(--rouge-c);border-color:var(--rouge);color:var(--rouge);font-weight:700;pointer-events:none}
+.quiz-opt.neutral{pointer-events:none;opacity:.6}
+.quiz-expl{display:none;margin-top:10px;padding:11px 13px;background:white;border-radius:4px;border-left:3px solid var(--violet);font-size:12.5px;line-height:1.7;color:var(--gris-f)}
+.quiz-expl.show{display:block;animation:sIn .2s ease}
+
 /* Responsive */
 @media(max-width:1100px){:root{--sb-w:220px}}
 @media(max-width:768px){
@@ -2629,47 +2719,64 @@ function toggleSidebar() {
 // ── PROGRESS TRACKING ──
 var completedExercises = JSON.parse(localStorage.getItem('md102_progress') || '{}');
 
-function toggleExercise(id) {
-  if (completedExercises[id]) delete completedExercises[id];
-  else completedExercises[id] = true;
-  localStorage.setItem('md102_progress', JSON.stringify(completedExercises));
-  updateProgress();
-  updateExerciseUI(id);
-}
-
-function updateProgress() {
+// Appelé par les checkboxes onchange="updateProgress('N', this.checked)"
+function updateProgress(id, checked) {
+  if (id !== undefined) {
+    if (checked) completedExercises[id] = true;
+    else delete completedExercises[id];
+    localStorage.setItem('md102_progress', JSON.stringify(completedExercises));
+    var card = document.getElementById('ex-' + id);
+    if (card) {
+      if (checked) { card.classList.add('ex-done'); }
+      else { card.classList.remove('ex-done'); }
+    }
+  }
   var done = Object.keys(completedExercises).length;
   var total = 38;
   var pct = Math.round(done / total * 100);
-  document.getElementById('prog-done').textContent = done;
-  document.getElementById('prog-pct').textContent = pct + '%';
-  document.getElementById('progressScore').textContent = 'Progression : ' + done + ' / ' + total;
-  var level = done < 12 ? '🟢 Débutant' : done < 26 ? '🟠 Intermédiaire' : '🔴 Expert';
-  document.getElementById('prog-level').textContent = level;
-}
-
-function updateExerciseUI(id) {
-  var card = document.getElementById('ex-' + id);
-  if (!card) return;
-  var btn = card.querySelector('.ex-complete-btn');
-  if (!btn) return;
-  if (completedExercises[id]) {
-    btn.textContent = '✅ Complété !';
-    btn.style.background = 'var(--vert)';
-    card.style.borderColor = '#86EFAC';
-  } else {
-    btn.textContent = '✓ Marquer comme complété';
-    btn.style.background = '';
-    card.style.borderColor = '';
-  }
+  var el = function(i){ return document.getElementById(i); };
+  if (el('prog-done')) el('prog-done').textContent = done;
+  if (el('prog-pct')) el('prog-pct').textContent = pct + '%';
+  if (el('progressScore')) el('progressScore').textContent = 'Progression : ' + done + ' / ' + total;
+  var level = done < 8 ? '🟢 Débutant' : done < 21 ? '🟠 Intermédiaire' : '🔴 Expert';
+  if (el('prog-level')) el('prog-level').textContent = level;
+  var bar = el('prog-bar');
+  if (bar) bar.style.width = pct + '%';
 }
 
 function initProgress() {
+  Object.keys(completedExercises).forEach(function(id) {
+    var chk = document.getElementById('chk-' + id);
+    if (chk) chk.checked = true;
+    var card = document.getElementById('ex-' + id);
+    if (card) card.classList.add('ex-done');
+  });
   updateProgress();
-  Object.keys(completedExercises).forEach(function(id){ updateExerciseUI(id); });
 }
 
-// ── QUIZ MINI ──
+// ── EXERCISE BODY COLLAPSE ──
+function toggleEx(id) {
+  var body = document.getElementById('exbody-' + id);
+  var arrow = document.getElementById('toggle-' + id);
+  if (!body) return;
+  var hidden = body.style.display === 'none';
+  body.style.display = hidden ? 'block' : 'none';
+  if (arrow) { arrow.textContent = hidden ? '▲' : '▼'; arrow.classList.toggle('open', hidden); }
+}
+
+// ── TROUBLESHOOT COLLAPSIBLE ──
+function toggleTroubleshoot(id) {
+  var btn = document.getElementById('ts-toggle-' + id);
+  var body = document.getElementById('ts-body-' + id);
+  if (!btn || !body) return;
+  var isOpen = body.classList.contains('ts-open');
+  body.classList.toggle('ts-open', !isOpen);
+  btn.classList.toggle('ts-open', !isOpen);
+  var arrow = btn.querySelector('.ts-arrow');
+  if (arrow) arrow.textContent = isOpen ? '▼' : '▲';
+}
+
+// ── QUIZ ──
 function answerQuiz(qid, optIdx, correct) {
   var container = document.getElementById('quiz-' + qid);
   if (!container || container.getAttribute('data-answered')) return;
@@ -2677,8 +2784,9 @@ function answerQuiz(qid, optIdx, correct) {
   var opts = container.querySelectorAll('.quiz-opt');
   opts.forEach(function(o, i){
     if (i === correct) o.classList.add('correct');
-    else if (i === optIdx && optIdx !== correct) o.classList.add('wrong');
-    o.onclick = null;
+    else if (i === optIdx && i !== correct) o.classList.add('wrong');
+    else o.classList.add('neutral');
+    o.style.pointerEvents = 'none';
   });
   var expl = document.getElementById('qexpl-' + qid);
   if (expl) expl.classList.add('show');
